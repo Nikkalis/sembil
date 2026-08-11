@@ -28,3 +28,10 @@ function animate( time ) {
 }
 
 renderer.setAnimationLoop( animate );
+
+//---------------------- Non-3D related stuff
+document.getElementById('nav-button').addEventListener('click', toggleNav);
+function toggleNav() {
+  const hamburger = document.getElementById('nav-wrapper');
+  hamburger.classList.toggle('active-sidebar');
+}

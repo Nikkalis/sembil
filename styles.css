@@ -66,6 +66,7 @@ html, body {
 
 
 /* --------------------------------hero stuff */
+/* -----Nav */
 #hamburger-wrapper {
     width: 75px;
     height: 75px;
@@ -73,6 +74,32 @@ html, body {
     position: fixed;
     right: 0px;
 }
+#nav-wrapper{
+    width: 400px;
+    background-color: rgb(173, 173, 173);
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    right: -100%;
+    transition: right 0.3s;
+    z-index: -1;
+    display: flexbox;
+    flex-direction: column;
+}
+.nav-item {
+    background-color: aqua;
+    margin-top: 100px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+#nav-button img {
+    width: 100%;
+    height: auto;
+}
+#nav-wrapper.active-sidebar{
+    right: 0%;
+}
+/* ----- */
 #hero-title {
     position: absolute;
     top: 100px;
