@@ -1,11 +1,13 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hey guys</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <canvas id="hero_canvas"></canvas>
   <section id="hero_section">
@@ -14,16 +16,16 @@
         <img src="static/images/test-img.png" class="fa fa-bars" />
       </a>
     </div>
-      
+
     <h1 id="hero_title">sembil</h1>
-    
+
   </section>
   <div id="layout_grid">
     <div id="margin-left"></div>
     <div id="content">
       <div id="hero_wrapper"></div>
       <section id="feed_section">
-      
+
         <div class="modgrid_wrapper">
           <div class="box-2x3 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
           <div class="box-2x2 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
@@ -36,18 +38,74 @@
           <div class="box-1x1 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
           <div class="box-1x2 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
           <div class="box-3x2 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
-          
+
         </div>
-        
+
       </section>
     </div>
     <div id="margin-right">
       <div id="nav_wrapper">
-        <div class="nav_item"><a class="nav-link" href="account.html"><h2>Account</h2></a></div>
-        <div class="nav_item"><a class="nav-link" href="index.html#feed-section"><h2>Post feed</h2></a></div>
-        <div class="nav_item"><a class="nav-link" href="messaging.html"><h2>Messages</h2></a></div>
-        <div class="nav_item"><a class="nav-link" href="postmake1.html"><h2>Create post</h2></a></div>
-        <div class="nav_item"><a class="nav-link" href=""><h2>Sign up</h2></a></div>
+        <div class="nav_item"><a class="nav-link" href="account.html">
+            <h2>Account</h2>
+          </a></div>
+        <div class="nav_item"><a class="nav-link" href="index.html#feed-section">
+            <h2>Post feed</h2>
+          </a></div>
+        <div class="nav_item"><a class="nav-link" href="messaging.html">
+            <h2>Messages</h2>
+          </a></div>
+        <div class="nav_item"><a class="nav-link" href="postmake1.html">
+            <h2>Create post</h2>
+          </a></div>
+        <div class="nav_item"><a class="nav-link" href="javascript:void(0);" id="nav-signup_link">
+            <h2>Sign up</h2>
+          </a></div>
+      </div>
+    </div>
+  </div>
+  <div id="signup-popup_wrapper" class="invisible">
+    <div id="signup-popup_grid">
+      <div id="signup-popup-title_wrapper" class="signup-popup_item wireframe-element">
+        <h1>Sign up</h1>
+
+      </div>
+      <div id="signup-popup-username_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Username:</h3>
+        <input id="signup-popup-username_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-displayname_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Display name:</h3>
+        <input id="signup-popup-displayname_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-email_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Email:</h3>
+        <input id="signup-popup-email_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-profilepicture_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Profile picture:</h3>
+        <input type="file" name="avatar" accept="image/png, image/jpeg" id="signup-popup-profilepicture_input"
+          class="signup-popup_input">
+        
+
+      </div>
+      <div id="signup-popup-password_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Password:</h3>
+        <input id="signup-popup-password_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-passwordconfirm_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Confirm password:</h3>
+        <input id="signup-popup-passwordconfirm_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-options_wrapper" class="signup-popup_item wireframe-element">
+        <div id="signup-popup-options-submit_wrapper" class="button--medium wireframe-element"><a
+            id="signup-popup-options-submit_button" href="javascript:void(0);">Sign up</a></div>
+        <div id="signup-popup-options-cancel_wrapper" class="button--medium wireframe-element"><a
+            id="signup-popup-options-cancel_button" href="javascript:void(0);">Cancel</a></div>
       </div>
     </div>
   </div>
@@ -57,9 +115,11 @@
     </div>
   </section>
 
-<!-- javascript stuff leave at bottom -->
+  <!-- javascript stuff leave at bottom -->
   <script src="js/GSAP/gsap.min.js"></script>
   <script type="module" src="js\scripts.js"></script>
   <script type="module" src="js\scripts3d_testbox.js"></script>
+  
 </body>
+
 </html>

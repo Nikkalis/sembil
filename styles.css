@@ -140,6 +140,40 @@ h2 {
 
 }
 
+/* signup popup grid */
+
+#signup-popup_wrapper {
+    position:fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,40%);
+    top: 0;
+}
+#signup-popup_grid {
+    display: grid;
+    padding: calc(var(--modgrid-padding)*2) 5vw;
+    gap: var(--modgrid-padding);
+    row-gap: var(--modgrid-padding);
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(6, 1fr); 
+    width: 60vw;
+    min-height: 100vh;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+}
+.signup-popup_input {
+    min-width: 240px;
+
+}
+#signup-popup-title_wrapper {
+    grid-area: span 1/span 2;
+}
+#signup-popup-profilepicture_wrapper {
+    grid-area: span 3/span 1;
+}
+
+
 /* --------------------------------all pages general stuff */
 section {
     min-width: 0;
@@ -522,3 +556,8 @@ li.profile-header-info_list-item {
         grid-auto-rows: calc(var(--content-width)/2);
     }
 } */
+ @media screen and (max-width: 1000px) {
+    #signup-popup_grid .signup-popup_item {
+        grid-area: span 1/span 2;
+}
+}
