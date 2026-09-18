@@ -16,6 +16,11 @@
         <img src="static/images/test-img.png" class="fa fa-bars" />
       </a>
     </div>
+    <div id="logo_wrapper">
+      <a id="logo_button" href="index.html#feed_section" class="icon">
+        <img src="static/images/sembil_logo.png">
+      </a>
+    </div>
 
     <h1 id="hero_title">sembil</h1>
 
@@ -26,8 +31,9 @@
       <div id="hero_wrapper"></div>
       <section id="feed_section">
 
-        <div class="modgrid_wrapper">
-          <div class="box-2x3 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
+        <div id="modgrid_wrapper">
+          
+          <!-- <div class="box-2x3 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
           <div class="box-2x2 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
           <div class="box-2x1 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
           <div class="box-2x1 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
@@ -37,7 +43,7 @@
           <div class="box-3x1 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
           <div class="box-1x1 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
           <div class="box-1x2 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
-          <div class="box-3x2 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
+          <div class="box-3x2 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div> -->
 
         </div>
 
@@ -46,7 +52,7 @@
     <div id="margin-right">
       <div id="nav_wrapper">
         <div class="nav_item"><a class="nav-link" href="account.html">
-            <h2>Account</h2>
+            <h2 id="nav-account_text">Account</h2>
           </a></div>
         <div class="nav_item"><a class="nav-link" href="index.html#feed-section">
             <h2>Post feed</h2>
@@ -57,16 +63,67 @@
         <div class="nav_item"><a class="nav-link" href="postmake1.html">
             <h2>Create post</h2>
           </a></div>
-        <div class="nav_item"><a class="nav-link" href="javascript:void(0);" id="nav-signup_link">
+        <div class="nav_item"><button type="button" class="nav-link"  id="nav-signup_link">
             <h2>Sign up</h2>
-          </a></div>
+        </button>
+          <button type="button" class="nav-link" id="nav-login_link">
+            <h2>Log in</h2>
+          </button>
+        </div>
+        <div class="nav_item"><button type="button" class="nav-link"  id="nav-logout_link">
+            <h2>Log out</h2>
+        </button>
+        </div>
       </div>
     </div>
   </div>
+
+  <div id="generic-popup_wrapper" class="invisible">
+    <h3 id="generic-popup-title_text">placeholder</h3>
+    <p id="generic-popup-content_text" class="inactive">placholder</p>
+    <div id="generic-popup-action_wrapper">
+      <!-- revealed by js as needed -->
+
+    </div>
+    <div id="generic-popup-options_wrapper" class="generic-popup_item">
+      <div id="generic-popup-options-ok_wrapper"><button type="button" id="generic-popup-options-ok_button"
+          class="button--medium">Ok</button></div>
+      <div id="generic-popup-options-placeholder_wrapper"><button type="button"
+          id="generic-popup-options-placeholder_button" class="button--medium inactive">???</button></div>
+    </div>
+  </div>
+
+  <div id="login-popup_wrapper" class="invisible">
+    <div id="login-popup_grid">
+      <div id="login-popup-title_wrapper" class="login-popup_item wireframe-element">
+        <h1>Log in</h1>
+        <a id="login-popup-signup_link" href="javascript:void(0);">Create a new account</a>
+
+      </div>
+      <div id="login-popup-username_wrapper" class="login-popup_item wireframe-element">
+        <h3>Username:</h3>
+        <input id="login-popup-username_input" class="login-popup_input">
+
+      </div>
+      <div id="login-popup-password_wrapper" class="login-popup_item wireframe-element">
+        <h3>Password:</h3>
+        <input id="login-popup-password_input" class="login-popup_input">
+
+      </div>
+      <div id="login-popup-options_wrapper" class="login-popup_item wireframe-element">
+        <div id="login-popup-options-submit_wrapper" class="button--medium wireframe-element"><a
+            id="login-popup-options-submit_button" href="javascript:void(0);">Login</a></div>
+        <div id="login-popup-options-cancel_wrapper" class="button--medium wireframe-element"><a
+            id="login-popup-options-cancel_button" href="javascript:void(0);">Cancel</a></div>
+      </div>
+    </div>
+  </div>
+
   <div id="signup-popup_wrapper" class="invisible">
     <div id="signup-popup_grid">
       <div id="signup-popup-title_wrapper" class="signup-popup_item wireframe-element">
         <h1>Sign up</h1>
+        <a id="signup-popup-login_link" href="javascript:void(0);">Login with existing account</a>
 
       </div>
       <div id="signup-popup-username_wrapper" class="signup-popup_item wireframe-element">
@@ -88,7 +145,9 @@
         <h3>Profile picture:</h3>
         <input type="file" name="avatar" accept="image/png, image/jpeg" id="signup-popup-profilepicture_input"
           class="signup-popup_input">
-        
+        <div id="signup-popup-profilepicture-preview_wrapper">
+          <img id="signup-popup-profilepicture-preview_image" src="static/images/pfp_preview_placeholder.png">
+        </div>
 
       </div>
       <div id="signup-popup-password_wrapper" class="signup-popup_item wireframe-element">
@@ -109,6 +168,7 @@
       </div>
     </div>
   </div>
+
   <section id="footer_section">
     <div id="footer_wrapper">
       <p>footer here</p>
@@ -118,8 +178,9 @@
   <!-- javascript stuff leave at bottom -->
   <script src="js/GSAP/gsap.min.js"></script>
   <script type="module" src="js\scripts.js"></script>
+  <script type="module" src="js\scripts_feed.js"></script>
   <script type="module" src="js\scripts3d_testbox.js"></script>
-  
+
 </body>
 
 </html>

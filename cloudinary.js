@@ -1,4 +1,4 @@
-import cloudinary from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -6,11 +6,18 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
 
-  const cloudinaryUploadImage = async (fileToUpload) => {
+  const cloudinaryUploadImage = async (fileToUpload, uid) => {
+    
+    const options = {
+      resource_type: "auto",
+      public_id: `${uid}_profile-picture`,
+      unique_filename: false,
+      overwrite: true,
+      upload_preset: "sembil_pfp_signed"
+    };
+    
     try {
-      const data = await cloudinary.uploader.upload(fileToUpload, {
-        resource_type: "auto",
-      });
+      const data = await cloudinary.uploader.upload(fileToUpload, options);
       return data;
     } catch (error) {
       console.log(error);
@@ -30,7 +37,7 @@ cloudinary.config({
 
   const cloudinaryRemoveMultipleImage = async (publicIds) => {
   try {
-    const result = await cloudinary.v2.api.delete_resources(publicIds)
+    const result = await cloudinary.api.delete_resources(publicIds)
     return result;
   } catch (error) {
     console.log(error);
@@ -38,8 +45,4 @@ cloudinary.config({
   }
 };
 
-module.exports = {
-  cloudinaryUploadImage,
-  cloudinaryRemoveImage,
-  cloudinaryRemoveMultipleImage,
-};
+export { cloudinaryUploadImage, cloudinaryRemoveImage, cloudinaryRemoveMultipleImage };

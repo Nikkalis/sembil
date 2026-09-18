@@ -1,24 +1,311 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hey guys</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-  <div id="layout-grid">
-    <div id="margin-left"></div>
+  <div id="hamburger_wrapper">
+    <a id="nav_button" href="javascript:void(0);" class="icon">
+      <img src="static/images/test-img.png" class="fa fa-bars" />
+    </a>
+  </div>
+  <div id="logo_wrapper">
+    <a id="logo_button" href="index.html#feed_section" class="icon">
+      <img src="static/images/sembil_logo.png">
+    </a>
+  </div>
+  <div id="layout_grid">
+    <div id="margin-left">
+
+
+      <div id="postmake-settings_wrapper" class="settings_wrapper wireframe-element">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h2>Settings:</h2>
+        <div id="postmake-settings-posttype_wrapper">
+          <h3>Post type:</h3>
+          <label for="post_type"></label>
+          <select name="post_type" id="postmake-settings-posttype_dropdown">
+            <option value="">Select post type</option>
+            <option value="text">Text</option>
+            <option value="image">Image</option>
+            <option value="event">Event</option>
+          </select>
+        </div>
+        <div id="postmake-settings-previewsize_wrapper">
+          <h3>Preview size:</h3>
+          <button type="button" id="postmake-settings-previewsize_button">Select size</button>
+        </div>
+        <div id="postmake-settings-description_wrapper">
+          <h3>Description:</h3>
+          <textarea id="postmake-settings-description_input"
+            placeholder="Write a description that will show up on your post's search results"></textarea>
+        </div>
+      </div>
+
+    </div>
     <div id="content">
-      <section id="messaging-section">
-        
+      <div id="postmake_title" class="page_title">
+        <h1>Create a post!</h1>
+      </div>
+      <section id="postmake_section">
+        <div id="modgrid_wrapper">
+
+          <!-- ---------- Title Block -->
+
+          <div id="post-title_box" class="box-1x2 modgrid_item wireframe-element" data-boxType="title"
+            data-boxSize="box-1x2">
+            <div id="post-title_wrapper">
+              <textarea id="post-title_textinput" class="post_textinput" placeholder="Post title"></textarea>
+            </div>
+            <button type="button" id="post-title-tags_button">
+              Add Tags +
+            </button>
+            <div id="post-title-tags_wrapper" class="tags_wrapper">
+
+            </div>
+          </div>
+
+          <!-- ---------- Main Body Block -->
+
+          <div id="post-maincontent_box" class="box-2x2 modgrid_item wireframe-element" data-boxType="maincontent"
+            data-boxSize="box-2x2">
+            <textarea id="post-content_textinput" class="post_textinput" placeholder="Post content"></textarea>
+          </div>
+
+          <!-- ---------- Main Details Block, Only required if user selects post types: Event -->
+
+          <div id="post-details_box" class="box-1x2 modgrid_item wireframe-element" data-boxType="details"
+            data-boxSize="box-1x2">
+            <h2>Details:</h2>
+            <div id="post-details_wrapper">
+              <ul id="post-details_list">
+                <li>Date: <input id="post-details-date_textinput" placeholder="October 3rd, 2026"></li>
+                <li>Location: <input id="post-details-location_textinput" placeholder="Address"></li>
+                <li>Time: <input id="post-details-time_textinput" placeholder="3:00pm"></li>
+              </ul>
+            </div>
+            <textarea id="post-details-info_textinput" placeholder="Additional info"></textarea>
+          </div>
+
+          <!-- ---------- Main Image Block, Optional -->
+
+          <div id="post-mainimg_box" class="box-2x2 modgrid_item wireframe-element" data-boxType="mainimage"
+            data-boxSize="box-2x2">
+            <div id="post-mainimg_container">
+              <div id="post-mainimg-preview_wrapper">
+                <img id="post-mainimg-preview_image" src="static/images/test-img-2.jpg">
+              </div>
+            </div>
+            <div id="post-mainimg-inputs_row">
+              <input type="file" name="image" accept="image/png, image/jpeg, image/webp" id="post-mainimg_input"
+                class="post-image_input">
+              <input id="mainimg-caption" class="image-caption" placeholder="Write an image caption here">
+            </div>
+          </div>
+
+          <!-- ---------- Additional Blocks, Order is based on page location -->
+
+          <!-- <div class="post-img_box box-3x1 modgrid_item wireframe-element" data-boxType="image" data-boxSize="box-3x1">
+            <div class="post-img_container"></div>
+            <p class="img-caption">A collection of frustrated birds onlooks the camera</p>
+          </div>
+          <div class="post-img_box box-2x3 modgrid_item wireframe-element" data-boxType="image" data-boxSize="box-2x3">
+            <div class="post-img_container"></div>
+            <p class="img-caption">A collection of frustrated birds onlooks the camera</p>
+          </div>
+          <div class="post-img_box box-1x1 modgrid_item wireframe-element" data-boxType="image" data-boxSize="box-1x1">
+            <div class="post-img_container"></div>
+            <p class="img-caption">A collection of frustrated birds onlooks the camera</p>
+          </div>
+          <div class="post-img_box box-1x1 modgrid_item wireframe-element" data-boxType="image" data-boxSize="box-1x1">
+            <div class="post-img_container"></div>
+            <p class="img-caption">A collection of frustrated birds onlooks the camera</p>
+          </div> -->
+
+        </div>
+        <div id="postmake-options_wrapper">
+          <div id="postmake-options-submit_wrapper" class="button--medium wireframe-element"><button
+              id="postmake-options-submit_button">Submit</button></div>
+          <div id="postmake-options-cancel_wrapper" class="button--medium wireframe-element"><a
+              id="postmake-options-cancel_button" href="javascript:history.back()">Cancel</a></div>
+        </div>
       </section>
     </div>
-    <div id="margin-right"></div>
+  </div>
+  <div id="margin-right">
+    <div id="nav_wrapper">
+        <div class="nav_item"><a class="nav-link" href="account.html">
+            <h2 id="nav-account_text">Account</h2>
+          </a></div>
+        <div class="nav_item"><a class="nav-link" href="index.html#feed-section">
+            <h2>Post feed</h2>
+          </a></div>
+        <div class="nav_item"><a class="nav-link" href="messaging.html">
+            <h2>Messages</h2>
+          </a></div>
+        <div class="nav_item"><a class="nav-link" href="postmake1.html">
+            <h2>Create post</h2>
+          </a></div>
+        <div class="nav_item"><button type="button" class="nav-link"  id="nav-signup_link">
+            <h2>Sign up</h2>
+        </button>
+          <button type="button" class="nav-link" id="nav-login_link">
+            <h2>Log in</h2>
+          </button>
+        </div>
+        <div class="nav_item"><button type="button" class="nav-link"  id="nav-logout_link">
+            <h2>Log out</h2>
+        </button>
+        </div>
+      </div>
   </div>
 
-<!-- javascript stuff leave at bottom -->
+
+  <div id="generic-popup_wrapper" class="invisible">
+    <h3 id="generic-popup-title_text">placeholder</h3>
+    <p id="generic-popup-content_text" class="inactive">placholder</p>
+    <div id="generic-popup-action_wrapper">
+      <!-- revealed by js as needed -->
+
+      <div id="generic-popup-actions_tagadder" class="inactive">
+        <div id="generic-popup-tagadder-options_wrapper">#<input id="generic-popup-tagadder_input"
+            placeholder="type a tag"><button type="button" id="generic-popup-tagadder_button">Add</button></div>
+        <div id="generic-popup-tagadder_taglist" class="tags_wrapper"></div>
+      </div>
+
+      <div id="generic-popup-actions_previewsize" class="inactive">
+        <div id="previewsize-options_wrapper">
+          <button type="button" class="previewsize_button" id="previewsize-options-box-1x1_button"
+            data-sizeclass="box-1x1">1 x 1 Block</button>
+          <button type="button" class="previewsize_button" id="previewsize-options-box-1x2_button"
+            data-sizeclass="box-1x2">1 x 2 Block</button>
+          <button type="button" class="previewsize_button" id="previewsize-options-box-1x3_button"
+            data-sizeclass="box-1x3">1 x 3 Block</button>
+          <button type="button" class="previewsize_button" id="previewsize-options-box-2x1_button"
+            data-sizeclass="box-2x1">2 x 1 Block</button>
+          <button type="button" class="previewsize_button" id="previewsize-options-box-2x2_button"
+            data-sizeclass="box-2x2">2 x 2 Block</button>
+          <button type="button" class="previewsize_button" id="previewsize-options-box-2x3_button"
+            data-sizeclass="box-2x3">2 x 3 Block</button>
+          <button type="button" class="previewsize_button" id="previewsize-options-box-3x1_button"
+            data-sizeclass="box-3x1">3 x 1 Block</button>
+          <button type="button" class="previewsize_button" id="previewsize-options-box-3x2_button"
+            data-sizeclass="box-3x2">3 x 2 Block</button>
+          <button type="button" class="previewsize_button" id="previewsize-options-box-4x1_button"
+            data-sizeclass="box-4x1">4 x 1 Block</button>
+          <button type="button" class="previewsize_button" id="previewsize-options-box-4x2_button"
+            data-sizeclass="box-4x2">4 x 2 Block</button>
+          <button type="button" class="previewsize_button" id="previewsize-options-box-4x3_button"
+            data-sizeclass="box-4x3">4 x 3 Block</button>
+        </div>
+        <div id="previewsize-modgrid_wrapper">
+          <div id="previewsize-preview_box" class="box-1x2 modgrid_EX wireframe-element"></div>
+        </div>
+
+      </div>
+
+    </div>
+    <div id="generic-popup-options_wrapper" class="generic-popup_item">
+      <div id="generic-popup-options-ok_wrapper"><button type="button" id="generic-popup-options-ok_button"
+          class="button--medium">Ok</button></div>
+      <div id="generic-popup-options-placeholder_wrapper"><button type="button"
+          id="generic-popup-options-placeholder_button" class="button--medium invisible">???</button></div>
+    </div>
+  </div>
+
+  <div id="login-popup_wrapper" class="invisible">
+    <div id="login-popup_grid">
+      <div id="login-popup-title_wrapper" class="login-popup_item wireframe-element">
+        <h1>Log in</h1>
+        <a id="login-popup-signup_link" href="javascript:void(0);">Create a new account</a>
+
+      </div>
+      <div id="login-popup-username_wrapper" class="login-popup_item wireframe-element">
+        <h3>Username:</h3>
+        <input id="login-popup-username_input" class="login-popup_input">
+
+      </div>
+      <div id="login-popup-password_wrapper" class="login-popup_item wireframe-element">
+        <h3>Password:</h3>
+        <input id="login-popup-password_input" class="login-popup_input">
+
+      </div>
+      <div id="login-popup-options_wrapper" class="login-popup_item wireframe-element">
+        <div id="login-popup-options-submit_wrapper" class="button--medium wireframe-element"><a
+            id="login-popup-options-submit_button" href="javascript:void(0);">Login</a></div>
+        <div id="login-popup-options-cancel_wrapper" class="button--medium wireframe-element"><a
+            id="login-popup-options-cancel_button" href="javascript:void(0);">Cancel</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="signup-popup_wrapper" class="invisible">
+    <div id="signup-popup_grid">
+      <div id="signup-popup-title_wrapper" class="signup-popup_item wireframe-element">
+        <h1>Sign up</h1>
+        <a id="signup-popup-login_link" href="javascript:void(0);">Login with existing account</a>
+
+      </div>
+      <div id="signup-popup-username_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Username:</h3>
+        <input id="signup-popup-username_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-displayname_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Display name:</h3>
+        <input id="signup-popup-displayname_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-email_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Email:</h3>
+        <input id="signup-popup-email_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-profilepicture_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Profile picture:</h3>
+        <input type="file" name="avatar" accept="image/png, image/jpeg" id="signup-popup-profilepicture_input"
+          class="signup-popup_input">
+        <div id="signup-popup-profilepicture-preview_wrapper">
+          <img id="signup-popup-profilepicture-preview_image" src="static/images/pfp_preview_placeholder.png">
+        </div>
+
+      </div>
+      <div id="signup-popup-password_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Password:</h3>
+        <input id="signup-popup-password_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-passwordconfirm_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Confirm password:</h3>
+        <input id="signup-popup-passwordconfirm_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-options_wrapper" class="signup-popup_item wireframe-element">
+        <div id="signup-popup-options-submit_wrapper" class="button--medium wireframe-element"><a
+            id="signup-popup-options-submit_button" href="javascript:void(0);">Sign up</a></div>
+        <div id="signup-popup-options-cancel_wrapper" class="button--medium wireframe-element"><a
+            id="signup-popup-options-cancel_button" href="javascript:void(0);">Cancel</a></div>
+      </div>
+    </div>
+  </div>
+  <section id="footer_section">
+    <div id="footer_wrapper">
+      <p>footer here</p>
+    </div>
+  </section>
+  <!-- javascript stuff leave at bottom -->
   <script src="js/GSAP/gsap.min.js"></script>
   <script type="module" src="js/scripts.js"></script>
+  <script type="module" src="js/scripts_postmake2.js"></script>
 </body>
+
 </html>

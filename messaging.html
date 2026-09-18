@@ -14,6 +14,11 @@
       <img src="static/images/test-img.png" class="fa fa-bars" />
     </a>
   </div>
+  <div id="logo_wrapper">
+    <a id="logo_button" href="index.html#feed_section" class="icon">
+      <img src="static/images/sembil_logo.png">
+    </a>
+  </div>
   <div id="layout_grid">
     <div id="margin-left"></div>
     <div id="content">
@@ -26,31 +31,31 @@
           <div id="messaging-chatview_wrapper">
             <div class="messaging-chatview-message_wrapper incoming-message">
               <div class="messaging-chatview-picture_wrapper">
-                <img class="profile-header-picture_img" src="static/images/test-img.png" />
+                <img class="messaging-chatview-picture_img" src="static/images/test-img.png" />
               </div>
               <div class="messaging-chatview-message_box">hi im a INCOMINGe</div>
             </div>
             <div class="messaging-chatview-message_wrapper outgoing-message">
               <div class="messaging-chatview-picture_wrapper">
-                <img class="profile-header-picture_img" src="static/images/test-img.png" />
+                <img class="messaging-chatview-picture_img" src="static/images/test-img.png" />
               </div>
               <div class="messaging-chatview-message_box">hi im a outgoing</div>
             </div>
             <div class="messaging-chatview-message_wrapper outgoing-message">
               <div class="messaging-chatview-picture_wrapper">
-                <img class="profile-header-picture_img" src="static/images/test-img.png" />
+                <img class="messaging-chatview-picture_img" src="static/images/test-img.png" />
               </div>
               <div class="messaging-chatview-message_box">hi im a outgoingessage</div>
             </div>
             <div class="messaging-chatview-message_wrapper outgoing-message">
               <div class="messaging-chatview-picture_wrapper">
-                <img class="profile-header-picture_img" src="static/images/test-img.png" />
+                <img class="messaging-chatview-picture_img" src="static/images/test-img.png" />
               </div>
               <div class="messaging-chatview-message_box">hi imoutgoing a saoutgoingsage</div>
             </div>
             <div class="messaging-chatview-message_wrapper incoming-message">
               <div class="messaging-chatview-picture_wrapper">
-                <img class="profile-header-picture_img" src="static/images/test-img.png" />
+                <img class="messaging-chatview-picture_img" src="static/images/test-img.png" />
               </div>
               <div class="messaging-chatview-message_box">hi im a saINCOMINGmple message</div>
             </div>
@@ -63,9 +68,9 @@
     <div id="margin-right">
       <div id="nav_wrapper">
         <div class="nav_item"><a class="nav-link" href="account.html">
-            <h2>Account</h2>
+            <h2 id="nav-account_text">Account</h2>
           </a></div>
-        <div class="nav_item"><a class="nav-link" href="index.html#feed_section">
+        <div class="nav_item"><a class="nav-link" href="index.html#feed-section">
             <h2>Post feed</h2>
           </a></div>
         <div class="nav_item"><a class="nav-link" href="messaging.html">
@@ -74,10 +79,105 @@
         <div class="nav_item"><a class="nav-link" href="postmake1.html">
             <h2>Create post</h2>
           </a></div>
-        <div class="nav_item"><a class="nav-link" href="javascript:void(0);">
+        <div class="nav_item"><button type="button" class="nav-link"  id="nav-signup_link">
             <h2>Sign up</h2>
-          </a></div>
+        </button>
+          <button type="button" class="nav-link" id="nav-login_link">
+            <h2>Log in</h2>
+          </button>
+        </div>
+        <div class="nav_item"><button type="button" class="nav-link"  id="nav-logout_link">
+            <h2>Log out</h2>
+        </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+
+  <div id="generic-popup_wrapper" class="invisible">
+    <h3 id="generic-popup-title_text">placeholder</h3>
+    <p id="generic-popup-content_text" class="invisible">placholder</p>
+    <div id="generic-popup-options_wrapper" class="generic-popup_item">
+      <div id="generic-popup-options-ok_wrapper" class="button--medium wireframe-element"><a
+          id="generic-popup-options-ok_button" href="javascript:void(0);">Ok</a></div>
+      <div id="generic-popup-options-placeholder_wrapper" class="invisible button--medium wireframe-element"><a
+          id="generic-popup-options-placeholder_button" href="javascript:void(0);">????</a></div>
+    </div>
+  </div>
+
+  <div id="login-popup_wrapper" class="invisible">
+    <div id="login-popup_grid">
+      <div id="login-popup-title_wrapper" class="login-popup_item wireframe-element">
+        <h1>Log in</h1>
+        <a id="login-popup-signup_link" href="javascript:void(0);">Create a new account</a>
+
+      </div>
+      <div id="login-popup-username_wrapper" class="login-popup_item wireframe-element">
+        <h3>Username:</h3>
+        <input id="login-popup-username_input" class="login-popup_input">
+
+      </div>
+      <div id="login-popup-password_wrapper" class="login-popup_item wireframe-element">
+        <h3>Password:</h3>
+        <input id="login-popup-password_input" class="login-popup_input">
+
+      </div>
+      <div id="login-popup-options_wrapper" class="login-popup_item wireframe-element">
+        <div id="login-popup-options-submit_wrapper" class="button--medium wireframe-element"><a
+            id="login-popup-options-submit_button" href="javascript:void(0);">Login</a></div>
+        <div id="login-popup-options-cancel_wrapper" class="button--medium wireframe-element"><a
+            id="login-popup-options-cancel_button" href="javascript:void(0);">Cancel</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="signup-popup_wrapper" class="invisible">
+    <div id="signup-popup_grid">
+      <div id="signup-popup-title_wrapper" class="signup-popup_item wireframe-element">
+        <h1>Sign up</h1>
+        <a id="signup-popup-login_link" href="javascript:void(0);">Login with existing account</a>
+
+      </div>
+      <div id="signup-popup-username_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Username:</h3>
+        <input id="signup-popup-username_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-displayname_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Display name:</h3>
+        <input id="signup-popup-displayname_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-email_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Email:</h3>
+        <input id="signup-popup-email_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-profilepicture_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Profile picture:</h3>
+        <input type="file" name="avatar" accept="image/png, image/jpeg" id="signup-popup-profilepicture_input"
+          class="signup-popup_input">
+        <div id="signup-popup-profilepicture-preview_wrapper">
+          <img id="signup-popup-profilepicture-preview_image" src="static/images/pfp_preview_placeholder.png">
+        </div>
+
+      </div>
+      <div id="signup-popup-password_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Password:</h3>
+        <input id="signup-popup-password_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-passwordconfirm_wrapper" class="signup-popup_item wireframe-element">
+        <h3>Confirm password:</h3>
+        <input id="signup-popup-passwordconfirm_input" class="signup-popup_input">
+
+      </div>
+      <div id="signup-popup-options_wrapper" class="signup-popup_item wireframe-element">
+        <div id="signup-popup-options-submit_wrapper" class="button--medium wireframe-element"><a
+            id="signup-popup-options-submit_button" href="javascript:void(0);">Sign up</a></div>
+        <div id="signup-popup-options-cancel_wrapper" class="button--medium wireframe-element"><a
+            id="signup-popup-options-cancel_button" href="javascript:void(0);">Cancel</a></div>
       </div>
     </div>
   </div>

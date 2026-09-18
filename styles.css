@@ -2,7 +2,7 @@
 Background-image rules wont cut it for user submitted images, need to use html  */
 
 :root {
-    --content-width: 80vw;
+    --content-width: 70vw;
     --minimum-margin: 100px;
     --minimum-top-padding: 150px;
     --modgrid-padding: 1em;
@@ -18,6 +18,10 @@ html,
 body {
     min-height: 100% !important;
     margin: 0px;
+}
+
+textarea {
+    resize: none;
 }
 
 /* --------------------------------type stuff */
@@ -36,9 +40,10 @@ h1 {
 
 h2 {
     font-size: 2em;
+    margin: 2vw 2vw 0px 0px;
 }
 
-/* --------------------------------Three.js things */
+/* --------------------------------Three.js stuff */
 #hero_canvas {
     position: fixed;
 
@@ -69,23 +74,50 @@ h2 {
     grid-column: 3/4;
 }
 
-.modgrid_wrapper {
+.settings_wrapper {
+    padding: var(--modgrid-padding);
+    position: fixed;
+    height: 100%;
+    width: 15vw;
+}
+
+
+
+.page_title {
+    padding-left: var(--modgrid-padding);
+    position: absolute;
+    left: 15vw;
+}
+
+#modgrid_wrapper {
     display: grid;
     width: 100%;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: calc(var(--content-width)/4);
 }
+#previewsize-modgrid_wrapper {
+    overflow: scroll;
+    max-height:70vh;
+    display: grid;
+    width: var(--content-width);
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: calc(var(--content-width)/4);
+}
 
-.modgrid_item {
+.modgrid_item, .modgrid_EX {
     padding: var(--modgrid-padding);
 }
 
 .modgrid_item li {
-    padding: var(--modgrid-padding) 0px;
+    padding: 1vw 0px;
+}
+
+.modgrid_item ul {
+    padding: 1vw var(--modgrid-padding);
 }
 
 .wireframe-element {
-    background-color: gray;
+    background-color: lightgray;
     border: solid black 1px;
 }
 
@@ -140,16 +172,81 @@ h2 {
 
 }
 
-/* signup popup grid */
+/* generic popup stuff - will be filled with content by js */
 
-#signup-popup_wrapper {
+#generic-popup_wrapper {
+    width: 400px;
+    height: fit-content;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 2px solid black;
+    padding: var(--modgrid-padding);
+    z-index: 9999;
+}
+
+#generic-popup_wrapper.popup_medium {
+    width: 50vw;
+}
+#generic-popup_wrapper.popup_large {
+    width: 70vw;
+}
+#generic-popup_wrapper.popup_xlarge {
+    width: 80vw;
+}
+
+#generic-popup-options_wrapper {
+    display: flex;
+    gap: var(--modgrid-padding);
+    padding-top: var(--modgrid-padding);
+}
+
+/* generic popup action ------- tagadder */
+#generic-popup-actions_tagadder {
+    margin: var(--modgrid-padding) 0px;
+}
+#generic-popup-tagadder-options_wrapper{
+    display: flex;
+    margin: var(--modgrid-padding) 0px;
+
+}
+#generic-popup-tagadder_taglist {
+    max-height: 40vh;
+    overflow: scroll;
+}
+
+/* generic popup action ------- previewsize */
+
+#generic-popup-actions_previewsize {
+    display: flex;
+    gap: var(--modgrid-padding);
+    margin: var(--modgrid-padding) 0px;
+    
+}
+#previewsize-options_wrapper {
+    display:flex;
+    flex-direction: column;
+    gap: var(--modgrid-padding);
+    width: 120px;
+}
+.previewsize_button {
+    padding: 5px var(--modgrid-padding);
+    width: fit-content;
+}
+
+/* signup popup grid stuff */
+
+#signup-popup_wrapper, #login-popup_wrapper {
     position:fixed;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0,0,0,40%);
     top: 0;
+    overflow: scroll;
 }
-#signup-popup_grid {
+#signup-popup_grid, #login-popup_grid {
     display: grid;
     padding: calc(var(--modgrid-padding)*2) 5vw;
     gap: var(--modgrid-padding);
@@ -158,19 +255,35 @@ h2 {
     grid-template-rows: repeat(6, 1fr); 
     width: 60vw;
     min-height: 100vh;
+    
     margin-left: auto;
     margin-right: auto;
     background-color: white;
 }
-.signup-popup_input {
+.signup-popup_input, .login-popup_input {
     min-width: 240px;
 
 }
-#signup-popup-title_wrapper {
+#signup-popup-title_wrapper, #login-popup-title_wrapper {
     grid-area: span 1/span 2;
 }
 #signup-popup-profilepicture_wrapper {
     grid-area: span 3/span 1;
+}
+#signup-popup-profilepicture-preview_wrapper{
+    height: 400px;
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+#signup-popup-profilepicture-preview_image {
+    flex-shrink: 0;
+    min-height: 100%;
+    min-width: 100%;
+    height: 100%;
+    object-fit: cover; 
 }
 
 
@@ -178,15 +291,18 @@ h2 {
 section {
     min-width: 0;
     min-height: 0;
-    margin-top: var(--minimum-top-padding);
+    padding-top: var(--minimum-top-padding);
     padding-bottom: var(--minimum-top-padding);
 }
 .invisible {
     visibility: hidden;
 }
+.inactive {
+    display: none !important;
+}
 
 #hero_section {
-    margin-top: 0px;
+    padding-top: 0px;
 }
 
 .post-preview-flex_wrapper {
@@ -206,7 +322,7 @@ section {
     background-color: cyan;
 }
 
-/* --------------------------------buttons */
+/* --------------------------------button stuff */
 
 .button--medium{
     width: 100px;
@@ -214,6 +330,17 @@ section {
 }
 
 /* --------------------------------hero stuff */
+/* -----Logo */
+#logo_wrapper{
+    height: 100px;
+    position: fixed;
+    left: 0px;
+    z-index: 999;
+}
+#logo_button img {
+    width: auto;
+    height: 100%;
+}
 /* -----Nav */
 #hamburger_wrapper {
     width: 75px;
@@ -223,6 +350,7 @@ section {
     right: 0px;
     z-index: 999;
 }
+
 
 #nav_wrapper {
     width: 400px;
@@ -235,13 +363,15 @@ section {
     z-index: 1;
     display: flex;
     flex-direction: column;
+    padding-top: 75px;
 }
 
 .nav_item {
     background-color: aqua;
-    margin-top: 100px;
+    margin-top: var(--modgrid-padding);
     padding-left: 50px;
     padding-right: 50px;
+    flex-shrink: 1;
 }
 
 #nav_button img {
@@ -267,18 +397,88 @@ section {
     height: 100vh;
 }
 
+/* --------------------------------post feed stuff */
+
+
+.feed-post_link, .feed-post-info_wrapper, .feed-post-content_wrapper {
+    text-decoration: none; 
+    color: black;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+}
+.feed-post-info_wrapper{
+    min-height: fit-content;
+}
+.feed-post-title_text {
+    margin-bottom:0px;
+}
+.feed-post_link > p, .feed-post-content_wrapper > p, .feed-post-info_wrapper > p {
+    margin: 10px 0px 0px 0px;
+}
+.feed-post-info_wrapper {
+    gap: var(--modgrid-padding);
+    flex-direction: row;
+}
+.feed-post-img_container{
+    margin-top: var(--modgrid-padding);
+    display: grid;
+    place-items: center left;
+    min-height: 0;
+    height: fit-content;
+    width: 100%;
+    overflow:hidden;
+    
+}
+.post-img {
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    
+    
+    min-height: 0;
+    min-width: 200px;
+    
+}
+.feed-post-tags_wrapper {
+    padding-top: var(--modgrid-padding);
+    display: flex;
+    flex-wrap:wrap;
+    width: 100%;
+    gap: var(--modgrid-padding);
+    overflow-x: scroll; 
+    min-height: fit-content;
+}
+.feed-post-box.box-1x2 > .feed-post-tags_wrapper {
+    flex-wrap: nowrap;
+}
 /* --------------------------------post view stuff */
-#tags_wrapper {
+.tags_wrapper{
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     gap: var(--modgrid-padding);
+    padding-top: var(--modgrid-padding);
+    overflow: scroll;
 }
 
-.tags_item {
+.tags_item, .feed-post-tags_item, .tagadder-tags_item {
     width: fit-content;
     padding: 5px var(--modgrid-padding);
     background-color: aqua;
+    display: flex;
+    gap: 5px;
+}
+.tags_item p, .feed-post-tags_item p, .tagadder-tags_item p {
+    margin:0px;
+}
+
+
+#post-title-tags_button {
+    margin-bottom: 5px;
+    padding-top:5px;
+    padding-bottom:5px;
 }
 
 /* #post-content_wrapper {
@@ -288,25 +488,43 @@ section {
     padding-top: 10px;
 
 }
+#post-content_box {
+    overflow: scroll;
+}
 
-.post-img_box {
+#post-mainimg {
+    width: 100%;
+}
+
+.post-img_box, #post-mainimg_box  {
     display: flex;
     flex-direction: column;
 }
 
-.post-img_container {
-    background-image: url("static/images/test-img_post.jpg");
+.post-img_container, #post-mainimg_container {
     width: 100%;
-    flex-grow: 1;
+    
     max-height: 100%;
-    background-size: 100% 100%;
 }
 
-.img-caption {
+.img_caption, #mainimg_caption {
     margin-top: 10px;
+    margin-bottom: 0;
 }
 
 /* --------------------------------account stuff */
+
+#profile-options_wrapper {
+    display:flex;
+    flex-direction: column;
+    position: fixed;
+    width: 15vw;
+    height: fit-content;
+    left: 0;
+    top: 250px;
+}
+
+
 #profile-header_box {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -314,7 +532,7 @@ section {
     column-gap: var(--modgrid-padding);
 }
 
-.profile-header-picture_wrapper {
+#profile-header-picture_wrapper {
     clip-path: circle(50%);
     background-color: aqua;
     height: var(--profile-header-picture--size);
@@ -322,21 +540,45 @@ section {
     grid-area: span 4/span 1;
 }
 
-.profile-header-picture_img {
-    width: 120%;
+#profile-header-picture_img, .messaging-chatview-picture_img {
+    width: 100%;
     height: auto;
     position: relative;
     left: 50%;
-    top: 70%;
-    transform: translate(-50%, -50%);
+    top: 0px;
+    transform: translate(-50%, 0);
 }
 
 #profile-header-title_wrapper {
     grid-area: span 1/span 1;
 }
-
+#profile-header-title_text{
+    margin: 0;
+    
+}
 #profile-header-info_wrapper {
     grid-area: span 3/span 1;
+}
+#profile-status_input{
+    /* height: 100%; */
+    width: 100%;
+}
+#profile-status_text{
+    padding-top:var(--modgrid-padding);
+}
+#profile-bio_wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+#profile-bio_input{
+    flex-grow: 1;
+    width: 100%;
+}
+
+#profile-header-info_list {
+    
+    margin: 0;
 }
 
 li.profile-header-info_list-item {
@@ -525,6 +767,83 @@ li.profile-header-info_list-item {
     width: 100%;
 }
 
+.button--wide {
+    display:flex;
+    padding: 10px var(--modgrid-padding);
+    flex: auto;
+}
+.button--wide > a {
+    text-align: center;
+    height: 100%;
+    width: 100%;
+}
+
+/* post creator stuff */
+
+#post-title_box{
+    display:flex;
+    flex-direction: column;
+}
+#post-title_box > p{
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+#post-title_textinput {
+    width: 100%;
+    height: 10em;
+}
+#post-content_textinput {
+    width: 100%;
+    height: 100%;
+}
+
+#post-details_box {
+    height: 100%;
+    display:flex;
+    flex-direction: column;
+}
+#post-details-info_textinput {
+    width: 100%;
+    flex-grow: 1;
+}
+#post-mainimg_box{
+    display:flex;
+    flex-direction: column;
+    
+}
+#post-mainimg_container{
+    
+    overflow: hidden;
+}
+#post-mainimg-preview_wrapper{
+    display:flex;
+    height: 100%;
+    width: 100%;
+}
+#post-mainimg-preview_image {
+    min-height: 100%;
+    min-width: 100%;
+    
+    object-fit: cover; 
+}
+#post-mainimg-inputs_row {
+    display: flex;
+    gap: 5px;
+}
+.post-image_input{
+    margin-top: 10px;
+    width: 100%;
+}
+#mainimg-caption {
+    width: 100%;
+}
+
+#postmake-settings-description_input {
+    width: 100%;
+    height: 250px;
+}
+
 
 /* --------------------------------footer stuff */
 #footer_wrapper {
@@ -532,24 +851,32 @@ li.profile-header-info_list-item {
     height: 600px;
     padding: var(--minimum-margin);
     background-color: grey;
+    position: relative; 
+    z-index: 99;
 }
 #footer_section {
     margin: 0;
     padding: 0;
 }
 
-/* --------------------------Media queries-------------------------- */
+/* --------------------------Media query stuff-------------------------- */
 
 @media screen and (max-width: 1400px) {
-    .modgrid_wrapper {
+    #modgrid_wrapper {
         display: grid;
         width: 100%;
         grid-template-columns: repeat(3, 1fr);
         grid-auto-rows: calc(var(--content-width)/3);
     }   
+    #previewsize-modgrid_wrapper {
+    display: grid;
+    width: var(--content-width);
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: calc(var(--content-width)/3);
+}
 }
 /* @media screen and (max-width: 1000px) {
-    .modgrid_wrapper {
+    #modgrid_wrapper {
         display: grid;
         width: 100%;
         grid-template-columns: repeat(2, 1fr);
