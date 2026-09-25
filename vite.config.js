@@ -11,7 +11,6 @@ export default defineConfig({
         messaging: resolve(__dirname, 'messaging.html'),
         postmake1: resolve(__dirname, 'postmake1.html'),
         postmake2: resolve(__dirname, 'postmake2.html'),
-        postsearch: resolve(__dirname, 'postsearch.html'),
         postview: resolve(__dirname, 'postview.html'),
         postworkspace: resolve(__dirname, 'postworkspace.html'),
       }
