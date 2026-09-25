@@ -27,5 +27,5 @@ app.use("/api/accounts", accountRoutes);
 
 app.use("/api/posts", postRoutes);
 
-const server = app.listen( 3000, "0.0.0.0", () => console.log("Server is listening... on http://0.0.0.0:3000 HEEEELLLPPP HELLPPPP SERVER HELP MEEEEE!!!!"));
+const server = app.listen( 3000, "0.0.0.0", () => console.log("Server is listening...  HEEEELLLPPP HELLPPPP SERVER HELP MEEEEE!!!!"));
 ViteExpress.bind(app, server);
