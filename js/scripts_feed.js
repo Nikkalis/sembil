@@ -139,7 +139,7 @@ async function loadPost(postAttrs) {
 
     const author = document.createElement('p');
     author.classList.add('feed-post-title_author');
-    author.textContent = `Created by: ${postAttrs.author_display_name}`;
+    author.textContent = `${postAttrs.author_display_name}`;
 
     const desc = document.createElement('p');
     desc.classList.add('post-title_desc');
