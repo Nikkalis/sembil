@@ -27,7 +27,7 @@ router.post('/login', async (req, res) => {
         //cute and fine
     }
     else {
-        res.status(401).json({ result: "FAILED", message: "Username or password is incorrect" })
+        res.status(401).json({ result: "FAILED", message: "Username or password is incorrect. LOL i told you you'd have to remember it" })
         return;
     }
     const password_match = await bcrypt.compare(plainPassword, result.rows[0].password);
@@ -38,7 +38,7 @@ router.post('/login', async (req, res) => {
     }
     else {
         console.log(password_match);
-        res.status(401).json({ result: "FAILED", message: "Username or password is incorrect" })
+        res.status(401).json({ result: "FAILED", message: "Username or password is incorrect. LOL i told you you'd have to remember it" })
         return;
     }
 
@@ -50,7 +50,7 @@ router.get('/logout', isAuthenticated, async (req, res) => {
             return res.status(500).json({ message: "Failed to log out. Maybe close this and try again?" });
         }
         res.clearCookie('connect.sid');
-        res.status(200).json({ message: "You have successfully logged out!" });
+        res.status(200).json({message: "You have successfully logged out!"});
     });
 });
 
@@ -93,7 +93,7 @@ router.post('/signup', async (req, res) => {
         console.log("uglly ass hoe");
     }
     else {
-        res.status(500).json({ message: UID + "rgsrtghwrtsorry bro theres like a 1/99999999 chance of this error happening but just click the button again" })
+        res.status(500).json({ message: "Hey girl theres like a 1/trilliongazillion chance of this error happening but just click the button again lol" })
     }
 
 });
@@ -111,7 +111,7 @@ router.get('/myprofile', isAuthenticated, async (req, res) => {
     }
 
     if (!result.rows[0]) {
-        res.status(404).json({ message: "Account not found" });
+        res.status(404).json({ message: "Account not found. You really shouldn't be able to see this, but try logging in." });
         return;
     }
     res.json({ ...result.rows[0], uid: current_uid });
@@ -133,7 +133,7 @@ router.get('/loadprofile', isAuthenticated, async (req, res) => {
     }
 
     if (!result.rows[0]) {
-        res.status(404).json({ message: "Account not found" });
+        res.status(404).json({ message: "Account not found. You really shouldn't be able to see this, but try logging in." });
         return;
     }
     res.json({ ...result.rows[0], uid: current_uid });

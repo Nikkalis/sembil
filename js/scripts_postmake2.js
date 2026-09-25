@@ -68,6 +68,7 @@ async function submitPost() {
                 customPopup(popupTitle, "Text post requirements not fufilled, you havent set something", okButton, secondButton);
                 console.log(post_title);
                 console.log(post_type);
+                loadingText.textContent = "Submit";
                 return;
             }
         }
@@ -77,6 +78,7 @@ async function submitPost() {
             else {
                 console.log(post_type);
                 customPopup(popupTitle, "Image post requirements not fufilled, you havent set something", okButton, secondButton);
+                loadingText.textContent = "Submit";
                 return;
             }
         }
@@ -86,19 +88,28 @@ async function submitPost() {
             else {
                 console.log(post_type);
                 customPopup(popupTitle, "Event post requirements not fufilled, you havent set something", okButton, secondButton);
+                loadingText.textContent = "Submit";
                 return;
             }
         }
         else {
             customPopup("what", "bro ok", okButton, secondButton);
+            loadingText.textContent = "Submit";
             return;
         }
     }
     else {
         
         customPopup("Select a post type", "Then try submitting again", okButton, secondButton);
+        loadingText.textContent = "Submit";
         return;
 
+    }
+    if (preview_size){
+    }else{
+        loadingText.textContent = "Submit";
+        customPopup("Select a preview size", "Then try submitting again", okButton, secondButton);
+        return;
     }
 
     const post_boxesArray = Array.from(document.querySelectorAll(".modgrid_item"));

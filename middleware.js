@@ -1,7 +1,7 @@
 // middleware to test if authenticated
 function isAuthenticated(req, res, next) {
     if (req.session.uid) next();
-    else res.status(401).json({ message: "Not logged in" });
+    else res.status(401).json({ message: "You aren't logged in lol" });
 }
 
 function attachAuthStatus(req, res, next) {

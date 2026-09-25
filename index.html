@@ -17,7 +17,7 @@
       </a>
     </div>
     <div id="logo_wrapper">
-      <a id="logo_button" href="index.html#feed_section" class="icon">
+      <a id="logo_button" href="index.html#search_grid" class="icon">
         <img src="static/images/sembil_logo.png">
       </a>
     </div>
@@ -25,36 +25,124 @@
     <h1 id="hero_title">sembil</h1>
 
   </section>
-  <div id="layout_grid">
-    <div id="margin-left"></div>
-    <div id="content">
-      <div id="hero_wrapper"></div>
+  <div id="hero_wrapper"></div>
+  <div id="search_results"></div>
+  <div id="search_grid" class="layout_grid position--sticky">
+    <div class="margin-left">
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div id="search-filters_wrapper" class="margin-left_content">
+        <h2>Filters</h2>
+        <h3>Region</h3>
+        <div class="search-filters_panel">
+          <div class="search-filters_item">
+            <label for="region_northland">Northland</label>
+            <input type="checkbox" name="region_northland" id="region_northland" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_auckland">Auckland</label>
+            <input type="checkbox" name="region_auckland" id="region_auckland" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_waikato">Waikato</label>
+            <input type="checkbox" name="region_waikato" id="region_waikato" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_bop">Bay of Plenty</label>
+            <input type="checkbox" name="region_bop" id="region_bop" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_gisborne">Gisborne</label>
+            <input type="checkbox" name="region_gisborne" id="region_gisborne" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_hawkesbay">Hawke's Bay</label>
+            <input type="checkbox" name="region_hawkesbay" id="region_hawkesbay" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_taranaki">Taranaki</label>
+            <input type="checkbox" name="region_taranaki" id="region_taranaki" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_whanganui">Whanganui</label>
+            <input type="checkbox" name="region_whanganui" id="region_whanganui" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_wellington">Wellington</label>
+            <input type="checkbox" name="region_wellington" id="region_wellington" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_tasman">Tasman</label>
+            <input type="checkbox" name="region_tasman" id="region_tasman" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_nelson">Nelson</label>
+            <input type="checkbox" name="region_nelson" id="region_nelson" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_marlborough">Marlborough</label>
+            <input type="checkbox" name="region_marlborough" id="region_marlborough" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_westcoast">West Coast</label>
+            <input type="checkbox" name="region_westcoast" id="region_westcoast" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_canterbury">Canterbury</label>
+            <input type="checkbox" name="region_canterbury" id="region_canterbury" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_otago">Otago</label>
+            <input type="checkbox" name="region_otago" id="region_otago" class="filter_checkbox">
+          </div>
+          <div class="search-filters_item">
+            <label for="region_southland">Southland</label>
+            <input type="checkbox" name="region_southland" id="region_southland" class="filter_checkbox">
+          </div>
+        </div>
+        <br>
+        <button type="button" id="search-filters_apply" class="button--medium">Apply</button>
+      </div>
+    </div>
+    <div id="search_content" class="content">
+      <div id="search_wrapper">
+
+        <input id="search_input" placeholder="Search Sembil...">
+        <label for="search_sort"></label>
+        <select name="search_sort" id="search-sort_dropdown">
+          <option value="">Sort</option>
+          <option value="recent">Recent</option>
+          <option value="relevant">Relevant</option>
+          <option value="popular">Popular</option>
+        </select>
+      </div>
+      <p id="search_status" class="inactive">placeholder</p>
+    </div>
+    <div class="margin-right"></div>
+  </div>
+  <div class="layout_grid">
+    <div class="margin-left"></div>
+    <div class="content">
+
       <section id="feed_section">
 
         <div id="modgrid_wrapper">
-          
-          <!-- <div class="box-2x3 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
-          <div class="box-2x2 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
-          <div class="box-2x1 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
-          <div class="box-2x1 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
-          <div class="box-2x3 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
-          <div class="box-1x2 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
-          <div class="box-1x2 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
-          <div class="box-3x1 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
-          <div class="box-1x1 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
-          <div class="box-1x2 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div>
-          <div class="box-3x2 wireframe-element"><a class="feed-post_link" href="postview.html"></a></div> -->
+
+          <!-- posts will be loaded dynamically -->
 
         </div>
 
       </section>
     </div>
-    <div id="margin-right">
+    <div class="margin-right">
       <div id="nav_wrapper">
         <div class="nav_item"><a class="nav-link" href="account.html">
             <h2 id="nav-account_text">Account</h2>
           </a></div>
-        <div class="nav_item"><a class="nav-link" href="index.html#feed-section">
+        <div class="nav_item"><a class="nav-link" href="index.html#search_grid">
             <h2>Post feed</h2>
           </a></div>
         <div class="nav_item"><a class="nav-link" href="messaging.html">
@@ -63,16 +151,16 @@
         <div class="nav_item"><a class="nav-link" href="postmake1.html">
             <h2>Create post</h2>
           </a></div>
-        <div class="nav_item"><button type="button" class="nav-link"  id="nav-signup_link">
+        <div class="nav_item"><button type="button" class="nav-link" id="nav-signup_link">
             <h2>Sign up</h2>
-        </button>
+          </button>
           <button type="button" class="nav-link" id="nav-login_link">
             <h2>Log in</h2>
           </button>
         </div>
-        <div class="nav_item"><button type="button" class="nav-link"  id="nav-logout_link">
+        <div class="nav_item"><button type="button" class="nav-link" id="nav-logout_link">
             <h2>Log out</h2>
-        </button>
+          </button>
         </div>
       </div>
     </div>

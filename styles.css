@@ -24,6 +24,13 @@ textarea {
     resize: none;
 }
 
+.position--sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    /* padding-top: 5vw; */
+}
+
 /* --------------------------------type stuff */
 p {
     margin: 0px;
@@ -53,24 +60,27 @@ h2 {
 }
 
 /* --------------------------------div stuff */
-#layout_grid {
+.layout_grid {
     display: grid;
     width: 100%;
     grid-template-columns: 1fr var(--content-width) 1fr;
 }
-#layout_grid > div {
+.layout_grid > div {
     height: 100%;
 }
-#margin-left {
+.margin-left {
     grid-column: 1/2;
 }
+.margin-left_content {
+    padding-left: var(--modgrid-padding);
+}
 
-#content {
+.content {
     grid-column: 2/3;
     
 }
 
-#margin-right {
+.margin-right {
     grid-column: 3/4;
 }
 
@@ -106,6 +116,7 @@ h2 {
 
 .modgrid_item, .modgrid_EX {
     padding: var(--modgrid-padding);
+    position: relative;
 }
 
 .modgrid_item li {
@@ -170,6 +181,18 @@ h2 {
     min-height: 100%;
     display: block;
 
+}
+
+.icons_like {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+}
+
+.state-liked {
+    background-color: red;
 }
 
 /* generic popup stuff - will be filled with content by js */
@@ -245,6 +268,7 @@ h2 {
     background-color: rgba(0,0,0,40%);
     top: 0;
     overflow: scroll;
+    z-index: 3;
 }
 #signup-popup_grid, #login-popup_grid {
     display: grid;
@@ -255,6 +279,7 @@ h2 {
     grid-template-rows: repeat(6, 1fr); 
     width: 60vw;
     min-height: 100vh;
+    overflow: hidden;
     
     margin-left: auto;
     margin-right: auto;
@@ -271,8 +296,9 @@ h2 {
     grid-area: span 3/span 1;
 }
 #signup-popup-profilepicture-preview_wrapper{
-    height: 400px;
-    width: 400px;
+    padding-top: var(--modgrid-padding);
+    height: fit-content;
+    width: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -280,10 +306,11 @@ h2 {
 }
 #signup-popup-profilepicture-preview_image {
     flex-shrink: 0;
-    min-height: 100%;
-    min-width: 100%;
+    max-height: 100%;
+    max-width: 100%;
     height: 100%;
-    object-fit: cover; 
+    object-fit: contain; 
+
 }
 
 
@@ -302,6 +329,9 @@ section {
 }
 
 #hero_section {
+    padding-top: 0px;
+}
+#feed_section {
     padding-top: 0px;
 }
 
@@ -360,7 +390,7 @@ section {
     top: 0px;
     right: -100%;
     transition: right 0.3s;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     padding-top: 75px;
@@ -372,6 +402,8 @@ section {
     padding-left: 50px;
     padding-right: 50px;
     flex-shrink: 1;
+    display: flex;
+    gap: var(--modgrid-padding);
 }
 
 #nav_button img {
@@ -395,6 +427,35 @@ section {
 #hero_wrapper {
     width: 100%;
     height: 100vh;
+}
+
+/* --------------------------------search stuff */
+#search_grid{
+    height: 50px;
+    margin-bottom: 100px;
+    
+    
+}
+#search_content{
+    height: fit-content;
+    
+}
+#search_wrapper{
+    display: flex;
+    overflow: visible;
+    margin-top: var(--modgrid-padding);
+    
+    
+
+}
+
+#search_input{
+    flex: auto;
+    padding: var(--modgrid-padding);
+    height: 50px;
+}
+#search-sort_dropdown{
+    padding: var(--modgrid-padding);
 }
 
 /* --------------------------------post feed stuff */
@@ -852,7 +913,7 @@ li.profile-header-info_list-item {
     padding: var(--minimum-margin);
     background-color: grey;
     position: relative; 
-    z-index: 99;
+    z-index: 1;
 }
 #footer_section {
     margin: 0;

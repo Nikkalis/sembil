@@ -1,14 +1,33 @@
 
 // import { Sequelize } from "sequelize";
+
+import { likePost } from "./scripts";
 window.addEventListener("load", populateFeed);
 let modgrid = null;
-async function populateFeed() {
+let areposts = false;
+const search_status = document.getElementById("search_status");
+async function populateFeed(isFailedSearch) {
+    
     modgrid = document.getElementById('modgrid_wrapper');
+
+    const params = new URLSearchParams(window.location.search);
+    const search = params.get('search');
+    
+    if(search && !isFailedSearch){
+        
+        console.log(search);
+        let reload = false;
+        areposts = await searchPosts(search, reload);
+        console.log(areposts);
+        if(areposts == true){
+        return;
+        }
+    }
+
     console.log("populateFeed begin");
 
-    // const sequelize = new Sequelize('postgres://postgres:localhost:5432/sembildb');
-    // const postsNum = await fetch("/api/posts/totalposts");
-    const loadAmount = 20;
+
+    const loadAmount = 2000;
 
     for (let current_post = 1; current_post <= loadAmount; current_post++) {
         console.log(`attempting load of post ${current_post} out of ${loadAmount}...`);
@@ -31,6 +50,62 @@ async function populateFeed() {
     }
 }
 
+document.getElementById('search_input').addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {  //checks whether the pressed key is "Enter"
+        console.log("search request sent...");
+        e.preventDefault();
+        let reload = true;
+        searchPosts(document.getElementById('search_input').value, reload);
+    }})
+async function searchPosts(searchQuery, reload) {
+    if(reload){
+        const params = new URLSearchParams({search: searchQuery});
+        history.pushState({}, "", `index.html?${params}#feed_section`);
+    }
+    console.log(`Searching for: ${searchQuery}`);
+    const searchRes = await fetch(`/api/posts/search?search=${searchQuery}`);
+    const searchRes_json = await searchRes.json();
+    console.log(`Search status: ${searchRes.status}`);
+    document.getElementById('search_results').scrollIntoView();
+    if (searchRes_json[0]) {
+        if (searchRes_json.length > 1) {search_status.textContent = `Found ${searchRes_json.length} posts!`;}
+        else {search_status.textContent = `Found ${searchRes_json.length} post!`;}
+        search_status.classList.remove('inactive'); 
+        document.getElementById('modgrid_wrapper').innerHTML = null;
+        for (let resultItem of searchRes_json) {
+            console.log(`post found with id: ${resultItem.postid}`);
+            console.log(`found ${searchRes_json.length} posts`);
+            
+
+            const params = new URLSearchParams();
+            params.append("postid", resultItem.postid);
+            console.log(`getting post with params: ${params}`);
+            const postAttr = await fetch(`/api/posts/loadpost?${params}`);
+            console.log(`post get status: ${postAttr.status}`);
+            const postAttr_json = await postAttr.json();
+            if (resultItem.postid) {
+                console.log(`post found with id: ${resultItem.postid}`);
+                // Make post
+                loadPost(postAttr_json);
+                
+            }
+            else {
+                console.log("WHERES THE POST");
+                
+            }
+        }
+    }
+    else {
+        console.log("Search failed");
+        
+        populateFeed(true);
+        search_status.textContent = "No results found... So here's everything instead";
+        search_status.classList.remove('inactive');  
+        
+
+    }
+}
+
 async function loadPost(postAttrs) {
     const postid = postAttrs.postid;
     const box = document.createElement('div');
@@ -38,6 +113,11 @@ async function loadPost(postAttrs) {
     box.classList.add('modgrid_item');
     box.classList.add('wireframe-element');
     box.classList.add(postAttrs.preview_size);
+    box.setAttribute('data-postid', postid);
+
+    const likeIcon = document.createElement('button');
+    likeIcon.classList.add('icons_like');
+    likeIcon.addEventListener('click', () => likePost(likeIcon));
 
     const link = document.createElement('a');
     link.classList.add('feed-post_link');
@@ -69,6 +149,7 @@ async function loadPost(postAttrs) {
     tags.classList.add('feed-post-tags_wrapper');
     let tagsleft = true;
     let num_tags = 0;
+
     while (tagsleft) {
         const tag = document.createElement('div');
         tag.classList.add('feed-post-tags_item');
@@ -101,25 +182,36 @@ async function loadPost(postAttrs) {
     }
 
     // append everything, adding to dom
+    try {
+        const isLiked = await fetch(`/api/posts/checkstatus?postid=${postid}`);
+        const isLiked_json = await isLiked.json();
+
+        if (isLiked_json.liked_postids) {
+            likeIcon.classList.add('state-liked');
+        }
+    } catch {
+
+    }
 
 
     link.appendChild(post_infowrapper);
     link.appendChild(post_contentwrapper);
     link.appendChild(tags);
-    link.addEventListener('click', () => set_post_clicked(postAttrs.postid));
+    // link.addEventListener('click', () => set_post_clicked(postAttrs.postid));
 
     box.appendChild(link);
+    box.appendChild(likeIcon);
 
     modgrid.appendChild(box);
 }
 
-function set_post_clicked(postid) {
-    const clicked_res = fetch(`/api/posts/setclickedpost`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            post_clicked: postid
-        })
-    })
-    console.log(clicked_res.status);
-}
+// function set_post_clicked(postid) {
+//     const clicked_res = fetch(`/api/posts/setclickedpost`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//             post_clicked: postid
+//         })
+//     })
+//     console.log(clicked_res.status);
+// }

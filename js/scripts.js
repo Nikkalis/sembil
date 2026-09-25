@@ -19,16 +19,58 @@ const postmake1page = window.location.pathname.endsWith('postmake1.html');
 const postmake2page = window.location.pathname.endsWith('postmake2.html');
 const accountpage = window.location.pathname.endsWith('account.html');
 
+const usernameInputS = document.getElementById("signup-popup-username_input");
+const passwordInputS = document.getElementById("signup-popup-password_input");
+const confirmPasswordInputS = document.getElementById("signup-popup-passwordconfirm_input");
+const emailInputS = document.getElementById("signup-popup-email_input");
+const displayNameInputS = document.getElementById("signup-popup-displayname_input");
+const pfpUploadButton = document.getElementById("signup-popup-profilepicture_input");
+console.log(pfpUploadButton);
+
+const usernameInputL = document.getElementById("login-popup-username_input");
+const passwordInputL = document.getElementById("login-popup-password_input");
+
+
+
 
 window.addEventListener('load', loadUserInfo);
+
+usernameInputL.addEventListener("keypress", (e) => shiftFocus(e, passwordInputL));
+passwordInputL.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {  //checks whether the pressed key is "Enter"
+    loginAttempt();
+    shiftFocus(e, genericPopupOkButton);
+  }
+});
+
+
+usernameInputS.addEventListener("keypress", (e) => shiftFocus(e, displayNameInputS));
+displayNameInputS.addEventListener("keypress", (e) => shiftFocus(e, emailInputS));
+emailInputS.addEventListener("keypress", (e) => shiftFocus(e, pfpUploadButton));
+pfpUploadButton.addEventListener("keypress", (e) => shiftFocus(e, passwordInputS));
+passwordInputS.addEventListener("keypress", (e) => shiftFocus(e, confirmPasswordInputS));
+confirmPasswordInputS.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {  //checks whether the pressed key is "Enter"
+    createAccount();
+  }
+});
+
+function shiftFocus(e, input) {
+  if (e.key === "Enter") {  //checks whether the pressed key is "Enter"
+    input.focus();
+  }
+};
 
 async function loadUserInfo() {
   const params = new URLSearchParams(window.location.search);
   const loginreq = params.get('loginreq');
   const res_raw = await fetch("/api/accounts/checkauth");
   const res = await res_raw.json();
+  const logout_button = document.getElementById('nav-logout_link');
+  logout_button.classList.add('inactive');
 
   if (res.isLoggedIn) {
+    logout_button.classList.remove('inactive');
     const userDetails = await fetch("/api/accounts/myprofile");
     const userDetails_json = await userDetails.json();
     const username = userDetails_json.username;
@@ -37,7 +79,7 @@ async function loadUserInfo() {
     const navAccount_text = document.getElementById('nav-account_text');
     navAccount_text.textContent = username;
   } else if (messagingpage || postmake1page || postmake2page || accountpage) {
-  unauthorisedRedirect();
+    unauthorisedRedirect();
   } else if (loginreq) {
     toggleLoginPopup();
   }
@@ -67,11 +109,26 @@ function customPopup(popupTitle, popupBody, okButtonText, secondButtonText, hasA
   genericPopupSecondButton.textContent = secondButtonText;
   if (reload) {
     genericPopupOkButton.addEventListener('click', () => dismissPopup(genericPopup));
+    genericPopupOkButton.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {  //checks whether the pressed key is "Enter"
+        dismissPopup(genericPopup);
+      }
+    });
   }
   else {
     genericPopupOkButton.addEventListener('click', () => dismissPopupNoReload(genericPopup));
+    genericPopupOkButton.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {  //checks whether the pressed key is "Enter"
+       dismissPopupNoReload(genericPopup);
+      }
+    });
   }
   genericPopupSecondButton.addEventListener('click', () => dismissPopupNoReload(genericPopup));
+  genericPopupSecondButton.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {  //checks whether the pressed key is "Enter"
+      dismissPopupNoReload(genericPopup);
+    }
+  });
 
 }
 
@@ -113,6 +170,7 @@ function dismissPopup(popup) {
   cancelPopup(popup);
   location.reload();
 }
+
 function dismissPopupNoReload(popup) {
   genericPopup.classList.remove('popup_xlarge');
   genericPopup.classList.remove('popup_large');
@@ -120,7 +178,6 @@ function dismissPopupNoReload(popup) {
   const allChildren = Array.from(genericPopup.children);
   for (let child of allChildren) {
     child.classList.add('inactive');
-
   }
   const allActions = Array.from(genericPopupAction_wrapper.children);
   for (let child of allActions) {
@@ -194,13 +251,16 @@ async function logOutUser(genericPopup) {
 
   console.log(logout_res.status);
   genericPopupTitle.textContent = null;
-  const logout_res_json = logout_res.json();
-
-  genericPopupBody.textContent = logout_res_json.status.message;
+  const logout_res_json = await logout_res.json();
+  console.log(logout_res_json);
+  genericPopupBody.textContent = logout_res_json.message;
   if (logout_res.status === 200) {
     genericPopupOkButton.addEventListener('click', () => dismissPopup(genericPopup));
   }
   else if (logout_res.status === 500) {
+    genericPopupOkButton.addEventListener('click', () => dismissPopupNoReload(genericPopup));
+  } else if (logout_res.status === 401) {
+    genericPopupSecondButton.classList.add('inactive');
     genericPopupOkButton.addEventListener('click', () => dismissPopupNoReload(genericPopup));
   }
 
@@ -311,4 +371,39 @@ async function createAccount() {
     }
   }
 }
+
+// -----------------------------------------------------post related stuff
+
+async function likePost(likeIcon) {
+  const likedPost = likeIcon.parentElement;
+  const likedPostId = likedPost.dataset.postid;
+
+  if (likeIcon.classList.contains('state-liked')) {
+    const unlikepost_res = await fetch(`/api/posts/unlikepost`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        postid: likedPostId
+      })
+    });
+    console.log(unlikepost_res.status);
+    if (unlikepost_res.status === 200) {
+      likeIcon.classList.remove('state-liked')
+    };
+  } else {
+    const likepost_res = await fetch(`/api/posts/likepost`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        postid: likedPostId
+      })
+    });
+    console.log(likepost_res.status);
+    if (likepost_res.status === 200) {
+      likeIcon.classList.add('state-liked')
+    };
+  }
+}
+
+export { likePost };
 export default customPopup;
