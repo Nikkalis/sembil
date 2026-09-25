@@ -1189,6 +1189,14 @@ li.profile-header-info_list-item {
 
         grid-auto-rows: calc(var(--content-width)/2);
     }
+    #post_section>#modgrid_wrapper {
+        display: grid;
+        width: 100%;
+        grid-template-columns: 1fr;
+
+
+        grid-auto-rows: calc(var(--content-width)/2);
+    }
 
     .modgrid_item {
         min-width: 0;
