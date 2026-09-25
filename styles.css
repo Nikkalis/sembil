@@ -1087,14 +1087,11 @@ li.profile-header-info_list-item {
 
     #signup-popup_grid,
     #login-popup_grid {
-        display: grid;
+        display: flex;
+        flex-direction: column;
         padding: calc(var(--modgrid-padding)*2) 5vw;
         gap: var(--modgrid-padding);
-        row-gap: var(--modgrid-padding);
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(6, 1fr);
         width: 100vw;
-        min-height: 100vh;
         overflow: hidden;
 
         margin-left: auto;
