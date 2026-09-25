@@ -31,7 +31,7 @@ async function submitPost() {
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
 
-    const post_date = `${day}/${month}/${year}`;
+    const post_date = `${year}/${month}/${day}`;
     const post_content = document.getElementById('post-content_textinput').value;
     const post_main_image = document.getElementById('post-mainimg_input').files[0];
     const post_tag_elements = Array.from(document.getElementsByClassName('tags-item_text'));
@@ -236,8 +236,15 @@ async function submitPost() {
             post_details: post_details
         })
     });
+    const submit_result_json = await submit_result.json();
+    const newPost_postid = submit_result_json.postid;
+    
     loadingText.textContent = "Submit";
-    customPopup("Post created!", null, "Ok", null, false, true);
+    if(submit_result.status === 200){
+    window.location.replace(
+    `postview.html?postid=${newPost_postid}`,
+    );}
+
 
 }
 

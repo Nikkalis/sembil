@@ -96,7 +96,7 @@ function customPopup(popupTitle, popupBody, okButtonText, secondButtonText, hasA
   }
   if (secondButtonText) {
     genericPopupSecondButton.classList.remove('inactive');
-  }
+  } else {genericPopupSecondButton.classList.add('inactive');}
   genericPopupClosed = false;
   genericPopup.classList.remove('invisible');
 
