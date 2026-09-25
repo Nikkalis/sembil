@@ -272,6 +272,8 @@ h2 {
 
 /* signup popup grid stuff */
 
+
+
 #signup-popup_wrapper,
 #login-popup_wrapper {
     position: fixed;
@@ -283,6 +285,12 @@ h2 {
     z-index: 3;
 }
 
+#signup-popup-grid_wrapper,
+#login-popup-grid_wrapper {
+    min-height: 100vh;
+
+}
+
 #signup-popup_grid,
 #login-popup_grid {
     display: grid;
@@ -292,7 +300,7 @@ h2 {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(6, 1fr);
     width: 60vw;
-    min-height: 100vh;
+    
     overflow: hidden;
 
     margin-left: auto;
