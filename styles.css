@@ -81,6 +81,7 @@ input[type="text"] {
 
 .margin-left_content {
     padding-left: var(--modgrid-padding);
+    padding-top: 100px;
 }
 
 .content {
@@ -221,6 +222,7 @@ input[type="text"] {
     z-index: 9999;
 }
 
+
 #generic-popup_wrapper.popup_medium {
     width: 50vw;
 }
@@ -287,7 +289,8 @@ input[type="text"] {
     height: 100vh;
     background-color: rgba(0, 0, 0, 40%);
     top: 0;
-    overflow: scroll;
+    overflow: hidden;
+
     z-index: 3;
 }
 
@@ -306,8 +309,10 @@ input[type="text"] {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(6, 1fr);
     width: 60vw;
+    overscroll-behavior: contain;
 
-    overflow: hidden;
+    overflow: scroll;
+    height: 100vh;
 
     margin-left: auto;
     margin-right: auto;
@@ -331,10 +336,11 @@ input[type="text"] {
 
 #signup-popup-profilepicture-preview_wrapper {
     padding-top: var(--modgrid-padding);
-    height: fit-content;
-    width: fit-content;
+
+    height: 300px;
+
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     overflow: hidden;
 }
@@ -429,9 +435,9 @@ section {
     height: 100vh;
     position: fixed;
     top: 0px;
-    right: -100%;
+    right: -400px;
     transition: right 0.3s;
-    z-index: 2;
+    z-index: 4;
     display: flex;
     flex-direction: column;
     padding-top: 75px;
@@ -1064,14 +1070,19 @@ li.profile-header-info_list-item {
     #login-popup_grid {
         display: flex;
         flex-direction: column;
-        padding: calc(var(--modgrid-padding)*2) 5vw;
+        padding: 100px 15vw calc(var(--modgrid-padding)*2);
         gap: var(--modgrid-padding);
         width: 100vw;
-        overflow: hidden;
+        height: 100vh;
+        overflow: scroll;
 
         margin-left: auto;
         margin-right: auto;
         background-color: white;
+    }
+
+    #signup-popup-profilepicture-preview_wrapper {
+        width: 200px;
     }
 }
 
@@ -1112,6 +1123,20 @@ li.profile-header-info_list-item {
 
     .margin-left_content {
         padding-left: var(--modgrid-padding);
+        display: none;
+    }
+
+    #search-sort_dropdown{
+        width: 100px;
+    }
+
+    #search_content {
+        padding-left: 180px ;
+        padding-right: 75px;
+        
+    }
+    #search_input{
+        width: 150px;
     }
 
     .search-filters_panel {
@@ -1132,12 +1157,15 @@ li.profile-header-info_list-item {
         font-size: 2em;
         margin: 0;
     }
-    .feed-post_link > h1 {
+
+    .feed-post_link>h1 {
         font-size: 1.5em;
     }
-    .feed-post-info_wrapper > p {
-        font-size:0.8em;
+
+    .feed-post-info_wrapper>p {
+        font-size: 0.8em;
     }
+
     .feed-post-info_wrapper {
         position: absolute;
         bottom: var(--modgrid-padding);
@@ -1148,7 +1176,7 @@ li.profile-header-info_list-item {
         font-size: 1.5em;
         margin: 2vw 2vw 0px 0px;
     }
-    
+
 
     input[type="text"] {
         font-size: 1em;
@@ -1189,6 +1217,7 @@ li.profile-header-info_list-item {
 
         grid-auto-rows: calc(var(--content-width)/2);
     }
+
     #post_section>#modgrid_wrapper {
         display: grid;
         width: 100%;
@@ -1221,7 +1250,7 @@ li.profile-header-info_list-item {
 
     #previewsize-modgrid_wrapper {
         display: grid;
-        width: var(--content-width);
+        width: calc(var(--content-width)-50%);
         grid-template-columns: repeat(1, 1fr);
         grid-auto-rows: calc(var(--content-width));
     }
@@ -1248,6 +1277,10 @@ li.profile-header-info_list-item {
 
 
         grid-auto-rows: calc(var(--content-width));
+    }
+
+    #nav_wrapper.active-sidebar {
+        right: -40px
     }
 
 }
