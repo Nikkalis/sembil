@@ -2,6 +2,7 @@
 import TurndownService from "turndown";
 import MarkdownIt from 'markdown-it';
 import DOMPurify from 'dompurify';
+import { renderBox } from "./scripts";
 
 let post_title_created = false;
 let post_maincontent_created = false;
@@ -73,6 +74,7 @@ function createBlock_post_title(blockAttrs, postAttrs) {
     box.appendChild(tags);
 
     modgrid.appendChild(box);
+    renderBox(box);
 
     post_title_created = true;
 }
@@ -94,6 +96,7 @@ function createBlock_post_maincontent(blockAttrs, postAttrs) {
 
     box.appendChild(content_wrapper);
     modgrid.appendChild(box);
+    renderBox(box);
 
     post_maincontent_created = true;
 }
@@ -124,6 +127,7 @@ function createBlock_post_mainimage(blockAttrs, postAttrs) {
     box.appendChild(img_container);
     box.appendChild(img_caption);
     modgrid.appendChild(box);
+    renderBox(box);
 
     post_mainimg_created = true;
 }
@@ -170,6 +174,7 @@ function createBlock_post_details(blockAttrs, postAttrs) {
     box.appendChild(details_title);
     box.appendChild(details_wrapper);
     modgrid.appendChild(box);
+    renderBox(box);
 
     post_details_created = true;
 }
@@ -192,6 +197,7 @@ function createBlock_post_text(blockAttrs) {
     box.appendChild(content_wrapper);
 
     modgrid.appendChild(box);
+    renderBox(box);
 }
 function createBlock_post_image(blockAttrs) {
     const box = document.createElement('div');
@@ -213,6 +219,7 @@ function createBlock_post_image(blockAttrs) {
     box.appendChild(img_caption);
 
     modgrid.appendChild(box);
+    renderBox(box);
 }
 
 // -------------------------------------------Spacer blocks, needed for users to customise layout
@@ -225,6 +232,7 @@ function createBlock_spacer(blockAttrs, postAttrs) {
     box.classList.add(blockAttrs.block_size);
 
     modgrid.appendChild(box);
+    renderBox(box);
 }
 
 // --------------------------------------------Build post

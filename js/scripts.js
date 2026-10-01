@@ -405,5 +405,49 @@ async function likePost(likeIcon) {
   }
 }
 
-export { likePost };
+// -----------------------------------------------------------3D SHIT
+import * as THREE from 'three';
+function renderBox (box) {
+    console.log(box.getBoundingClientRect().width);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(1, box.getBoundingClientRect().width / box.getBoundingClientRect().height, 0.1, 1000);
+    scene.add(new THREE.AxesHelper(1));
+    const canvas = document.createElement('canvas');
+    canvas.classList.add('modgrid-box_canvas');
+    box.appendChild(canvas);
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, canvas });
+    renderer.setSize(box.getBoundingClientRect().width, box.getBoundingClientRect().height);
+    
+
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const material = new THREE.MeshPhongMaterial({ color: 0x550055 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+    const light = new THREE.DirectionalLight(0xffffff, 3);
+    light.position.set(-3, 3, 6);
+    scene.add(light);
+
+    camera.position.z = 200;
+
+    function animate( time ) {
+      cube.rotation.x = time/5000;
+      cube.rotation.y = time/1000;
+      cube.position.x = Math.cos(time/200);
+      renderer.render( scene, camera );
+    }
+    
+    renderer.setAnimationLoop( animate );
+    window.addEventListener('resize', () => onBoxResize(camera, renderer, box), false );
+}
+
+function onBoxResize(camera, renderer, box){
+    camera.aspect = box.getBoundingClientRect().width / box.getBoundingClientRect().height;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( box.getBoundingClientRect().width, box.getBoundingClientRect().height );
+
+}
+
+export { likePost, renderBox };
 export default customPopup;

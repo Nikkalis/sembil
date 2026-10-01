@@ -1,7 +1,7 @@
 
 // import { Sequelize } from "sequelize";
 
-import { likePost } from "./scripts";
+import { likePost, renderBox } from "./scripts";
 window.addEventListener("load", populateFeed);
 let modgrid = null;
 let areposts = false;
@@ -203,7 +203,10 @@ async function loadPost(postAttrs) {
     box.appendChild(likeIcon);
 
     modgrid.appendChild(box);
+
+    renderBox(box);
 }
+
 
 // function set_post_clicked(postid) {
 //     const clicked_res = fetch(`/api/posts/setclickedpost`, {
