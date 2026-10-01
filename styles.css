@@ -1089,7 +1089,7 @@ li.profile-header-info_list-item {
         flex-direction: column;
         padding: 100px 15vw calc(var(--modgrid-padding)*2);
         gap: var(--modgrid-padding);
-        
+        width: 100vw;
         
         overflow: scroll;
 
