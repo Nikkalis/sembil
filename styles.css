@@ -312,7 +312,7 @@ input[type="text"] {
 
 #signup-popup-grid_wrapper,
 #login-popup-grid_wrapper {
-    min-height: 100vh;
+    min-height: 100svh;
 
 }
 
@@ -328,7 +328,7 @@ input[type="text"] {
     overscroll-behavior: contain;
 
     overflow: scroll;
-    height: 100vh;
+    height: 100svh;
 
     margin-left: auto;
     margin-right: auto;
