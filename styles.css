@@ -301,7 +301,8 @@ input[type="text"] {
 #login-popup_wrapper {
     position: fixed;
     width: 100vw;
-    height: 100vh;
+    height: 100svh;
+    
     background-color: rgba(0, 0, 0, 40%);
     top: 0;
     overflow: hidden;
