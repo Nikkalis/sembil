@@ -45,7 +45,7 @@ window.addEventListener('load', loadIcons);
 window.addEventListener('load', rendering);
 
 async function loadIcons() {
-  const directory = `/static/icons/${iconSet}--${isDark}`;
+  const directory = `icons/${iconSet}--${isDark}`;
   const home_div = document.getElementById('nav-icon_home');
   const messages_div = document.getElementById('nav-icon_messages');
   const createPost_div = document.getElementById('nav-icon_create_post');
