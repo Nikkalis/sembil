@@ -45,7 +45,7 @@ h3,
     font-style: normal;
 }
 
-button {
+button, #signup-popup-options-cancel_wrapper, #signup-popup-options-submit_wrapper, #login-popup-options-cancel_wrapper, #login-popup-options-submit_wrapper {
     font-family: "Syne Mono", monospace;
     font-weight: 400;
     font-style: normal;
@@ -58,12 +58,16 @@ body {
     background-color: var(--bgColour);
 }
 
-button {
+button, #signup-popup-options-cancel_wrapper, #signup-popup-options-submit_wrapper, #login-popup-options-cancel_wrapper, #login-popup-options-submit_wrapper {
     background-color: var(--bgColour);
     border: 5px solid var(--mainColour);
     margin-top: 10px;
     margin-bottom: 10px;
 }
+#signup-popup-options-cancel_wrapper > a, #signup-popup-options-submit_wrapper > a, #login-popup-options-cancel_wrapper > a, #login-popup-options-submit_wrapper > a {
+    color: white;
+}
+
 
 
 /* NAV BAR */
@@ -95,19 +99,44 @@ textarea {
     background: transparent;
 }
 
+.signup-popup_input, .login-popup_input, #generic-popup-tagadder_input {
+    background-color: var(--bgColour);
+    border: 1px solid white;
+}
+#signup-popup-profilepicture_input {
+    border: none;
+}
+
 
 /* POPUPS */
 
-#signup-popup_grid, #login-popup_grid {
-    background-color: var(--mainColour);
+#signup-popup_grid, #login-popup_grid, #generic-popup_wrapper {
+    background-color: var(--bgColour);
 }
 
 #signup-popup_grid *, #login-popup_grid *, #generic-popup_wrapper * {
-    color: black;
+    color: white;
+}
+#signup-popup-login_link, #login-popup-signup_link {
+    color: var(--mainColour);
 }
 
 #generic-popup_wrapper button {
     color: white;
+}
+
+#generic-popup_wrapper {
+    border: 5px solid var(--mainColour);
+}
+
+#signup-popup-options-cancel_wrapper, #signup-popup-options-submit_wrapper, #login-popup-options-cancel_wrapper, #login-popup-options-submit_wrapper {
+    width: fit-content;
+    padding: 0 5px;
+
+}
+#signup-popup-options-cancel_wrapper > a, #signup-popup-options-submit_wrapper > a, #login-popup-options-cancel_wrapper > a, #login-popup-options-submit_wrapper > a {
+    font-size: 1.5em;
+    
 }
 
 /* HERO SECTION */
@@ -127,7 +156,7 @@ textarea {
 /* POSTMAKE */
 
 .modgrid_EX {
-    background-color: var(--bgColour);
+    background-color: var(--mainColour);
 }
 #previewsize-preview_box * {
     color: white;
