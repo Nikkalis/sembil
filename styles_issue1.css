@@ -1,0 +1,135 @@
+/* TYPEFACE IMPORTS */
+
+@import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&family=Syne+Mono&display=swap');
+@import url("https://use.typekit.net/yas2avz.css");
+
+/* VARIABLES */
+:root {
+    --mainColour: #1672ea;
+    --bgColour: #0e1114;
+    --isDark: dark;
+    --iconSet: default;
+}
+
+/* FONT SETTINGS */
+
+* {
+    color: white;
+}
+
+body, input, textarea, select, option {
+    font-family: "tahoma", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1,
+h2,
+h3, 
+#post-title_textinput {
+    font-family: "Syne Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.feed-post-title_text {
+    font-size: 1.8em;
+}
+
+.tags_item *,
+.feed-post-tags_item *,
+.tagadder-tags_item * {
+    color: black;
+    font-family: "Syne Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+button {
+    font-family: "Syne Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+/* BASIC COLOUR SETTINGS */
+
+body {
+    background-color: var(--bgColour);
+}
+
+button {
+    background-color: var(--bgColour);
+    border: 5px solid var(--mainColour);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+/* NAV BAR */
+
+#nav-topbar_wrapper {
+    background-color: var(--mainColour);
+}
+
+#nav_wrapper {
+    background-color: var(--mainColour);
+}
+
+.nav_item {
+    /* color: black; */
+    background-color: var(--bgColour);
+    padding: 0;
+}
+
+/* INPUTS */
+
+select{
+    background: transparent;
+}
+option{
+    background-color: var(--bgColour);
+}
+
+textarea {
+    background: transparent;
+}
+
+
+/* POPUPS */
+
+#signup-popup_grid, #login-popup_grid {
+    background-color: var(--mainColour);
+}
+
+#signup-popup_grid *, #login-popup_grid *, #generic-popup_wrapper * {
+    color: black;
+}
+
+#generic-popup_wrapper button {
+    color: white;
+}
+
+/* HERO SECTION */
+
+#hero_title {
+    margin: 0;
+}
+
+/* POSTS */
+
+.tags_item,
+.feed-post-tags_item,
+.tagadder-tags_item {
+    background-color: var(--mainColour);
+}
+
+/* POSTMAKE */
+
+.modgrid_EX {
+    background-color: var(--bgColour);
+}
+#previewsize-preview_box * {
+    color: white;
+    font-size:0.7em ;
+}

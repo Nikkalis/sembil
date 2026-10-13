@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hey guys</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles_issue1.css">
 </head>
 
 <body>
@@ -19,6 +20,10 @@
       <img src="static/images/sembil_logo.png">
     </a>
   </div>
+  <div id="nav-topbar_wrapper">
+
+  </div>
+  <div id="nav-topbar_spacer"></div>
   <div class="layout_grid">
     <div class="margin-left"></div>
     <div class="content">
@@ -67,30 +72,40 @@
 
     <div class="margin-right">
       <div id="nav_wrapper">
-        <div class="nav_item"><a class="nav-link" href="account.html">
-            <h2 id="nav-account_text">Account</h2>
-          </a></div>
-        <div class="nav_item"><a class="nav-link" href="index.html#feed-section">
-            <h2>Post feed</h2>
-          </a></div>
-        <div class="nav_item"><a class="nav-link" href="messaging.html">
-            <h2>Messages</h2>
-          </a></div>
-        <div class="nav_item"><a class="nav-link" href="postmake1.html">
-            <h2>Create post</h2>
-          </a></div>
-        <div class="nav_item"><button type="button" class="nav-link"  id="nav-signup_link">
-            <h2>Sign up</h2>
-        </button>
-          <button type="button" class="nav-link" id="nav-login_link">
-            <h2>Log in</h2>
-          </button>
-        </div>
-        <div class="nav_item"><button type="button" class="nav-link"  id="nav-logout_link">
-            <h2>Log out</h2>
-        </button>
-        </div>
-      </div>
+    <div class="nav_item inactive" id="nav-signupLogin"><button type="button" class="nav-link" id="nav-signup_link">
+        Sign up
+      </button>
+      <button type="button" class="nav-link" id="nav-login_link">
+        Log in
+      </button>
+    </div>
+    <div class="nav_item" id="nav-account"><img class="nav_icon" id="nav-icon_account"
+        src="static/images/pfp_preview_placeholder.png"><a class="nav-link" href="account.html">
+        <h2 id="nav-account_text">Account</h2>
+      </a></div>
+    <div class="nav_item">
+      <div class="nav_icon" id="nav-icon_home"></div><a class="nav-link" href="index.html#search_grid">
+
+        <h2>Home</h2>
+      </a>
+    </div>
+    <div class="nav_item">
+      <div class="nav_icon" id="nav-icon_messages"></div><a class="nav-link" href="messaging.html">
+
+        <h2>Messages</h2>
+      </a>
+    </div>
+    <div class="nav_item">
+      <div class="nav_icon" id="nav-icon_create_post"></div><a class="nav-link" href="postmake2.html">
+
+        <h2>Create post</h2>
+      </a>
+    </div>
+    <div class="nav_item" id="nav-logout"><button type="button" class="nav-link" id="nav-logout_link">
+        Log out
+      </button>
+    </div>
+  </div>
     </div>
   </div>
 

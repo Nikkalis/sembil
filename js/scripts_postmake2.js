@@ -4,7 +4,34 @@ import DOMPurify from 'dompurify';
 import { nanoid } from 'nanoid';
 import { error } from "three";
 import customPopup from "./scripts.js";
+import { gsap } from "gsap";
+
+import { Draggable } from "gsap/Draggable";
+
+
+gsap.registerPlugin(Draggable);
 let preview_size = null;
+
+window.addEventListener('load', loadAuthorInfo);
+async function loadAuthorInfo() {
+    const author_info = await fetch('/api/accounts/myprofile');
+    const author_info_json = await author_info.json();
+
+    const date = new Date();
+    const date_el = document.getElementById("post-title_date");
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    const post_date = `${year}/${month}/${day}`;
+    date_el.textContent = post_date;
+
+    const author = author_info_json.display_name;
+
+    const author_el = document.getElementById("post-title_author");
+    author_el.textContent = author;
+}
 
 document.getElementById('postmake-options-submit_button').addEventListener('click', submitPost);
 async function submitPost() {
@@ -99,14 +126,14 @@ async function submitPost() {
         }
     }
     else {
-        
+
         customPopup("Select a post type", "Then try submitting again", okButton, secondButton);
         loadingText.textContent = "Submit";
         return;
 
     }
-    if (preview_size){
-    }else{
+    if (preview_size) {
+    } else {
         loadingText.textContent = "Submit";
         customPopup("Select a preview size", "Then try submitting again", okButton, secondButton);
         return;
@@ -185,13 +212,22 @@ async function submitPost() {
             imgcount++;
 
         }
+        const CM_elements = block.querySelectorAll('.cm-item_wrapper');
+        const CM_map = {};
+        for (let element of CM_elements) {
+            const element_style = element.getAttribute('style');
+            const element_id = element.getAttribute('id');
+            CM_map[element_id] = element_style;
+            console.log(CM_map);
+        }
         const json = JSON.stringify({
             "block_type": block_type,
             "block_size": block_size,
             "block_text": block_text,
             "block_num": block_num,
             "image_src": image_src,
-            "image_caption": image_caption
+            "image_caption": image_caption,
+            "block_cm": CM_map
         });
         post_boxes.push(json);
         console.log("boxes");
@@ -238,12 +274,13 @@ async function submitPost() {
     });
     const submit_result_json = await submit_result.json();
     const newPost_postid = submit_result_json.postid;
-    
+
     loadingText.textContent = "Submit";
-    if(submit_result.status === 200){
-    window.location.replace(
-    `postview.html?postid=${newPost_postid}`,
-    );}
+    if (submit_result.status === 200) {
+        window.location.replace(
+            `postview.html?postid=${newPost_postid}`,
+        );
+    }
 
 
 }
@@ -335,23 +372,273 @@ for (let button of buttons) {
 };
 let current_previewSize = "box-1x2";
 document.getElementById('postmake-settings-previewsize_button').addEventListener('click', popupPreviewSize);
-function popupPreviewSize() {
-    customPopup("Select preview size", "This is what your post will look like on the feed", "Save", "Cancel", true);
+const settingsWrapper = document.getElementById('generic-popup-actions_settings');
+async function popupPreviewSize() {
     const popup = document.getElementById('generic-popup_wrapper');
     popup.classList.add('popup_xlarge');
     const previewSizeWrapper = document.getElementById('generic-popup-actions_previewsize');
     previewSizeWrapper.classList.remove('inactive');
     document.getElementById('generic-popup-options-ok_button').addEventListener('click', savePreviewSize);
+    await customPopup("Select preview size", "Choose a shape for your post's preview!", "Save", "Cancel", true, null, settingsWrapper);
+    popupSettings();
 }
 function changePreviewSize(newSizeClass) {
     const block = document.getElementById("previewsize-preview_box");
-    block.setAttribute('class', `${newSizeClass} modgrid_EX wireframe-element`);
+    block.setAttribute('class', `${newSizeClass} modgrid_EX wireframe-element render render--box`);
     current_previewSize = newSizeClass;
 }
 function savePreviewSize() {
     preview_size = current_previewSize;
 }
+document.getElementById('postmake-settings_button').addEventListener('click', popupSettings);
+window.addEventListener('load', popupSettings);
+function popupSettings() {
+    customPopup(null, null, "Save", null, true, null);
+    const popup = document.getElementById('generic-popup_wrapper');
+    popup.classList.add('popup_xlarge');
+    
+    settingsWrapper.classList.remove('inactive');
+}
 
+// ----------------------------------------CSM MODE
+
+const CMbutton_tags = document.getElementById('post-title-tags_button');
+const CMbutton_toggleMode = document.getElementById('postmake-cm-toggle_button');
+const CMbutton_reset = document.getElementById('postmake-cm-reset_button');
+
+function selectElementCM(e) {
+    e.preventDefault();
+    console.log(`clicked element: ${e.target}`);
+    if (e.target.classList.contains('cm--editable')) {
+        const selectedElements = document.querySelectorAll('.cm--selected');
+        console.log(selectedElements.length);
+        if (selectedElements.length > 0) {
+            console.log('clicked off');
+            for (const element of selectedElements) {
+                element.classList.remove('cm--selected');
+                console.log('element DEselected');
+            }
+        } else {
+            e.target.classList.add('cm--selected');
+            console.log('element selected');
+        }
+
+    } else {
+
+        const selectedElements = document.querySelectorAll('.cm--selected');
+        console.log(selectedElements.length);
+        if (selectedElements.length > 0) {
+            console.log('clicked off');
+            for (const element of selectedElements) {
+                element.classList.remove('cm--selected');
+                console.log('element DEselected');
+            }
+        }
+    }
+}
+
+CMbutton_toggleMode.addEventListener('click', activateCM);
+function activateCM() {
+    document.addEventListener('click', selectElementCM);
+
+    const CMdraggables = [];
+    const CMelements = document.querySelectorAll('.cm-item_wrapper');
+    for (const element of CMelements) {
+        let rotateStart = { dist: 1, scale: 1 };
+        const cm_container = element.parentElement;
+        const cm_container_height = cm_container.getBoundingClientRect().height;
+        const cm_container_width = cm_container.getBoundingClientRect().width;
+        const cm_contents = Array.from(element.children);
+        for (const child of cm_contents) {
+            if (child.classList.contains('cm_gui')) { continue; }
+            child.classList.add('cm--disabled');
+        }
+        const cm_gui_rotator = element.querySelector('.cm--editable_gui_rotate');
+
+
+
+        console.log(cm_container.getBoundingClientRect());
+        console.log(cm_container);
+        console.log(cm_container_height);
+        console.log(cm_container_width);
+        element.classList.add('cm--active');
+        element.classList.add('cm--editable');
+        element.setAttribute('disabled', 'disabled');
+
+        let elementRotate = new Draggable(element, {
+            cursor: 'grab',
+            activeCursor: 'grabbing',
+            type: 'rotation',
+            onPress: function (e) {
+                
+                const pointerCoords = {x: this.pointerX, y: this.pointerY };
+                setDraggable.call(this, e);
+                rotateStart.dist = Math.max(getDistToCenter.call(element, pointerCoords), 1); // avoid divide by 0
+                console.log("stuff starting noew..");
+                
+                rotateStart.scale = gsap.getProperty(element, 'scale');
+            },
+
+            onDrag: function () {
+                
+                const pointerCoords = {x: this.pointerX, y: this.pointerY };
+                const dist = getDistToCenter.call(element, pointerCoords);
+                const newScale = rotateStart.scale * (dist / rotateStart.dist);
+                console.log('THE NEW SCALE IS.....');
+                console.log(`${rotateStart.scale} * (${dist} / ${rotateStart.dist} = ${dist / rotateStart.dist}) = ${newScale}`);
+                gsap.set(element, { scale: newScale });
+            }
+
+        }).disable();
+
+        let elementDrag = new Draggable(element, {
+            onPress: function (e) {
+                setDraggable.call(this, e);
+
+                const container = cm_container.getBoundingClientRect();
+                const item = element.getBoundingClientRect();
+                this.applyBounds({ top: -(item.height / 2), left: -(item.width / 2), width: container.width + (item.width), height: container.height + (item.height) });
+
+            },
+            dragClickables: false,
+            type: 'x,y',
+            edgeResistance: 0.9,
+            cursor: 'move',
+            clickableTest: () => {
+                if (element.classList.contains('cm--editable')) {
+                    console.log('no clicking right now');
+                    return false;
+                }
+                else {
+                    console.log('clicking enabled hoe');
+                    return true;
+                }
+            }
+        });
+
+
+        function setDraggable(event) {
+            let isRotation = this.vars.type === "rotation";
+            let isGuiR = event.target.classList.contains('cm--editable_gui_rotate');
+
+            if (isGuiR) {
+
+                if (!isRotation) {
+                    elementDrag.disable();
+                    elementRotate.enable().startDrag(event);
+                }
+            } else if (isRotation) {
+
+                elementRotate.disable();
+                elementDrag.enable().startDrag(event);
+            }
+        }
+
+        // scaling stufff
+
+        function getCenter(element) {
+            const parent = element.parentElement;
+            const parentRect = parent.getBoundingClientRect();
+            const rect = element.getBoundingClientRect();
+            console.log('box rect isssss'); 
+            const elementX = rect.x - parentRect.left;
+            const elementY = rect.y - parentRect.top;
+            
+            console.log({ x: elementX + (rect.width / 2), y: elementY + (rect.height / 2) });
+            return { x: elementX + window.scrollX + (rect.width / 2), y: elementY + window.scrollY + (rect.height / 2) }
+        }
+
+        function getDistToCenter(e) {
+            const parent = this.parentElement;
+            const parentRect = parent.getBoundingClientRect();
+            console.log(parent);
+            const posX = e.x - parentRect.left;
+            const posY = e.y - parentRect.top;
+            const center = getCenter(this);
+            console.log(`WOWWWWW HYPOTENUSE ${Math.hypot(center.x - posX, center.y - posY)}`)
+            console.log(center.x);
+            console.log(center.y);
+            
+            return Math.hypot(center.x - posX, center.y - posY);
+        }
+
+
+
+        CMdraggables.push(elementDrag, elementRotate);
+    }
+    CMbutton_toggleMode.textContent = "Save";
+    CMbutton_reset.classList.remove('inactive');
+    CMbutton_toggleMode.removeEventListener('click', activateCM);
+    CMbutton_toggleMode.addEventListener('click', () => deactivateCM(CMdraggables));
+    CMbutton_reset.addEventListener('click', () => resetCM(CMdraggables));
+
+}
+function deactivateCM(CMdraggables) {
+    document.removeEventListener('click', selectElementCM);
+    const CMelements = document.querySelectorAll('.cm-item_wrapper');
+    for (const element of CMelements) {
+
+        const cm_contents = Array.from(element.children);
+        for (const child of cm_contents) {
+            child.classList.remove('cm--disabled');
+        }
+        element.classList.remove('cm--editable');
+        element.removeAttribute('disabled');
+    }
+
+    for (const draggable of CMdraggables) {
+        draggable.kill();
+    }
+
+    const selectedElements = document.querySelectorAll('.cm--selected');
+    console.log(selectedElements.length);
+    if (selectedElements.length > 0) {
+        console.log('clicked off');
+        for (const element of selectedElements) {
+            element.classList.remove('cm--selected');
+            console.log('element DEselected');
+        }
+    }
+
+    CMbutton_toggleMode.textContent = "Custom Mode";
+    CMbutton_reset.classList.add('inactive');
+    CMbutton_toggleMode.addEventListener('click', activateCM);
+    CMbutton_toggleMode.removeEventListener('click', deactivateCM);
+}
+function resetCM(CMdraggables) {
+    document.removeEventListener('click', selectElementCM);
+    const CMelements = document.querySelectorAll('.cm-item_wrapper');
+    for (const element of CMelements) {
+        const cm_contents = Array.from(element.children);
+        for (const child of cm_contents) {
+            child.classList.remove('cm--disabled');
+        }
+        element.classList.remove('cm--active');
+        element.classList.remove('cm--editable');
+        element.removeAttribute('disabled');
+
+        gsap.set(element, { clearProps: "all" });
+    }
+
+    for (const draggable of CMdraggables) {
+        draggable.kill();
+    }
+
+    const selectedElements = document.querySelectorAll('.cm--selected');
+    console.log(selectedElements.length);
+    if (selectedElements.length > 0) {
+        console.log('clicked off');
+        for (const element of selectedElements) {
+            element.classList.remove('cm--selected');
+            console.log('element DEselected');
+        }
+    }
+
+    CMbutton_toggleMode.textContent = "Custom Mode";
+    CMbutton_reset.classList.add('inactive');
+    CMbutton_toggleMode.addEventListener('click', activateCM);
+    CMbutton_toggleMode.removeEventListener('click', deactivateCM);
+}
 
 // ----------------------------------------Custom blocks, no limit
 

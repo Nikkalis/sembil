@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { cos } from 'three/tsl';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 1, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -14,7 +13,7 @@ const geometry = new THREE.BoxGeometry( 1, 1, 1 );
 const material = new THREE.MeshPhongMaterial( { color: 0xffffff } );
 const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
-const light = new THREE.DirectionalLight(0xffffff,3);
+const light = new THREE.DirectionalLight(0xaaaaaa,3);
 light.position.set(-3, 3, 6);
 scene.add(light);
 
@@ -27,4 +26,4 @@ function animate( time ) {
   renderer.render( scene, camera );
 }
 
-renderer.setAnimationLoop( animate );
+// renderer.setAnimationLoop( animate );

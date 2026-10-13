@@ -6,11 +6,33 @@ import isAuthenticated, { attachAuthStatus } from "../middleware.js";
 
 const router = express.Router();
 
-router.get('/loadpost', async (req, res) => {
-    if (req.query.postid) {
+router.post('/loadpost', async (req, res) => {
+    if (req.query.search) {
+
+        const searchedPosts = req.body.postids;
+        console.log(`getting posts, amount: ${searchedPosts.length}`);
+        const text = 'SELECT uid, post_type, postnum, postid, author_username, post_date::text, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, postnum, post_details, author_display_name FROM posts WHERE postid = $1';
+        const results = [];
+        for (let post of searchedPosts) {
+            const values = [post.postid];
+            let result = null;
+            try {
+                result = await pool.query(text, values);
+            }
+            catch (error) {
+                res.status(500).json({ message: error.message })
+                return;
+            }
+            results.push(result.rows[0]);
+        }
+        console.log(`here's your search results to be loaded: ${results}`);
+        res.json(results);
+        return;
+    }
+    else if (req.query.postid) {
         const postid = req.query.postid;
         console.log(`getting post id: ${postid}`);
-        const text = 'SELECT uid, post_type, author_username, post_date::text, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, postnum, post_details, author_display_name FROM posts WHERE postid = $1';
+        const text = 'SELECT uid, post_type, postnum, postid, author_username, post_date::text, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, postnum, post_details, author_display_name FROM posts WHERE postid = $1';
         const values = [postid];
         let result = null;
         try {
@@ -20,19 +42,24 @@ router.get('/loadpost', async (req, res) => {
             res.status(500).json({ message: error.message })
             return;
         }
-        res.json({...result.rows[0], postid: req.query.postid});
+        res.json(result.rows[0]);
         return;
-        
+
     }
     else {
+        const before = req.query.before ? parseInt(req.query.before) : null;
         const postnum = req.query.postnum;
         console.log(`getting post number: ${postnum}`);
-        const text = 'SELECT uid, post_type, postid, author_username, post_date::text, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, post_details, author_display_name FROM posts WHERE postnum = $1';
+        const text = 'SELECT uid, post_type, postnum, postid, author_username, post_date::text, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, post_details, author_display_name FROM posts WHERE $1::int IS NULL OR postnum < $1 ORDER BY postnum DESC LIMIT 10';
         const values = [postnum];
         let result = null;
         try {
             result = await pool.query(text, values);
-            console.log(`result: ${result.rows[0].postid}`);
+            // console.log(`result: ${result.rows[0].postid}`);
+            if (!result.rows[0]) {
+                res.status(404).json({ message: `no post of postnum: ${postnum}` });
+                return;
+            }
         }
         catch (error) {
             console.log(`postget failed!`);
@@ -40,27 +67,27 @@ router.get('/loadpost', async (req, res) => {
             return;
         }
         console.log(`postget success!`);
-        res.json(result.rows[0]);
+        res.json(result.rows);
         return;
     }
 });
 
 router.get('/search', async (req, res) => {
-        const searchQuery = req.query.search;
+    const searchQuery = req.query.search;
 
-        // const text = 'SELECT postid FROM posts WHERE $1 % ANY(author_username, post_title, post_content, post_tags, post_desc, post_details, author_display_name)';
-        const text= "SELECT postid FROM posts WHERE search_vector @@ websearch_to_tsquery('english', $1)"
-        const values = [searchQuery];
-        let result = null;
-        try {
-            result = await pool.query(text, values);
-        }
-        catch (error) {
-            res.status(500).json({ message: error.message })
-            return;
-        }
-        res.json(result.rows);
+    // const text = 'SELECT postid FROM posts WHERE $1 % ANY(author_username, post_title, post_content, post_tags, post_desc, post_details, author_display_name)';
+    const text = "SELECT postid FROM posts WHERE search_vector @@ websearch_to_tsquery('english', $1)"
+    const values = [searchQuery];
+    let result = null;
+    try {
+        result = await pool.query(text, values);
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
         return;
+    }
+    res.json(result.rows);
+    return;
 });
 
 router.post('/createpost', isAuthenticated, async (req, res) => {
@@ -133,27 +160,27 @@ router.post('/likepost', isAuthenticated, async (req, res) => {
     let result = null;
     if (resultA.rows[0]) {
         text = "UPDATE profiles SET liked_postids = array_append(liked_postids, $1) WHERE uid = $2 RETURNING *";
-        values = [ postId, uid ];
+        values = [postId, uid];
         result = await pool.query(text, values);
     } else {
         text = "INSERT INTO profiles (uid, liked_postids) VALUES ($1, $2) RETURNING *";
         const new_like_array = [];
         new_like_array.push(postId);
-        values = [ uid, new_like_array ];
+        values = [uid, new_like_array];
         result = await pool.query(text, values);
     }
 
-    if(result.rows[0]){res.sendStatus(200)}
-    else {res.status(500)};
+    if (result.rows[0]) { res.sendStatus(200) }
+    else { res.status(500) };
 });
 router.post('/unlikepost', isAuthenticated, async (req, res) => {
     const postId = req.body.postid;
     const uid = req.session.uid;
     const text = "UPDATE profiles SET liked_postids = array_remove(liked_postids, $1) WHERE uid = $2 RETURNING *";
-    const values = [ postId, uid ];
+    const values = [postId, uid];
     const result = await pool.query(text, values);
-    if(result.rows[0]){res.sendStatus(200)}
-    else {res.status(500)};
+    if (result.rows[0]) { res.sendStatus(200) }
+    else { res.status(500) };
 });
 
 router.get('/checkstatus', isAuthenticated, async (req, res) => {
@@ -164,5 +191,9 @@ router.get('/checkstatus', isAuthenticated, async (req, res) => {
     const result = await pool.query(text, values);
     res.json(result.rows[0]);
 })
+
+function fixedEncodeURI(str) {
+    return encodeURI(str).replace(/%5B/g, '[').replace(/%5D/g, ']').replace(/%2C/g, ',');
+}
 
 export default router

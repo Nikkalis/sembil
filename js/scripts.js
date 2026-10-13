@@ -1,4 +1,6 @@
 // GENERIC POPUPS
+console.log('scripts.js loaded', import.meta.url);
+
 let genericPopupTitle = document.getElementById('generic-popup-title_text');
 let genericPopupBody = document.getElementById('generic-popup-content_text');
 let genericPopupOkButton = document.getElementById('generic-popup-options-ok_button');
@@ -30,7 +32,49 @@ console.log(pfpUploadButton);
 const usernameInputL = document.getElementById("login-popup-username_input");
 const passwordInputL = document.getElementById("login-popup-password_input");
 
+// css sheet variables
+let mainColour = window.getComputedStyle(document.body).getPropertyValue('--mainColour');
+let bgColour = window.getComputedStyle(document.body).getPropertyValue('--bgColour');
+let isDark = window.getComputedStyle(document.body).getPropertyValue('--isDark');
+let iconSet = window.getComputedStyle(document.body).getPropertyValue('--iconSet');
 
+// 3d stuff
+const activeRenderers = new Map();
+
+window.addEventListener('load', loadIcons);
+window.addEventListener('load', rendering);
+
+async function loadIcons() {
+  const directory = `/static/icons/${iconSet}--${isDark}`;
+  const home_div = document.getElementById('nav-icon_home');
+  const messages_div = document.getElementById('nav-icon_messages');
+  const createPost_div = document.getElementById('nav-icon_create_post');
+  const dropdown_divs = document.querySelectorAll('.search-filters-dropdown_icon');
+  const pagination_prev = document.getElementById('pagination-previous_button');
+  const pagination_next = document.getElementById('pagination-next_button');
+
+  for (let div of dropdown_divs) {
+    div.style.setProperty('background-image', `url('${directory}/dropdown.svg')`);
+    div.parentElement.addEventListener('click', () => {
+      div.classList.toggle('dropdown--active');
+      let panelName = div.getAttribute('id');
+
+      panelName = panelName.replace('_dropdown', '');
+      const panel = document.getElementById(panelName);
+      panel.classList.toggle('panel--active');
+    });
+  }
+
+  home_div.style.setProperty('background-image', `url('${directory}/home.svg')`);
+  messages_div.style.setProperty('background-image', `url('${directory}/messages.svg')`);
+  createPost_div.style.setProperty('background-image', `url('${directory}/create_post.svg')`);
+  try {
+    pagination_prev.style.setProperty('background-image', `url('${directory}/create_post.svg')`);
+    pagination_prev.style.setProperty('background-image', `url('${directory}/dropdown.svg')`);
+    pagination_next.style.setProperty('background-image', `url('${directory}/dropdown.svg')`);
+  }
+  catch {}
+}
 
 
 window.addEventListener('load', loadUserInfo);
@@ -66,11 +110,16 @@ async function loadUserInfo() {
   const loginreq = params.get('loginreq');
   const res_raw = await fetch("/api/accounts/checkauth");
   const res = await res_raw.json();
-  const logout_button = document.getElementById('nav-logout_link');
-  logout_button.classList.add('inactive');
+  const logout_item = document.getElementById('nav-logout');
+  const signupLogin_item = document.getElementById('nav-signupLogin');
+  const account_item = document.getElementById('nav-account');
+  logout_item.classList.add('inactive');
+  signupLogin_item.classList.add('inactive');
+  account_item.classList.add('inactive');
 
   if (res.isLoggedIn) {
-    logout_button.classList.remove('inactive');
+    logout_item.classList.remove('inactive');
+    account_item.classList.remove('inactive');
     const userDetails = await fetch("/api/accounts/myprofile");
     const userDetails_json = await userDetails.json();
     const username = userDetails_json.username;
@@ -78,10 +127,18 @@ async function loadUserInfo() {
     console.log(username);
     const navAccount_text = document.getElementById('nav-account_text');
     navAccount_text.textContent = username;
+
+    const navAccount_pfp = document.getElementById('nav-icon_account');
+    navAccount_pfp.setAttribute('src', userDetails_json.profile_picture);
+
   } else if (messagingpage || postmake1page || postmake2page || accountpage) {
     unauthorisedRedirect();
   } else if (loginreq) {
     toggleLoginPopup();
+  }
+  if (!res.isLoggedIn) {
+    signupLogin_item.classList.remove('inactive');
+    account_item.classList.add('inactive');
   }
 }
 function unauthorisedRedirect() {
@@ -90,13 +147,18 @@ function unauthorisedRedirect() {
   );
 }
 
-function customPopup(popupTitle, popupBody, okButtonText, secondButtonText, hasAction, reload) {
+function customPopup(popupTitle, popupBody, okButtonText, secondButtonText, hasAction, reload, parentAction) {
+  let reopenParent = true;
   if (hasAction) {
+    if (parentAction) {
+      parentAction.classList.add('inactive');
+      reopenParent = true;
+    }
     genericPopupAction_wrapper.classList.remove('inactive');
   }
   if (secondButtonText) {
     genericPopupSecondButton.classList.remove('inactive');
-  } else {genericPopupSecondButton.classList.add('inactive');}
+  } else { genericPopupSecondButton.classList.add('inactive'); }
   genericPopupClosed = false;
   genericPopup.classList.remove('invisible');
 
@@ -107,29 +169,30 @@ function customPopup(popupTitle, popupBody, okButtonText, secondButtonText, hasA
   genericPopupBody.textContent = popupBody;
   genericPopupOkButton.textContent = okButtonText;
   genericPopupSecondButton.textContent = secondButtonText;
-  if (reload) {
-    genericPopupOkButton.addEventListener('click', () => dismissPopup(genericPopup));
-    genericPopupOkButton.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {  //checks whether the pressed key is "Enter"
-        dismissPopup(genericPopup);
+  return new Promise((resolve) => {
+    const close = () => {
+      genericPopupOkButton.removeEventListener('click', close);
+      genericPopupOkButton.removeEventListener("keypress", onKey);
+      genericPopupSecondButton.removeEventListener('click', close);
+      genericPopupSecondButton.removeEventListener("keypress", onKey);
+      if (reload) {
+        dismissPopup(genericPopup, parentAction);
       }
-    });
-  }
-  else {
-    genericPopupOkButton.addEventListener('click', () => dismissPopupNoReload(genericPopup));
-    genericPopupOkButton.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {  //checks whether the pressed key is "Enter"
-       dismissPopupNoReload(genericPopup);
+      else {
+        dismissPopupNoReload(genericPopup, parentAction);
       }
-    });
-  }
-  genericPopupSecondButton.addEventListener('click', () => dismissPopupNoReload(genericPopup));
-  genericPopupSecondButton.addEventListener("keypress", function (e) {
-    if (e.key === "Enter") {  //checks whether the pressed key is "Enter"
-      dismissPopupNoReload(genericPopup);
-    }
+      resolve();
+    };
+    const onKey = (e) => {
+      if (e.key === "Enter") {  //checks whether the pressed key is "Enter"
+        close();
+      }
+    };
+    genericPopupOkButton.addEventListener('click', close);
+    genericPopupOkButton.addEventListener("keypress", onKey);
+    genericPopupSecondButton.addEventListener('click', close);
+    genericPopupSecondButton.addEventListener("keypress", onKey);
   });
-
 }
 
 function signupSuccess_popup() {
@@ -270,7 +333,7 @@ const fileInput = document.getElementById('signup-popup-profilepicture_input');
 let preview_url = null;
 const filePreview = document.getElementById('signup-popup-profilepicture-preview_image');
 fileInput.onchange = () => {
-  if (!preview_url) {
+  if (preview_url) {
     preview_url = URL.revokeObjectURL(preview_url);
   }
   preview_url = URL.createObjectURL(fileInput.files[0]);
@@ -293,10 +356,13 @@ async function loginAttempt() {
     })
     console.log("check3");
     console.log(login_res.status);
+    const login_res_json = await login_res.json();
     if (login_res.status === 200) {
       const popup = document.getElementById('login-popup_wrapper');
       genericPopupOkButton.addEventListener('click', () => dismissPopup(popup));
       loginSuccess_popup();
+    } else if (login_res.status === 401) {
+      customPopup("Cannot log in", login_res_json.message, "Ok");
     }
   }
 }
@@ -404,50 +470,170 @@ async function likePost(likeIcon) {
     };
   }
 }
-
 // -----------------------------------------------------------3D SHIT
 import * as THREE from 'three';
-function renderBox (box) {
-    console.log(box.getBoundingClientRect().width);
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(1, box.getBoundingClientRect().width / box.getBoundingClientRect().height, 0.1, 1000);
-    scene.add(new THREE.AxesHelper(1));
-    const canvas = document.createElement('canvas');
-    canvas.classList.add('modgrid-box_canvas');
-    box.appendChild(canvas);
+import { degToRad } from 'three/src/math/MathUtils.js';
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, canvas });
-    renderer.setSize(box.getBoundingClientRect().width, box.getBoundingClientRect().height);
-    
-
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshPhongMaterial({ color: 0x550055 });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-    const light = new THREE.DirectionalLight(0xffffff, 3);
-    light.position.set(-3, 3, 6);
-    scene.add(light);
-
-    camera.position.z = 200;
-
-    function animate( time ) {
-      cube.rotation.x = time/5000;
-      cube.rotation.y = time/1000;
-      cube.position.x = Math.cos(time/200);
-      renderer.render( scene, camera );
-    }
-    
-    renderer.setAnimationLoop( animate );
-    window.addEventListener('resize', () => onBoxResize(camera, renderer, box), false );
+function rendering() {
+  const render_boxes = document.querySelectorAll('.render--box');
+  for (let box of render_boxes) {
+    renderBox(box);
+    console.log(box);
+  }
 }
 
-function onBoxResize(camera, renderer, box){
+function labelRenderedItems() {
+  const renderItems = document.querySelectorAll('.render');
+  let currentId = 0;
+  for (let item of renderItems) {
+    if (item.lastChild.tagName == 'canvas') {
+      activeRenderers.set(currentId, item.lastChild.renderer);
+    } else {
+      activeRenderers.set(currentId, null);
+    }
+    item.setAttribute('data-rendererid', currentId);
+    currentId++;
+  }
+}
+
+function renderBox(box) {
+
+  const colourBg = new THREE.Color(bgColour);
+  const colourMain = new THREE.Color(mainColour);
+  // console.log(box.getBoundingClientRect().width);
+  const scene = new THREE.Scene();
+  console.log(`BOX ${box.getAttribute('id')} has WIDTH OF: ${box.getBoundingClientRect().width}`);
+  const camera = new THREE.PerspectiveCamera(40, box.getBoundingClientRect().width / box.getBoundingClientRect().height, 0.1, 1000);
+  // scene.add(new THREE.AxesHelper(1));
+  const canvas = document.createElement('canvas');
+  if (box.classList.contains('modgrid_item') || box.classList.contains('modgrid_EX')) {
+    canvas.classList.add('modgrid-box_canvas');
+  }
+  box.appendChild(canvas);
+
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, canvas });
+
+
+  canvas.renderer = renderer;
+  renderer.setSize(box.getBoundingClientRect().width, box.getBoundingClientRect().height);
+
+  console.log("pixelunits");
+  console.log(box.getBoundingClientRect().width);
+  console.log(box.getBoundingClientRect().height);
+  console.log("worldunits");
+  camera.position.z = 1;
+  const boxDepth = 1;
+  const totalDepth = boxDepth + camera.position.z;
+
+  // const backGeometry = new THREE.PlaneGeometry(pxToWorldUnits(box.getBoundingClientRect().width, camera, camera.position.z, box.getBoundingClientRect().width), pxToWorldUnits(box.getBoundingClientRect().height, camera, camera.position.z, box.getBoundingClientRect().width));
+  // const btmGeometry = new THREE.PlaneGeometry(pxToWorldUnits(box.getBoundingClientRect().width, camera, camera.position.z, box.getBoundingClientRect().width), totalDepth);
+  // const topGeometry = new THREE.PlaneGeometry(pxToWorldUnits(box.getBoundingClientRect().width, camera, camera.position.z, box.getBoundingClientRect().width), totalDepth);
+  // const leftGeometry = new THREE.PlaneGeometry(totalDepth, pxToWorldUnits(box.getBoundingClientRect().height, camera, camera.position.z, box.getBoundingClientRect().width));
+  // const rightGeometry = new THREE.PlaneGeometry(totalDepth, pxToWorldUnits(box.getBoundingClientRect().height, camera, camera.position.z, box.getBoundingClientRect().width));
+
+  const backGeometry = new THREE.PlaneGeometry(1, 1);
+  const btmGeometry = new THREE.PlaneGeometry(1, totalDepth);
+  const topGeometry = new THREE.PlaneGeometry(1, totalDepth);
+  const leftGeometry = new THREE.PlaneGeometry(totalDepth, 1);
+  const rightGeometry = new THREE.PlaneGeometry(totalDepth, 1);
+
+  const texture = new THREE.TextureLoader().load('../static/images/test-img_post.jpg');
+  const material = new THREE.MeshPhongMaterial({ color: colourBg });
+
+  const backWall = new THREE.Mesh(backGeometry, material);
+  const btmWall = new THREE.Mesh(btmGeometry, material);
+  const topWall = new THREE.Mesh(topGeometry, material);
+  const leftWall = new THREE.Mesh(leftGeometry, material);
+  const rightWall = new THREE.Mesh(rightGeometry, material);
+
+  btmWall.rotateX(degToRad(-90));
+  btmWall.position.y = -(pxToWorldUnits(box.getBoundingClientRect().height, camera, camera.position.z, box.getBoundingClientRect().width) / 2);
+
+  topWall.rotateX(degToRad(90));
+  topWall.position.y = (pxToWorldUnits(box.getBoundingClientRect().height, camera, camera.position.z, box.getBoundingClientRect().width) / 2);
+
+  leftWall.rotateY(degToRad(90));
+  leftWall.position.x = -(pxToWorldUnits(box.getBoundingClientRect().width, camera, camera.position.z, box.getBoundingClientRect().width) / 2);
+
+  rightWall.rotateY(degToRad(-90));
+  rightWall.position.x = (pxToWorldUnits(box.getBoundingClientRect().width, camera, camera.position.z, box.getBoundingClientRect().width) / 2);
+
+  console.log(-(pxToWorldUnits(box.getBoundingClientRect().width, camera, camera.position.z, box.getBoundingClientRect().width) / 2));
+
+  backWall.position.z = -boxDepth;
+
+
+  scene.add(backWall);
+  scene.add(btmWall);
+  scene.add(topWall);
+  scene.add(leftWall);
+  scene.add(rightWall);
+  const light = new THREE.DirectionalLight(0xffffff, 5);
+  const lightAm = new THREE.AmbientLight(0xffffff, 4);
+  light.position.set(-0.05, 0.05, 0.03);
+  scene.add(light);
+  scene.add(lightAm);
+
+
+
+
+  function animate(time) {
+
+    renderer.render(scene, camera);
+  }
+
+  function fitWalls() {
+
+    const viewH = 2 * Math.tan((camera.fov * Math.PI) / 180 / 2) * camera.position.z;
+    const viewW = viewH * camera.aspect;
+
+    btmWall.scale.x = viewW;
+    topWall.scale.x = viewW;
+    leftWall.scale.y = viewH;
+    rightWall.scale.y = viewH;
+    backWall.scale.set(viewW, viewH, 1);
+
+    btmWall.position.y = -(pxToWorldUnits(box.getBoundingClientRect().height, camera, camera.position.z, box.getBoundingClientRect().width) / 2);
+
+    topWall.position.y = (pxToWorldUnits(box.getBoundingClientRect().height, camera, camera.position.z, box.getBoundingClientRect().width) / 2);
+
+    leftWall.position.x = -(pxToWorldUnits(box.getBoundingClientRect().width, camera, camera.position.z, box.getBoundingClientRect().width) / 2);
+
+    rightWall.position.x = (pxToWorldUnits(box.getBoundingClientRect().width, camera, camera.position.z, box.getBoundingClientRect().width) / 2);
+  }
+
+  function onBoxResize(camera, renderer, box) {
     camera.aspect = box.getBoundingClientRect().width / box.getBoundingClientRect().height;
     camera.updateProjectionMatrix();
 
-    renderer.setSize( box.getBoundingClientRect().width, box.getBoundingClientRect().height );
+    renderer.setSize(box.getBoundingClientRect().width, box.getBoundingClientRect().height);
+    fitWalls();
+  }
 
+  fitWalls();
+
+  renderer.setAnimationLoop(animate);
+
+  window.addEventListener('resize', () => onBoxResize(camera, renderer, box), false);
 }
 
-export { likePost, renderBox };
+function pxToWorldUnits(px, camera, distance, boxWidth) {
+  // Convert the vertical FOV to radians
+  const vFOV = (camera.fov * Math.PI) / 180;
+
+  // Calculate the height of the view at the given distance
+  const viewHeight = 2 * Math.tan(vFOV / 2) * distance;
+
+  // Calculate the width of the view using the aspect ratio
+  const viewWidth = viewHeight * camera.aspect;
+
+  // Determine the scaling factor: world units per pixel
+  const screenWidth = boxWidth;
+  const worldUnitPerPx = viewWidth / screenWidth;
+
+  // Convert pixels to world units
+  return px * worldUnitPerPx;
+}
+
+export { likePost, renderBox, labelRenderedItems };
 export default customPopup;

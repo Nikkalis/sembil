@@ -6,9 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hey guys</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles_issue1.css">
 </head>
 
 <body>
+  <canvas id="screen_filter"></canvas>
   <canvas id="hero_canvas"></canvas>
   <section id="hero_section">
     <div id="hamburger_wrapper">
@@ -21,18 +23,26 @@
         <img src="static/images/sembil_logo.png">
       </a>
     </div>
+    <div id="nav-topbar_wrapper">
 
-    <h1 id="hero_title">sembil</h1>
+    </div>
+    <div id="nav-topbar_spacer"></div>
+    <div id="hero_wrapper" class="render render--box">
+      <h1 id="hero_title">sembil</h1>
+    </div>
 
   </section>
-  <div id="hero_wrapper"></div>
-  <div id="search_results"></div>
+  
   <div id="search_grid" class="layout_grid position--sticky">
     <div class="margin-left">
       <div id="search-filters_wrapper" class="margin-left_content">
-        <h2>Filters</h2>
-        <h3>Region (none of these work and they look shit)</h3>
-        <div class="search-filters_panel">
+        <!-- <h2>Filters</h2> -->
+        <div class="search-filters-title_wrapper">
+
+          <h3 class="search-filters_dropdown">Region</h3>
+          <div id="search-filters-region_dropdown" class="search-filters-dropdown_icon"></div>
+        </div>
+        <div id="search-filters-region" class="search-filters_panel panel--inactive">
           <div class="search-filters_item">
             <label for="region_northland">Northland</label>
             <input type="checkbox" name="region_northland" id="region_northland" class="filter_checkbox">
@@ -104,16 +114,20 @@
     </div>
     <div id="search_content" class="content">
       <div id="search_wrapper">
+        <div id="search-input_wrapper" class="render render--box">
+          <input id="search_input" placeholder="Search Sembil...">
+        </div>
 
-        <input id="search_input" placeholder="Search Sembil...">
-        <label for="search_sort"></label>
-        <select name="search_sort" id="search-sort_dropdown">
-          <option value="">Sort</option>
-          <option value="">none work btw</option>
-          <option value="recent">Recent</option>
-          <option value="relevant">Relevant</option>
-          <option value="popular">Popular</option>
-        </select>
+        <div id="search-sort_wrapper" class="render render--box">
+          <label for="search_sort"></label>
+          <select name="search_sort" id="search-sort_dropdown">
+            <option value="">Sort</option>
+            <option value="">none work btw</option>
+            <option value="recent">Recent</option>
+            <option value="relevant">Relevant</option>
+            <option value="popular">Popular</option>
+          </select>
+        </div>
       </div>
       <p id="search_status" class="inactive">placeholder</p>
     </div>
@@ -122,7 +136,14 @@
   <div class="layout_grid">
     <div class="margin-left"></div>
     <div class="content">
-
+      <!-- dont delete the search_results div -->
+      <div id="search_results"></div>
+      <div id="pagination_wrapper">
+        <button type="button" class="pagination_button" id="pagination-previous_button"></button>
+        <p>Page <span id="pagination_pagenum">1</span></p>
+        <button type="button" class="pagination_button" id="pagination-next_button"></button>
+        <p>10 posts per page</p>
+      </div>
       <section id="feed_section">
 
         <div id="modgrid_wrapper">
@@ -134,31 +155,43 @@
       </section>
     </div>
     <div class="margin-right">
-      <div id="nav_wrapper">
-        <div class="nav_item"><a class="nav-link" href="account.html">
-            <h2 id="nav-account_text">Account</h2>
-          </a></div>
-        <div class="nav_item"><a class="nav-link" href="index.html#search_grid">
-            <h2>Post feed</h2>
-          </a></div>
-        <div class="nav_item"><a class="nav-link" href="messaging.html">
-            <h2>Messages</h2>
-          </a></div>
-        <div class="nav_item"><a class="nav-link" href="postmake1.html">
-            <h2>Create post</h2>
-          </a></div>
-        <div class="nav_item"><button type="button" class="nav-link" id="nav-signup_link">
-            <h2>Sign up</h2>
-          </button>
-          <button type="button" class="nav-link" id="nav-login_link">
-            <h2>Log in</h2>
-          </button>
-        </div>
-        <div class="nav_item"><button type="button" class="nav-link" id="nav-logout_link">
-            <h2>Log out</h2>
-          </button>
-        </div>
-      </div>
+
+    </div>
+  </div>
+
+  <div id="nav_wrapper">
+    <div class="nav_item inactive" id="nav-signupLogin"><button type="button" class="nav-link" id="nav-signup_link">
+        Sign up
+      </button>
+      <button type="button" class="nav-link" id="nav-login_link">
+        Log in
+      </button>
+    </div>
+    <div class="nav_item" id="nav-account"><img class="nav_icon" id="nav-icon_account"
+        src="static/images/pfp_preview_placeholder.png"><a class="nav-link" href="account.html">
+        <h2 id="nav-account_text">Account</h2>
+      </a></div>
+    <div class="nav_item">
+      <div class="nav_icon" id="nav-icon_home"></div><a class="nav-link" href="index.html#search_grid">
+
+        <h2>Home</h2>
+      </a>
+    </div>
+    <div class="nav_item">
+      <div class="nav_icon" id="nav-icon_messages"></div><a class="nav-link" href="messaging.html">
+
+        <h2>Messages</h2>
+      </a>
+    </div>
+    <div class="nav_item">
+      <div class="nav_icon" id="nav-icon_create_post"></div><a class="nav-link" href="postmake2.html">
+
+        <h2>Create post</h2>
+      </a>
+    </div>
+    <div class="nav_item" id="nav-logout"><button type="button" class="nav-link" id="nav-logout_link">
+        Log out
+      </button>
     </div>
   </div>
 
@@ -259,7 +292,7 @@
   </div>
 
   <section id="footer_section">
-    <div id="footer_wrapper">
+    <div id="footer_wrapper" class="render render--box">
       <p>footer here</p>
     </div>
   </section>
@@ -269,7 +302,8 @@
   <script type="module" src="js/scripts.js"></script>
   <script type="module" src="js/scripts_feed.js"></script>
   <script type="module" src="js/scripts3d_testbox.js"></script>
-  
+  <script type="module" src="js/scripts3d_screenfilter.js"></script>
+
 
 </body>
 
