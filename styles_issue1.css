@@ -75,6 +75,9 @@ button, #signup-popup-options-cancel_wrapper, #signup-popup-options-submit_wrapp
 #nav-topbar_wrapper {
     background-color: var(--mainColour);
 }
+#nav-topbar_border {
+    background-color: var(--bgColour);
+}
 
 #nav_wrapper {
     background-color: var(--mainColour);
