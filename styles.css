@@ -453,6 +453,7 @@ section {
     padding-bottom: var(--minimum-top-padding);
 }
 
+
 button {
     cursor:pointer;
 }
@@ -1478,6 +1479,7 @@ li.profile-header-info_list-item {
     }
 
     .page_title {
+        top: 125px;
         left: var(--modgrid-padding);
 
     }
@@ -1507,6 +1509,16 @@ li.profile-header-info_list-item {
     .margin-left_content {
         padding-left: var(--modgrid-padding);
         display: none;
+    }
+
+    .margin-right {
+        position: absolute;
+        top: 155px;
+    }
+    .margin-right_content {
+        display: flex;
+        padding-left: 0;
+        position: relative;
     }
 
     #search-sort_dropdown {
