@@ -80,13 +80,32 @@ button, #signup-popup-options-cancel_wrapper, #signup-popup-options-submit_wrapp
 }
 
 #nav_wrapper {
-    background-color: var(--mainColour);
+    background-color: var(--bgColour);
+    padding-bottom: 50px;
 }
 
 .nav_item {
     /* color: black; */
     background-color: var(--bgColour);
     padding: 0;
+    padding-top: 20px;
+    flex-grow: 1;
+    align-items: center;
+}
+.nav-item_border {
+    background-color: var(--mainColour);
+    padding: 0;
+    
+    flex-grow: 1;
+    max-height: fit-content;
+}
+
+button.nav-link {
+    max-height: 50px;
+}
+.nav-link {
+    display: flex;
+    align-items: center;
 }
 
 /* INPUTS */
@@ -100,6 +119,9 @@ option{
 
 textarea {
     background: transparent;
+}
+button {
+    padding: 5px 10px;
 }
 
 .signup-popup_input, .login-popup_input, #generic-popup-tagadder_input {
@@ -134,7 +156,8 @@ textarea {
 
 #signup-popup-options-cancel_wrapper, #signup-popup-options-submit_wrapper, #login-popup-options-cancel_wrapper, #login-popup-options-submit_wrapper {
     width: fit-content;
-    padding: 0 5px;
+    margin:0;
+    margin-top: 1em;
 
 }
 #signup-popup-options-cancel_wrapper > a, #signup-popup-options-submit_wrapper > a, #login-popup-options-cancel_wrapper > a, #login-popup-options-submit_wrapper > a {
