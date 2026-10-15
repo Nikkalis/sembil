@@ -473,7 +473,8 @@ button {
 
 #nav-topbar_wrapper {
     height:calc((var(--modgrid-padding)/2) + 100px);
-    width: 100lvw;
+    min-width: 100lvw;
+    width: 1200px;
     position: fixed;
     z-index: 8;
     
@@ -483,7 +484,8 @@ button {
 }
 #nav-topbar_border {
     height:calc((var(--modgrid-padding)/2) + 100px);
-    width: 100lvw;
+    min-width: 100lvw;
+    width: 1200px;
     position: fixed;
     top: calc(-1 *(var(--modgrid-padding)/2));
     z-index: 8;
