@@ -21,8 +21,8 @@
     </a>
   </div>
   <div id="nav-topbar_wrapper">
-      <div id="nav-topbar_border"></div>
-    </div>
+    <div id="nav-topbar_border"></div>
+  </div>
   <div id="nav-topbar_spacer"></div>
   <div class="layout_grid">
     <div class="margin-left">
@@ -30,10 +30,10 @@
 
         <div id="profile-edit-save_wrapper"><button type="button" id="profile-edit-save_button"
             class="button--wide inactive">Save changes</button></div>
-        <div id="profile-edit-cancel_wrapper"><button type="button"
-            id="profile-edit-cancel_button" class="button--wide inactive">Cancel changes</button></div>
-        <div id="profile-edit_wrapper"><button type="button"
-            id="profile-edit_button" class="button--wide">Edit profile</button></div>
+        <div id="profile-edit-cancel_wrapper"><button type="button" id="profile-edit-cancel_button"
+            class="button--wide inactive">Cancel changes</button></div>
+        <div id="profile-edit_wrapper"><button type="button" id="profile-edit_button" class="button--wide">Edit
+            profile</button></div>
 
       </div>
 
@@ -190,41 +190,73 @@
       </section>
     </div>
     <div class="margin-right">
-      <div id="nav_wrapper">
-    <div class="nav_item inactive" id="nav-signupLogin"><button type="button" class="nav-link" id="nav-signup_link">
-        Sign up
-      </button>
-      <button type="button" class="nav-link" id="nav-login_link">
-        Log in
-      </button>
-    </div>
-    <div class="nav_item" id="nav-account"><img class="nav_icon" id="nav-icon_account"
-        src="static/images/pfp_preview_placeholder.png"><a class="nav-link" href="account.html">
-        <h2 id="nav-account_text">Account</h2>
-      </a></div>
-    <div class="nav_item">
-      <div class="nav_icon" id="nav-icon_home"></div><a class="nav-link" href="index.html#search_grid">
 
-        <h2>Home</h2>
-      </a>
-    </div>
-    <div class="nav_item">
-      <div class="nav_icon" id="nav-icon_messages"></div><a class="nav-link" href="messaging.html">
-
-        <h2>Messages</h2>
-      </a>
-    </div>
-    <div class="nav_item">
-      <div class="nav_icon" id="nav-icon_create_post"></div><a class="nav-link" href="postmake2.html">
-
-        <h2>Create post</h2>
-      </a>
-    </div>
-    <div class="nav_item" id="nav-logout"><button type="button" class="nav-link" id="nav-logout_link">
-        Log out
-      </button>
     </div>
   </div>
+
+  <div id="nav_wrapper">
+    <div class="nav-item_border">
+      <div class="nav-item_border">
+        <div class="nav_item inactive" id="nav-signupLogin"><button type="button" class="nav-link" id="nav-signup_link">
+            Sign up
+          </button>
+          <button type="button" class="nav-link" id="nav-login_link">
+            Log in
+          </button>
+        </div>
+        <div class="nav_item" id="nav-account"><img class="nav_icon" id="nav-icon_account"
+            src="static/images/pfp_preview_placeholder.png"><a class="nav-link" href="account.html">
+            <h2 id="nav-account_text">Account</h2>
+          </a></div>
+      </div>
+    </div>
+    <div class="nav-item_border">
+      <div class="nav_item">
+        <div class="nav_icon" id="nav-icon_home"></div><a class="nav-link" href="index.html#search_grid">
+
+          <h2>Home</h2>
+        </a>
+      </div>
+    </div>
+    <div class="nav-item_border">
+      <div class="nav_item">
+        <div class="nav_icon" id="nav-icon_messages"></div><a class="nav-link" href="messaging.html">
+
+          <h2>Messages</h2>
+        </a>
+      </div>
+    </div>
+    <div class="nav-item_border">
+      <div class="nav_item">
+        <div class="nav_icon" id="nav-icon_create_post"></div><a class="nav-link" href="postmake2.html">
+
+          <h2>Create post</h2>
+        </a>
+      </div>
+    </div>
+    <div class="nav-item_border">
+      <div class="nav_item" id="nav-logout"><button type="button" class="nav-link" id="nav-logout_link">
+          Log out
+        </button>
+      </div>
+    </div>
+    <div class="nav-item_border">
+      <div class="nav_item"><br><br><br></div>
+    </div>
+  </div>
+
+  <div id="generic-popup_wrapper" class="invisible">
+    <h3 id="generic-popup-title_text">placeholder</h3>
+    <p id="generic-popup-content_text" class="inactive">placholder</p>
+    <div id="generic-popup-action_wrapper">
+      <!-- revealed by js as needed -->
+
+    </div>
+    <div id="generic-popup-options_wrapper" class="generic-popup_item">
+      <div id="generic-popup-options-ok_wrapper"><button type="button" id="generic-popup-options-ok_button"
+          class="button--medium">Ok</button></div>
+      <div id="generic-popup-options-placeholder_wrapper"><button type="button"
+          id="generic-popup-options-placeholder_button" class="button--medium inactive">???</button></div>
     </div>
   </div>
 
@@ -249,12 +281,12 @@
         </div>
         <div id="login-popup-username_wrapper" class="login-popup_item wireframe-element">
           <h3>Username:</h3>
-          <input maxlength="32"  maxlength="0" id="login-popup-username_input" class="login-popup_input">
+          <input maxlength="32" maxlength="0" id="login-popup-username_input" class="login-popup_input">
 
         </div>
         <div id="login-popup-password_wrapper" class="login-popup_item wireframe-element">
           <h3>Password:</h3>
-          <input type="password" maxlength="32"  maxlength="0" id="login-popup-password_input" class="login-popup_input">
+          <input type="password" maxlength="32" maxlength="0" id="login-popup-password_input" class="login-popup_input">
 
         </div>
         <div id="login-popup-options_wrapper" class="login-popup_item wireframe-element">
@@ -278,12 +310,12 @@
         </div>
         <div id="signup-popup-username_wrapper" class="signup-popup_item wireframe-element">
           <h3>Username:</h3>
-          <input maxlength="32"  maxlength="0" id="signup-popup-username_input" class="signup-popup_input">
+          <input maxlength="32" maxlength="0" id="signup-popup-username_input" class="signup-popup_input">
 
         </div>
         <div id="signup-popup-displayname_wrapper" class="signup-popup_item wireframe-element">
           <h3>Display name:</h3>
-          <input maxlength="32"  maxlength="0" id="signup-popup-displayname_input" class="signup-popup_input">
+          <input maxlength="32" maxlength="0" id="signup-popup-displayname_input" class="signup-popup_input">
 
         </div>
         <div id="signup-popup-email_wrapper" class="signup-popup_item wireframe-element">
@@ -302,12 +334,12 @@
         </div>
         <div id="signup-popup-password_wrapper" class="signup-popup_item wireframe-element">
           <h3>Password:</h3>
-          <input maxlength="32"  maxlength="0" id="signup-popup-password_input" class="signup-popup_input">
+          <input maxlength="32" maxlength="0" id="signup-popup-password_input" class="signup-popup_input">
 
         </div>
         <div id="signup-popup-passwordconfirm_wrapper" class="signup-popup_item wireframe-element">
           <h3>Confirm password:</h3>
-          <input maxlength="32"  maxlength="0" id="signup-popup-passwordconfirm_input" class="signup-popup_input">
+          <input maxlength="32" maxlength="0" id="signup-popup-passwordconfirm_input" class="signup-popup_input">
 
         </div>
         <div id="signup-popup-options_wrapper" class="signup-popup_item wireframe-element">
@@ -319,13 +351,13 @@
       </div>
     </div>
   </div>
-   <section id="footer_section">
+  <section id="footer_section">
     <div id="footer_wrapper" class="render render--box">
       <p>&copy;2026 Nicholas Lawson. All rights reserved.</p>
     </div>
   </section>
   <!-- javascript stuff leave at bottom -->
-   
+
   <script type="module" src="js/scripts.js"></script>
   <script type="module" src="js/scripts_account.js"></script>
 </body>
