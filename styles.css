@@ -939,7 +939,7 @@ button h2 {
     width: 15vw;
     height: fit-content;
     left: 0;
-    top: 250px;
+    bottom: 50px;
     z-index: 1;
 }
 
@@ -949,6 +949,7 @@ button h2 {
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-columns: var(--profile-header-picture--size) 1fr;
     column-gap: var(--modgrid-padding);
+    min-height: fit-content;
 }
 
 #profile-header-picture_wrapper {
@@ -1016,7 +1017,10 @@ li.profile-header-info_list-item {
 #profile-myposts_box {
     overflow: scroll;
 }
-
+#profile-myposts_wrapper {
+    overflow: scroll;
+    overscroll-behavior-y: auto;
+}
 
 .profile-myposts_item-preview {
     max-width: 100%;
@@ -1506,6 +1510,8 @@ li.profile-header-info_list-item {
 
     .margin-left {
         grid-column: 1/2;
+        position: relative;
+        z-index: 2;
     }
 
     .margin-left_content {
