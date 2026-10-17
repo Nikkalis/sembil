@@ -19,12 +19,15 @@ Background-image rules wont cut it for user submitted images, need to use html  
 
 * {
     box-sizing: border-box;
+    overflow-x: clip;
+    scrollbar-width: none;
 }
 
 html,
 body {
     min-height: 100% !important;
     margin: 0px;
+    scrollbar-width: auto;
 }
 
 textarea {
