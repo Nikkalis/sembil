@@ -857,6 +857,7 @@ button h2 {
     margin-top: var(--modgrid-padding);
     /* max-height: 10em; */
     overflow: scroll;
+    scrollbar-width: none;
     /* flex: 0 1; */
     /* min-height: 6em; */
     align-content:baseline;
