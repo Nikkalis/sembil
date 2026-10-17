@@ -195,6 +195,7 @@ input, textarea {
     min-width: 0;
     overflow: clip;
     z-index: 1;
+    overscroll-behavior: none;
 }
 
 .modgrid_item > div {
