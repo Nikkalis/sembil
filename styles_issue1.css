@@ -2,11 +2,14 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&family=Syne+Mono&display=swap');
 @import url("https://use.typekit.net/yas2avz.css");
-
+/* @import url('https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap'); */
 /* VARIABLES */
 :root {
     --mainColour: #1672ea;
     --bgColour: #0e1114;
+    /* --mainColour: rgb(255, 142, 67);
+    --bgColour: rgb(0, 23, 29); */
     --isDark: dark;
     --iconSet: default;
 }
@@ -14,7 +17,8 @@
 /* FONT SETTINGS */
 
 * {
-    color: white;
+    /* color: rgb(255, 142, 67); */
+    color: rgb(255, 255, 255);
 }
 
 body, input, textarea, select, option {
@@ -28,6 +32,7 @@ h2,
 h3, 
 #post-title_textinput {
     font-family: "Syne Mono", monospace;
+    /* font-family: "VT323", system-ui; */
     font-weight: 400;
     font-style: normal;
 }
@@ -41,12 +46,14 @@ h3,
 .tagadder-tags_item * {
     color: black;
     font-family: "Syne Mono", monospace;
+    /* font-family: "VT323", system-ui; */
     font-weight: 400;
     font-style: normal;
 }
 
 button, #signup-popup-options-cancel_wrapper, #signup-popup-options-submit_wrapper, #login-popup-options-cancel_wrapper, #login-popup-options-submit_wrapper {
     font-family: "Syne Mono", monospace;
+    /* font-family: "VT323", system-ui; */
     font-weight: 400;
     font-style: normal;
 }

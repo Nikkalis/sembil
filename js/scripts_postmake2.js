@@ -5,8 +5,11 @@ import { nanoid } from 'nanoid';
 import { error } from "three";
 import customPopup from "./scripts.js";
 import { gsap } from "gsap";
+import * as fs from 'node:fs/promises';
+
 
 import { Draggable } from "gsap/Draggable";
+
 
 
 gsap.registerPlugin(Draggable);
@@ -152,6 +155,15 @@ async function submitPost() {
     let imgcount = 0;
     let textcount = 0;
     let block_num = 0;
+    const stickers = [];
+    const sticker_elements = document.querySelectorAll('.cm-sticker_wrapper');
+    
+    for (let element of sticker_elements) {
+        stickers.push({
+        src: element.querySelector('.sticker_img').getAttribute('src'),
+        style: element.getAttribute('style')
+    });
+    }
     for (const block of post_boxesArray) {
         const block_type = block.dataset.boxtype;
         console.log("BLOCKTYPE");
@@ -215,6 +227,7 @@ async function submitPost() {
         const CM_elements = block.querySelectorAll('.cm-item_wrapper');
         const CM_map = {};
         for (let element of CM_elements) {
+            if (element.classList.contains('cm-sticker_wrapper')) { continue; }
             const element_style = element.getAttribute('style');
             const element_id = element.getAttribute('id');
             CM_map[element_id] = element_style;
@@ -269,7 +282,8 @@ async function submitPost() {
             post_boxes: post_boxes,
             post_tags: post_tags,
             post_desc: post_desc,
-            post_details: post_details
+            post_details: post_details,
+            stickers: stickers
         })
     });
     const submit_result_json = await submit_result.json();
@@ -396,7 +410,7 @@ function popupSettings() {
     customPopup(null, null, "Save", null, true, null);
     const popup = document.getElementById('generic-popup_wrapper');
     popup.classList.add('popup_xlarge');
-    
+
     settingsWrapper.classList.remove('inactive');
 }
 
@@ -438,10 +452,13 @@ function selectElementCM(e) {
 }
 
 CMbutton_toggleMode.addEventListener('click', activateCM);
+const CMdraggables = [];
 function activateCM() {
     document.addEventListener('click', selectElementCM);
+    document.getElementById('stickers_wrapper').classList.remove('inactive');
+    document.getElementById('stickers_disableMessage').classList.add('inactive');
 
-    const CMdraggables = [];
+
     const CMelements = document.querySelectorAll('.cm-item_wrapper');
     for (const element of CMelements) {
         let rotateStart = { dist: 1, scale: 1 };
@@ -470,18 +487,18 @@ function activateCM() {
             activeCursor: 'grabbing',
             type: 'rotation',
             onPress: function (e) {
-                
-                const pointerCoords = {x: this.pointerX, y: this.pointerY };
+
+                const pointerCoords = { x: this.pointerX, y: this.pointerY };
                 setDraggable.call(this, e);
                 rotateStart.dist = Math.max(getDistToCenter.call(element, pointerCoords), 1); // avoid divide by 0
                 console.log("stuff starting noew..");
-                
+
                 rotateStart.scale = gsap.getProperty(element, 'scale');
             },
 
             onDrag: function () {
-                
-                const pointerCoords = {x: this.pointerX, y: this.pointerY };
+
+                const pointerCoords = { x: this.pointerX, y: this.pointerY };
                 const dist = getDistToCenter.call(element, pointerCoords);
                 const newScale = rotateStart.scale * (dist / rotateStart.dist);
                 console.log('THE NEW SCALE IS.....');
@@ -540,10 +557,10 @@ function activateCM() {
             const parent = element.parentElement;
             const parentRect = parent.getBoundingClientRect();
             const rect = element.getBoundingClientRect();
-            console.log('box rect isssss'); 
+            console.log('box rect isssss');
             const elementX = rect.x - parentRect.left;
             const elementY = rect.y - parentRect.top;
-            
+
             console.log({ x: elementX + (rect.width / 2), y: elementY + (rect.height / 2) });
             return { x: elementX + window.scrollX + (rect.width / 2), y: elementY + window.scrollY + (rect.height / 2) }
         }
@@ -558,7 +575,7 @@ function activateCM() {
             console.log(`WOWWWWW HYPOTENUSE ${Math.hypot(center.x - posX, center.y - posY)}`)
             console.log(center.x);
             console.log(center.y);
-            
+
             return Math.hypot(center.x - posX, center.y - posY);
         }
 
@@ -569,11 +586,19 @@ function activateCM() {
     CMbutton_toggleMode.textContent = "Save";
     CMbutton_reset.classList.remove('inactive');
     CMbutton_toggleMode.removeEventListener('click', activateCM);
-    CMbutton_toggleMode.addEventListener('click', () => deactivateCM(CMdraggables));
-    CMbutton_reset.addEventListener('click', () => resetCM(CMdraggables));
+    CMbutton_toggleMode.addEventListener('click', deactivateCM_wrapper);
+    CMbutton_reset.addEventListener('click', resetCM_wrapper);
 
 }
+function deactivateCM_wrapper() {
+    deactivateCM(CMdraggables);
+}
+function resetCM_wrapper() {
+    resetCM(CMdraggables);
+}
 function deactivateCM(CMdraggables) {
+    document.getElementById('stickers_wrapper').classList.add('inactive');
+    document.getElementById('stickers_disableMessage').classList.remove('inactive');
     document.removeEventListener('click', selectElementCM);
     const CMelements = document.querySelectorAll('.cm-item_wrapper');
     for (const element of CMelements) {
@@ -603,10 +628,14 @@ function deactivateCM(CMdraggables) {
     CMbutton_toggleMode.textContent = "Custom Mode";
     CMbutton_reset.classList.add('inactive');
     CMbutton_toggleMode.addEventListener('click', activateCM);
-    CMbutton_toggleMode.removeEventListener('click', deactivateCM);
+    CMbutton_toggleMode.removeEventListener('click', deactivateCM_wrapper);
 }
 function resetCM(CMdraggables) {
     document.removeEventListener('click', selectElementCM);
+    document.getElementById('stickers_wrapper').classList.add('inactive');
+    document.getElementById('stickers_disableMessage').classList.remove('inactive');
+    const CMstickers = document.querySelectorAll('.cm-sticker_wrapper');
+    const CMstickers_array = Array.from(CMstickers);
     const CMelements = document.querySelectorAll('.cm-item_wrapper');
     for (const element of CMelements) {
         const cm_contents = Array.from(element.children);
@@ -616,6 +645,9 @@ function resetCM(CMdraggables) {
         element.classList.remove('cm--active');
         element.classList.remove('cm--editable');
         element.removeAttribute('disabled');
+        if (CMstickers_array.includes(element)) {
+            element.remove();
+        }
 
         gsap.set(element, { clearProps: "all" });
     }
@@ -637,7 +669,179 @@ function resetCM(CMdraggables) {
     CMbutton_toggleMode.textContent = "Custom Mode";
     CMbutton_reset.classList.add('inactive');
     CMbutton_toggleMode.addEventListener('click', activateCM);
-    CMbutton_toggleMode.removeEventListener('click', deactivateCM);
+    CMbutton_toggleMode.removeEventListener('click', deactivateCM_wrapper);
+}
+
+// ----------------------------------------Stickers mode
+window.addEventListener('load', loadStickerOptions);
+
+const stickers_wrapper = document.getElementById('stickers_wrapper');
+async function loadStickerOptions() {
+    const stickers = await fetch('/api/accounts/stickers');
+    const stickers_json = await stickers.json();
+    const stickers_dest = document.getElementById('stickers_overlay');
+    const stickerDraggables = [];
+    for (const sticker of stickers_json) {
+        console.log('hey guys sticker--------------------------');
+        console.log(sticker);
+        const sticker_div = document.createElement('div');
+        sticker_div.classList.add('sticker_wrapper');
+        const sticker_img = document.createElement('img');
+        sticker_img.classList.add('sticker_img');
+        const sticker_caption = document.createElement('p');
+        sticker_caption.classList.add('sticker_caption');
+
+        sticker_img.setAttribute('src', sticker.href);
+        sticker_caption.innerText = sticker.caption;
+        console.log(sticker_caption.textContent);
+
+        sticker_div.appendChild(sticker_img);
+        sticker_div.appendChild(sticker_caption);
+
+        stickers_wrapper.appendChild(sticker_div);
+
+        // gsap stuff
+        sticker_img.addEventListener('mousedown', () => stickerDraggable(sticker_img, stickers_dest));
+    }
+}
+
+function stickerDraggable(og_sticker_img, stickers_dest) {
+
+    console.log('creating draggable');
+    let rotateStart = { dist: 1, scale: 1 };
+    const container_height = stickers_dest.getBoundingClientRect().height;
+    const container_width = stickers_dest.getBoundingClientRect().width;
+    const sticker_img = og_sticker_img.cloneNode();
+    const newSticker_wrapper = document.createElement('div');
+    const sticker_cmgui = document.createElement('div');
+    sticker_cmgui.classList.add('cm_gui', 'cm--editable_gui_rotate');
+    newSticker_wrapper.classList.add('cm-item_wrapper');
+    newSticker_wrapper.classList.add('cm-sticker_wrapper');
+    for (const child of newSticker_wrapper.children) {
+        if (child.classList.contains('cm_gui')) { continue; }
+        child.classList.add('cm--disabled');
+    }
+    const cm_gui_rotator = sticker_img.querySelector('.cm--editable_gui_rotate');
+    sticker_img.classList.add('sticker_clone');
+    // const cm_contents = Array.from(sticker_img.children);
+    //     for (const child of cm_contents) {
+    //         if (child.classList.contains('cm_gui')) { continue; }
+    //         child.classList.add('cm--disabled');
+    //     }
+    newSticker_wrapper.appendChild(sticker_cmgui);
+    newSticker_wrapper.appendChild(sticker_img);
+    stickers_dest.appendChild(newSticker_wrapper);
+
+    console.log(stickers_dest.getBoundingClientRect());
+    console.log(stickers_dest);
+    console.log(container_height);
+    console.log(container_width);
+    newSticker_wrapper.classList.add('cm--active');
+    newSticker_wrapper.classList.add('cm--editable');
+    newSticker_wrapper.setAttribute('disabled', 'disabled');
+
+    let elementRotate = new Draggable(newSticker_wrapper, {
+        cursor: 'grab',
+        activeCursor: 'grabbing',
+        type: 'rotation',
+        onPress: function (e) {
+
+            const pointerCoords = { x: this.pointerX, y: this.pointerY };
+            setDraggable.call(this, e);
+            rotateStart.dist = Math.max(getDistToCenter.call(newSticker_wrapper, pointerCoords), 1); // avoid divide by 0
+            console.log("stuff starting noew..");
+
+            rotateStart.scale = gsap.getProperty(newSticker_wrapper, 'scale');
+        },
+
+        onDrag: function () {
+
+            const pointerCoords = { x: this.pointerX, y: this.pointerY };
+            const dist = getDistToCenter.call(newSticker_wrapper, pointerCoords);
+            const newScale = rotateStart.scale * (dist / rotateStart.dist);
+            console.log('THE NEW SCALE IS.....');
+            console.log(`${rotateStart.scale} * (${dist} / ${rotateStart.dist} = ${dist / rotateStart.dist}) = ${newScale}`);
+            gsap.set(newSticker_wrapper, { scale: newScale });
+        }
+
+    }).disable();
+
+    let elementDrag = new Draggable(newSticker_wrapper, {
+        onPress: function (e) {
+            setDraggable.call(this, e);
+
+            const container = stickers_dest.getBoundingClientRect();
+            const item = newSticker_wrapper.getBoundingClientRect();
+            this.applyBounds({ top: -(item.height / 2), left: -(item.width / 2), width: container.width + (item.width), height: container.height + (item.height) });
+
+        },
+        dragClickables: false,
+        type: 'x,y',
+        edgeResistance: 0.9,
+        cursor: 'move',
+        clickableTest: () => {
+            if (newSticker_wrapper.classList.contains('cm--editable')) {
+                console.log('no clicking right now');
+                return false;
+            }
+            else {
+                console.log('clicking enabled hoe');
+                return true;
+            }
+        }
+    });
+
+
+    function setDraggable(event) {
+        let isRotation = this.vars.type === "rotation";
+        let isGuiR = event.target.classList.contains('cm--editable_gui_rotate');
+
+        if (isGuiR) {
+
+            if (!isRotation) {
+                elementDrag.disable();
+                elementRotate.enable().startDrag(event);
+            }
+        } else if (isRotation) {
+
+            elementRotate.disable();
+            elementDrag.enable().startDrag(event);
+        }
+    }
+
+    // scaling stufff
+
+    function getCenter(element) {
+        const parent = element.parentElement;
+        const parentRect = parent.getBoundingClientRect();
+        const rect = element.getBoundingClientRect();
+        console.log('box rect isssss');
+        const elementX = rect.x - parentRect.left;
+        const elementY = rect.y - parentRect.top;
+
+        console.log({ x: elementX + (rect.width / 2), y: elementY + (rect.height / 2) });
+        return { x: elementX + window.scrollX + (rect.width / 2), y: elementY + window.scrollY + (rect.height / 2) }
+    }
+
+    function getDistToCenter(e) {
+        const parent = this.parentElement;
+        const parentRect = parent.getBoundingClientRect();
+        console.log(parent);
+        const posX = e.x - parentRect.left;
+        const posY = e.y - parentRect.top;
+        const center = getCenter(this);
+        console.log(`WOWWWWW HYPOTENUSE ${Math.hypot(center.x - posX, center.y - posY)}`)
+        console.log(center.x);
+        console.log(center.y);
+
+        return Math.hypot(center.x - posX, center.y - posY);
+    }
+
+
+
+    CMdraggables.push(elementDrag, elementRotate);
+
+
 }
 
 // ----------------------------------------Custom blocks, no limit

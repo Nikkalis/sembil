@@ -11,7 +11,7 @@ router.post('/loadpost', async (req, res) => {
 
         const searchedPosts = req.body.postids;
         console.log(`getting posts, amount: ${searchedPosts.length}`);
-        const text = 'SELECT uid, post_type, postnum, postid, author_username, post_date::text, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, postnum, post_details, author_display_name FROM posts WHERE postid = $1';
+        const text = 'SELECT uid, post_type, postnum, postid, author_username, post_date::text, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, postnum, post_details, author_display_name, stickers FROM posts WHERE postid = $1';
         const results = [];
         for (let post of searchedPosts) {
             const values = [post.postid];
@@ -32,7 +32,7 @@ router.post('/loadpost', async (req, res) => {
     else if (req.query.postid) {
         const postid = req.query.postid;
         console.log(`getting post id: ${postid}`);
-        const text = 'SELECT uid, post_type, postnum, postid, author_username, post_date::text, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, postnum, post_details, author_display_name FROM posts WHERE postid = $1';
+        const text = 'SELECT uid, post_type, postnum, postid, author_username, post_date::text, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, postnum, post_details, author_display_name, stickers FROM posts WHERE postid = $1';
         const values = [postid];
         let result = null;
         try {
@@ -50,7 +50,7 @@ router.post('/loadpost', async (req, res) => {
         const before = req.query.before ? parseInt(req.query.before) : null;
         const postnum = req.query.postnum;
         console.log(`getting post number: ${postnum}`);
-        const text = 'SELECT uid, post_type, postnum, postid, author_username, post_date::text, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, post_details, author_display_name FROM posts WHERE $1::int IS NULL OR postnum < $1 ORDER BY postnum DESC LIMIT 10';
+        const text = 'SELECT uid, post_type, postnum, postid, author_username, post_date::text, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, post_details, author_display_name, stickers FROM posts WHERE $1::int IS NULL OR postnum < $1 ORDER BY postnum DESC LIMIT 10';
         const values = [postnum];
         let result = null;
         try {
@@ -108,9 +108,10 @@ router.post('/createpost', isAuthenticated, async (req, res) => {
     const post_desc = req.body.post_desc;
     const post_details = req.body.post_details;
     const author_display_name = req.body.author_display_name;
+    const stickers = req.body.stickers;
 
-    const text = 'INSERT INTO posts (postid, uid, author_username, post_date, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, post_type, post_details, author_display_name) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *';
-    let values = [postId, UID, author_username, post_date, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, post_type, post_details, author_display_name];
+    const text = 'INSERT INTO posts (postid, uid, author_username, post_date, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, post_type, post_details, author_display_name, stickers) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING *';
+    let values = [postId, UID, author_username, post_date, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, post_type, post_details, author_display_name, stickers];
     console.log("backend:");
     console.log(post_type);
     let result = null;
@@ -125,7 +126,7 @@ router.post('/createpost', isAuthenticated, async (req, res) => {
             if (err.code === '23505') {
                 console.log("checkpoint2");
                 postId = nanoid(8);
-                values = [postId, UID, author_username, post_date, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, post_type, post_details, author_display_name];
+                values = [postId, UID, author_username, post_date, post_title, post_content, post_main_image, preview_size, post_boxes, post_tags, post_desc, post_type, post_details, author_display_name, stickers];
             }
             else {
                 console.log("checkpoint3");

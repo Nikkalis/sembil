@@ -313,6 +313,7 @@ async function populatePost() {
     const post_tags = postAttr_json.post_tags;
     const post_boxesArray = postAttr_json.post_boxes;
     const post_details = postAttr_json.post_details;
+    const stickers = postAttr_json.stickers;
 
     modgrid = document.getElementById('modgrid_wrapper');
 
@@ -336,8 +337,20 @@ async function populatePost() {
             }
             blockbuilder(blockInfo_json, postAttr_json);
         }
+    }
+    const stickers_dest = document.getElementById('stickers_overlay');
+    for (const sticker of stickers){
+        console.log('sticker loading');
+        console.log(sticker);
+        const sticker_wrapper = document.createElement('div');
+        sticker_wrapper.classList.add('sticker_wrapper');
+        const sticker_img = document.createElement('img')
+        sticker_img.classList.add('sticker_img');
 
+        sticker_img.setAttribute('src', sticker.src);
+        sticker_wrapper.setAttribute('style', sticker.style);
 
-
+        sticker_wrapper.appendChild(sticker_img);
+        stickers_dest.appendChild(sticker_wrapper);
     }
 }

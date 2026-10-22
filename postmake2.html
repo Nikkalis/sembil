@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sembil</title>
-<link rel="icon" href="/logos/sembilIcon_dark2.png">
+  <link rel="icon" href="/logos/sembilIcon_dark2.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="styles_issue1.css">
 </head>
@@ -27,33 +27,17 @@
   <div id="nav-topbar_spacer"></div>
   <div class="layout_grid">
     <div class="margin-left">
-      <!-- <div id="postmake-settings_wrapper" class="settings_wrapper margin-left_content wireframe-element">
-        <h2>Settings:</h2>
-        <div id="postmake-settings-items_wrapper">
-          <div id="postmake-settings-posttype_wrapper">
-            <h3>Post type:</h3>
-            <label for="post_type"></label>
-            <select name="post_type" id="postmake-settings-posttype_dropdown">
-              <option value="">Select post type</option>
-              <option value="text">Text</option>
-              <option value="image">Image</option>
-              <option value="event">Event</option>
-            </select>
-          </div>
-          <div id="postmake-settings-previewsize_wrapper">
-            <h3>Preview size:</h3>
-            <button type="button" id="postmake-settings-previewsize_button">Select size</button>
-          </div>
-        </div>
-        <div id="postmake-settings-description_wrapper">
-          <h3>Description:</h3>
-          <textarea id="postmake-settings-description_input"
-            placeholder="Write a description that will show up on your post's search results"></textarea>
-        </div>
-      </div> -->
+      <div id="stickers_content" class="margin-left_content">
+        <h3>Stickers</h3>
+        <p id="stickers_disableMessage" class="sticker_caption">Enable Custom Mode to use stickers!</p>
+        <br>
+        <div id="stickers_wrapper" class="inactive">
 
+        </div>
+      </div>
     </div>
     <div class="content">
+      <div id="stickers_overlay"></div>
       <div id="postmake_title" class="page_title">
         <h1>Create a post!</h1>
       </div>
@@ -393,12 +377,14 @@
         </div>
         <div id="signup-popup-password_wrapper" class="signup-popup_item wireframe-element">
           <h3>Password:</h3>
-          <input type="password" maxlength="32" maxlength="0" id="signup-popup-password_input" class="signup-popup_input">
+          <input type="password" maxlength="32" maxlength="0" id="signup-popup-password_input"
+            class="signup-popup_input">
 
         </div>
         <div id="signup-popup-passwordconfirm_wrapper" class="signup-popup_item wireframe-element">
           <h3>Confirm password:</h3>
-          <input type="password" maxlength="32" maxlength="0" id="signup-popup-passwordconfirm_input" class="signup-popup_input">
+          <input type="password" maxlength="32" maxlength="0" id="signup-popup-passwordconfirm_input"
+            class="signup-popup_input">
 
         </div>
         <div id="signup-popup-options_wrapper" class="signup-popup_item wireframe-element">

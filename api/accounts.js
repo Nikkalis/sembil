@@ -50,7 +50,7 @@ router.get('/logout', isAuthenticated, async (req, res) => {
             return res.status(500).json({ message: "Failed to log out. Maybe close this and try again?" });
         }
         res.clearCookie('connect.sid');
-        res.status(200).json({message: "You have successfully logged out!"});
+        res.status(200).json({ message: "You have successfully logged out!" });
     });
 });
 
@@ -168,7 +168,7 @@ router.post('/editprofile', isAuthenticated, async (req, res) => {
     if (result3.rows[0]) {
         const valuesC = [bio, status, uid];
         const text4 = 'UPDATE profiles SET bio = $1, status = $2 WHERE uid = $3 RETURNING *';
-        
+
         try {
             result = await pool.query(text4, valuesC);
         } catch (error) {
@@ -178,7 +178,7 @@ router.post('/editprofile', isAuthenticated, async (req, res) => {
     } else {
         const valuesD = [uid, bio, status];
         const text5 = 'INSERT INTO profiles (uid, bio, status) VALUES ($1, $2, $3) RETURNING *';
-        
+
         try {
             result = await pool.query(text5, valuesD);
         } catch (error) {
@@ -186,7 +186,7 @@ router.post('/editprofile', isAuthenticated, async (req, res) => {
             return;
         }
     }
-    res.json({...result.rows[0], display_name: display_name});
+    res.json({ ...result.rows[0], display_name: display_name });
 });
 
 
@@ -197,6 +197,21 @@ router.get('/checkauth', attachAuthStatus, async (req, res) => {
         res.status(500).json({ message: error.message });
         return;
     }
+});
+
+router.get('/stickers', async (req, res) => {
+    const text = 'SELECT href, caption FROM stickers';
+    
+
+    try {
+        const result = await pool.query(text);
+        res.status(200).json(result.rows);
+        return;
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+        return;
+    }
+
 });
 
 
