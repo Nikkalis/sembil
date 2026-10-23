@@ -79,7 +79,10 @@ async function populateFeed(isStale, isFailedSearch) {
         console.log(postAttr_json)
         if (isStale()) return;
 
-        current_post = postAttr_json.postnum;
+        current_post = postAttr_json?.postnum;
+        if(!current_post) {
+            break;
+        }
 
         if (isStale()) return;
         console.log(`found postid: ${postAttr_json.postid}`);

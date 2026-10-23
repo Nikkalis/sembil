@@ -71,6 +71,10 @@ textarea {
     font-size: 1em;
 }
 
+.text--red {
+    color: rgb(255, 51, 0) !important;
+}
+
 
 /* --------------------------------Three.js stuff */
 #hero_canvas {
