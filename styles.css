@@ -8,7 +8,7 @@ Background-image rules wont cut it for user submitted images, need to use html  
     --minimum-top-padding: 150px;
     --modgrid-padding: 1em;
 
-    --profile-header-picture--size: calc(20vw - var(--modgrid-padding)*2);
+    --profile-header-picture--size: calc(17vw - var(--modgrid-padding)*2);
 
     --isDark: light;
     --iconSet: default;
@@ -1013,7 +1013,11 @@ button h2 {
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-columns: var(--profile-header-picture--size) 1fr;
     column-gap: var(--modgrid-padding);
-    min-height: fit-content;
+    height: fit-content;
+    max-height: 100%;
+}
+#profile-header_box > *{
+    min-height: 0;
 }
 
 #profile-header-picture_wrapper {
@@ -1021,6 +1025,8 @@ button h2 {
     background-color: aqua;
     height: var(--profile-header-picture--size);
     width: var(--profile-header-picture--size);
+    max-width: 100%;
+    max-height: 100%;
     grid-area: span 4/span 1;
     align-self: center;
 }
@@ -1132,7 +1138,7 @@ li.profile-header-info_list-item {
 
 #messaging_wrapper {
     padding: var(--modgrid-padding);
-    height: 80vh;
+    height: 60vh;
     display: flex;
     flex-direction: column-reverse;
 }
@@ -1149,7 +1155,7 @@ li.profile-header-info_list-item {
 }
 
 #messaging-input-send_button {
-    padding: 10px calc(var(--modgrid-padding)*3);
+    padding: 5px calc(var(--modgrid-padding));
     align-self: end;
     margin-left: var(--modgrid-padding);
 }

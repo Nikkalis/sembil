@@ -186,6 +186,58 @@ button {
     background-color: var(--mainColour);
 }
 
+.post-preview_item {
+    width: 12vw;
+    height: 16vw;
+    max-width: 210px;
+    max-height: 280px;
+    min-width: 150px;
+    min-height: 200px;
+    background-color: var(--bgColour);
+}
+
+.incoming-message div {
+    background-color: rgb(74, 74, 74);
+}
+
+.outgoing-message div {
+    background-color: var(--mainColour);
+}
+
+.messaging-chatview-message_wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: var(--modgrid-padding);
+}
+
+#anchor {
+    opacity: 0%;
+}
+
+.messaging-chatview-picture_wrapper {
+    clip-path: circle(50%);
+    background-color: unset;
+    height: 38px;
+    width: 38px;
+    grid-area: span 4/span 1;
+    overflow: hidden;
+}
+
+.messaging-chatview-message_box {
+    width: fit-content;
+    max-width: 60vw;
+    padding: 10px 15px;
+    clip-path: inset(0% round 15px);
+    word-break: break-all;
+
+}
+#messaging-input-send_button {
+    margin-bottom: 0;
+}
+#messaging_section {
+    padding:50px 0;
+}
+
 /* POSTMAKE */
 
 .modgrid_EX {
