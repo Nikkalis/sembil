@@ -1848,6 +1848,13 @@ li.profile-header-info_list-item {
 
     }
 
+    #signup-popup-title_wrapper, #login-popup-title_wrapper {
+        padding-top: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
     #generic-popup_wrapper.popup_medium {
         width: 100vw;
     }
