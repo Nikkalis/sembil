@@ -1321,6 +1321,7 @@ li.profile-header-info_list-item {
     overflow: scroll;
     position: fixed;
     height: calc(100vh - 100px);
+    overflow: scroll;
     z-index: 2;
     max-width: 15vw;
 }
@@ -1329,7 +1330,7 @@ li.profile-header-info_list-item {
     display: flex;
     flex: auto;
     flex-direction: column;
-
+    flex-wrap: wrap;
 }
 
 .sticker_wrapper {
@@ -1337,6 +1338,7 @@ li.profile-header-info_list-item {
     flex-direction: column;
     /* height: fit-content; */
     width: fit-content;
+    min-width: fit-content;
     gap: 10px;
     flex: auto;
 }
@@ -1693,7 +1695,7 @@ li.profile-header-info_list-item {
         /* flex-direction: column; */
         flex-wrap: wrap;
         max-width: unset;
-        height: fit-content;
+        height: 300px;
     }
 
     #stickers_wrapper {
