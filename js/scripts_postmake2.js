@@ -844,6 +844,14 @@ function stickerDraggable(og_sticker_img, stickers_dest) {
 
 }
 
+document.addEventListener('keydown', function (e) {
+    console.log(`pressed a key ${e.key}`);
+    if (e.key === "Backspace") {
+        if(document.querySelector('.cm--selected') && document.querySelector('.cm--selected').classList.contains('cm-sticker_wrapper'))
+        {document.querySelector('.cm--selected').remove();}
+    }
+});
+
 // ----------------------------------------Custom blocks, no limit
 
 function createBlock_post_text(blockattrs) {

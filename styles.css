@@ -211,7 +211,7 @@ textarea {
 .modgrid_item>div {
     min-width: 0;
     min-height: 0;
-    overscroll-behavior: none;
+    /* overscroll-behavior: none; */
     flex: auto;
 }
 
@@ -1306,6 +1306,11 @@ li.profile-header-info_list-item {
     height: 100%;
     z-index: 3;
     pointer-events: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+#stickers_overlay > * {
+    position: absolute;
 }
 
 #stickers_content {
@@ -1358,6 +1363,9 @@ li.profile-header-info_list-item {
 .cm-sticker_wrapper {
     width: fit-content;
     height: fit-content;
+    
+}
+.cm-sticker_wrapper.cm--editable {
     pointer-events: auto;
 }
 
