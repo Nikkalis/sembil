@@ -1939,6 +1939,14 @@ li.profile-header-info_list-item {
         padding-right: 0;
     }
 
+    #search_grid > .margin-left {
+        display: none;
+    }
+    #search_content {
+        position: relative;
+        top: 50px;
+    }
+
     #search_grid.position--sticky {
 
         position: relative;
