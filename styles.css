@@ -120,6 +120,40 @@ textarea {
 
 /* --------------------------------div stuff */
 
+/* bill */
+
+.bill {
+    pointer-events: none;
+    width: 30em;
+    height: 30em;
+    position: absolute;
+}
+
+#bill-tutorial {
+    width: 16em;
+    height: 16em;
+    left: -8em;
+    bottom: -40px;
+}
+
+.bill-popup_topright {
+    right: calc(5vw - 20em);
+    top: 80px;
+    transform:
+        scale(-1, 1) rotate(10deg);
+}
+
+#bill_loading {
+    height: 200px;
+    width: 200px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999999;
+}
+
+/* -- */
 .layout_grid {
     display: grid;
     width: 100%;
@@ -292,7 +326,36 @@ textarea {
     background-image: url(public/icons/default--dark/heart-red.svg);
 }
 
+/* onboarding/tutorial */
+#bill-tutorial_popup {
+    width: 85vw;
+    height: fit-content;
+    background-color: white;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform:
+        translateX(-50%) translateY(-50%);
+    padding: var(--modgrid-padding);
+    z-index: 9999;
+    overflow: visible;
+}
+
+/* #tutorial_title {
+    padding-bottom: var(--modgrid-padding);
+} */
+#tutorial-options-ok_wrapper {
+    position: relative;
+    left: 4em;
+}
+
+.tutorial_text {
+    padding-top: 20px;
+}
+
 /* generic popup stuff - will be filled with content by js */
+
+
 
 #generic-popup_wrapper {
     width: 400px;
@@ -320,7 +383,8 @@ textarea {
     width: 80vw;
 }
 
-#generic-popup-options_wrapper {
+#generic-popup-options_wrapper,
+#tutorial-options-ok_wrapper {
     display: flex;
     gap: var(--modgrid-padding);
     padding-top: var(--modgrid-padding);
@@ -399,7 +463,8 @@ textarea {
 
     background-color: rgba(0, 0, 0, 40%);
     top: 0;
-    overflow: hidden;
+    overflow: scroll;
+    overscroll-behavior: contain;
 
     z-index: 7;
 }
@@ -410,8 +475,8 @@ textarea {
 
 }
 
-#signup-popup_grid,
-#login-popup_grid {
+#signup-popup_grid {
+    position: relative;
     display: grid;
     padding: 150px 5vw;
     gap: calc(var(--modgrid-padding)*2);
@@ -419,9 +484,30 @@ textarea {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(6, 1fr);
     width: 60vw;
-    overscroll-behavior: contain;
 
-    overflow: scroll;
+
+
+    overflow-x: visible;
+    height: 100%;
+
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+}
+
+#login-popup_grid {
+    position: relative;
+    display: grid;
+    padding: 150px 5vw;
+    gap: calc(var(--modgrid-padding)*2);
+    row-gap: var(--modgrid-padding);
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    width: 60vw;
+
+
+
+    overflow-x: visible;
     height: 100svh;
 
     margin-left: auto;
@@ -436,7 +522,9 @@ textarea {
 
 .signup-popup_input,
 .login-popup_input {
-    min-width: 240px;
+    min-width: 0px;
+    width: 100%;
+    max-width: 240px;
 
 }
 
@@ -1021,7 +1109,8 @@ button h2 {
     height: fit-content;
     max-height: 100%;
 }
-#profile-header_box > *{
+
+#profile-header_box>* {
     min-height: 0;
 }
 
@@ -1324,7 +1413,8 @@ li.profile-header-info_list-item {
     display: flex;
     flex-wrap: wrap;
 }
-#stickers_overlay > * {
+
+#stickers_overlay>* {
     position: absolute;
 }
 
@@ -1380,8 +1470,9 @@ li.profile-header-info_list-item {
 .cm-sticker_wrapper {
     width: fit-content;
     height: fit-content;
-    
+
 }
+
 .cm-sticker_wrapper.cm--editable {
     pointer-events: auto;
 }
@@ -1620,6 +1711,8 @@ li.profile-header-info_list-item {
 } */
 @media screen and (max-width: 1000px) {
 
+
+
     #signup-popup_grid,
     #login-popup_grid {
         display: flex;
@@ -1635,12 +1728,47 @@ li.profile-header-info_list-item {
         background-color: white;
     }
 
+    #bill-tutorial_popup {
+        transform: unset;
+        position: fixed;
+        left: 0;
+        top: 0;
+
+        padding: 150px 15vw calc(var(--modgrid-padding)*2);
+        border: unset !important;
+        width: 100vw;
+        height: 100svh;
+
+        overflow: scroll;
+        overscroll-behavior: contain;
+
+        margin-left: auto;
+        margin-right: auto;
+        background-color: white;
+        z-index: 7;
+
+    }
+
+    #bill-tutorial {
+        position: fixed;
+        bottom: 0;
+        left: -80px;
+
+    }
+
+
     #signup-popup-profilepicture-preview_wrapper {
         width: 200px;
     }
 
     .layout_grid {
         grid-template-columns: 1fr var(--content-width) 1fr;
+    }
+
+    .bill-popup_topright {
+        right: unset;
+        left: calc(15vw*3);
+
     }
 }
 
@@ -1861,7 +1989,8 @@ li.profile-header-info_list-item {
 
     }
 
-    #signup-popup-title_wrapper, #login-popup-title_wrapper {
+    #signup-popup-title_wrapper,
+    #login-popup-title_wrapper {
         padding-top: 50px;
         display: flex;
         flex-direction: column;
@@ -1885,6 +2014,28 @@ li.profile-header-info_list-item {
 @media screen and (max-width: 550px) {
     :root {
         --content-width: calc(100vw - (var(--modgrid-padding)*2));
+    }
+    button.nav-link {
+        margin-left: 15px;
+    } 
+
+    .bill-popup_topright {
+        right: calc(5vw - 10em);
+        top: 120px;
+        transform:
+            scale(-1, 1) rotate(10deg);
+            width: 20em;
+            height:20em;
+    }
+    #bill-tutorial_popup {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+    #tutorial-options-ok_wrapper{
+        left:6em;
+    }
+        #signup-popup_grid, #login-popup_grid {
+        padding: 100px 25px calc(var(--modgrid-padding) * 2);
     }
 
     #modgrid_wrapper {
@@ -1950,9 +2101,10 @@ li.profile-header-info_list-item {
         padding-right: 0;
     }
 
-    #search_grid > .margin-left {
+    #search_grid>.margin-left {
         display: none;
     }
+
     #search_content {
         position: relative;
         top: 50px;

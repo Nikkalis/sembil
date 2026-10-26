@@ -1,5 +1,6 @@
 // GENERIC POPUPS
 console.log('scripts.js loaded', import.meta.url);
+document.getElementById('bill-tutorial_popup')?.classList.add('inactive');
 
 let genericPopupTitle = document.getElementById('generic-popup-title_text');
 let genericPopupBody = document.getElementById('generic-popup-content_text');
@@ -14,6 +15,7 @@ let genericPopupSecondButton_wrapper = document.getElementById('generic-popup-op
 let genericPopupClosed = true;
 
 let genericPopup = document.getElementById('generic-popup_wrapper');
+const loadingBill = document.getElementById('bill_loading');
 
 const indexpage = window.location.pathname.endsWith('index.html');
 const messagingpage = window.location.pathname.endsWith('messaging.html');
@@ -42,7 +44,22 @@ let iconSet = window.getComputedStyle(document.body).getPropertyValue('--iconSet
 const activeRenderers = new Map();
 
 window.addEventListener('load', loadIcons);
-window.addEventListener('load', rendering);
+// window.addEventListener('load', rendering);
+rendering();
+window.addEventListener('load', onboarding);
+
+function onboarding() {
+  const isNewUser = localStorage.getItem('onboarded?');
+  if(isNewUser) {return;}
+  if(!document.getElementById('bill-tutorial_popup')) {return;}
+  const onboardingPopup = document.getElementById('bill-tutorial_popup');
+  onboardingPopup.classList.remove('inactive');
+  const onboardingButton = document.getElementById('tutorial-options-ok_button');
+  onboardingButton.addEventListener('click', function (e) {
+    onboardingPopup.classList.add('inactive');
+    localStorage.setItem('onboarded?', true);
+  });
+}
 
 async function loadIcons() {
   const directory = `icons/${iconSet}--${isDark}`;
@@ -106,6 +123,7 @@ function shiftFocus(e, input) {
 };
 
 async function loadUserInfo() {
+  loadingBill.classList.remove('inactive');
   const params = new URLSearchParams(window.location.search);
   const loginreq = params.get('loginreq');
   const res_raw = await fetch("/api/accounts/checkauth");
@@ -140,6 +158,7 @@ async function loadUserInfo() {
     signupLogin_item.classList.remove('inactive');
     account_item.classList.add('inactive');
   }
+  loadingBill.classList.add('inactive');
 }
 function unauthorisedRedirect() {
   window.location.replace(
@@ -209,6 +228,9 @@ function signupSuccess_popup() {
 function loginSuccess_popup() {
   genericPopupClosed = false;
   genericPopup.classList.remove('invisible');
+  genericPopupTitle.classList.remove('inactive');
+  genericPopupOptions_wrapper.classList.remove('inactive');
+  genericPopupOkButton_wrapper.classList.remove('inactive');
   genericPopupTitle.innerHTML = "You have logged in!";
   genericPopupBody.innerHTML = "";
 }
@@ -310,6 +332,7 @@ function logoutPopup(popupTitle, popupBody, okButtonText, secondButtonText) {
   genericPopupSecondButton.addEventListener('click', () => dismissPopupNoReload(genericPopup));
 }
 async function logOutUser(genericPopup) {
+  loadingBill.classList.remove('inactive');
   const logout_res = await fetch("/api/accounts/logout");
 
   console.log(logout_res.status);
@@ -318,6 +341,7 @@ async function logOutUser(genericPopup) {
   console.log(logout_res_json);
   genericPopupBody.textContent = logout_res_json.message;
   if (logout_res.status === 200) {
+    genericPopupSecondButton.classList.add('inactive');
     genericPopupOkButton.addEventListener('click', () => dismissPopup(genericPopup));
   }
   else if (logout_res.status === 500) {
@@ -326,6 +350,7 @@ async function logOutUser(genericPopup) {
     genericPopupSecondButton.classList.add('inactive');
     genericPopupOkButton.addEventListener('click', () => dismissPopupNoReload(genericPopup));
   }
+  loadingBill.classList.add('inactive');
 
 }
 
@@ -343,6 +368,7 @@ fileInput.onchange = () => {
 document.getElementById('login-popup-options-submit_button').addEventListener('click', loginAttempt);
 console.log("check0");
 async function loginAttempt() {
+  loadingBill.classList.remove('inactive');
   const username = document.getElementById('login-popup-username_input').value;
   const password = document.getElementById('login-popup-password_input').value;
   if (username && password) {
@@ -365,6 +391,7 @@ async function loginAttempt() {
       customPopup("Cannot log in", login_res_json.message, "Ok");
     }
   }
+  loadingBill.classList.add('inactive');
 }
 
 
@@ -380,7 +407,7 @@ function cancelPopup(popup) {
 
 document.getElementById('signup-popup-options-submit_button').addEventListener('click', createAccount);
 async function createAccount() {
-
+  loadingBill.classList.remove('inactive');
   const username = document.getElementById('signup-popup-username_input').value;
   let display_name = document.getElementById('signup-popup-displayname_input').value;
   const email = document.getElementById('signup-popup-email_input').value;
@@ -436,6 +463,7 @@ async function createAccount() {
       }
     }
   }
+  loadingBill.classList.add('inactive');
 }
 
 // -----------------------------------------------------post related stuff
@@ -454,7 +482,7 @@ async function likePost(likeIcon) {
     });
     console.log(unlikepost_res.status);
     if (unlikepost_res.status === 200) {
-      likeIcon.classList.remove('state-liked')
+      likeIcon.classList.remove('state-liked');
     };
   } else {
     const likepost_res = await fetch(`/api/posts/likepost`, {

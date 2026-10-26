@@ -142,11 +142,13 @@ button {
 
 /* POPUPS */
 
-#signup-popup_grid, #login-popup_grid, #generic-popup_wrapper {
+
+
+#signup-popup_grid, #login-popup_grid, #generic-popup_wrapper, #bill-tutorial_popup {
     background-color: var(--bgColour);
 }
 
-#signup-popup_grid *, #login-popup_grid *, #generic-popup_wrapper * {
+#signup-popup_grid *, #login-popup_grid *, #generic-popup_wrapper *, #bill-tutorial_popup * {
     color: white;
 }
 #signup-popup-login_link, #login-popup-signup_link {
@@ -157,7 +159,7 @@ button {
     color: white;
 }
 
-#generic-popup_wrapper {
+#generic-popup_wrapper, #bill-tutorial_popup {
     border: 5px solid var(--mainColour);
 }
 

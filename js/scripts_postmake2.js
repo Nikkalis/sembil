@@ -14,7 +14,7 @@ import { Draggable } from "gsap/Draggable";
 
 gsap.registerPlugin(Draggable);
 let preview_size = null;
-
+const loadingBill = document.getElementById('bill_loading');
 window.addEventListener('load', loadAuthorInfo);
 async function loadAuthorInfo() {
     const author_info = await fetch('/api/accounts/myprofile');
@@ -38,8 +38,7 @@ async function loadAuthorInfo() {
 
 document.getElementById('postmake-options-submit_button').addEventListener('click', submitPost);
 async function submitPost() {
-    const loadingText = document.getElementById("postmake-options-submit_button");
-    loadingText.textContent = "Loading...";
+    loadingBill.classList.remove('inactive');
     const post_id = nanoid(8);
     const author_info = await fetch('/api/accounts/myprofile');
     const author_info_json = await author_info.json();
@@ -98,7 +97,7 @@ async function submitPost() {
                 customPopup(popupTitle, "Text post requirements not fufilled, you havent set something", okButton, secondButton);
                 console.log(post_title);
                 console.log(post_type);
-                loadingText.textContent = "Submit";
+                loadingBill.classList.add('inactive');
                 return;
             }
         }
@@ -108,7 +107,7 @@ async function submitPost() {
             else {
                 console.log(post_type);
                 customPopup(popupTitle, "Image post requirements not fufilled, you havent set something", okButton, secondButton);
-                loadingText.textContent = "Submit";
+                loadingBill.classList.add('inactive');
                 return;
             }
         }
@@ -118,26 +117,26 @@ async function submitPost() {
             else {
                 console.log(post_type);
                 customPopup(popupTitle, "Event post requirements not fufilled, you havent set something", okButton, secondButton);
-                loadingText.textContent = "Submit";
+                loadingBill.classList.add('inactive');
                 return;
             }
         }
         else {
             customPopup("what", "bro ok", okButton, secondButton);
-            loadingText.textContent = "Submit";
+            loadingBill.classList.add('inactive');
             return;
         }
     }
     else {
 
         customPopup("Select a post type", "Then try submitting again", okButton, secondButton);
-        loadingText.textContent = "Submit";
+        loadingBill.classList.add('inactive');
         return;
 
     }
     if (preview_size) {
     } else {
-        loadingText.textContent = "Submit";
+        loadingBill.classList.add('inactive');
         customPopup("Select a preview size", "Then try submitting again", okButton, secondButton);
         return;
     }
@@ -289,7 +288,7 @@ async function submitPost() {
     const submit_result_json = await submit_result.json();
     const newPost_postid = submit_result_json.postid;
 
-    loadingText.textContent = "Submit";
+    loadingBill.classList.add('inactive');
     if (submit_result.status === 200) {
         window.location.replace(
             `postview.html?postid=${newPost_postid}`,
