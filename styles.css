@@ -316,14 +316,14 @@ textarea {
     width: 25px;
     height: 25px;
     border: 0;
-    background-image: url(public/icons/default--dark/heart.svg);
+    background-image: url(icons/default--dark/heart.svg);
     background-color: unset;
     /* padding-right: var(--modgrid-padding); */
     margin: var(--modgrid-padding);
 }
 
 .state-liked {
-    background-image: url(public/icons/default--dark/heart-red.svg);
+    background-image: url(icons/default--dark/heart-red.svg);
 }
 
 /* onboarding/tutorial */
