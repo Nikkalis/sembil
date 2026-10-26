@@ -339,7 +339,7 @@ textarea {
     padding: var(--modgrid-padding);
     z-index: 9999;
     overflow: visible;
-    
+
 }
 
 /* #tutorial_title {
@@ -1686,6 +1686,14 @@ li.profile-header-info_list-item {
 
 /* --------------------------Media query stuff-------------------------- */
 
+@media screen and (min-width: 1800px) {
+    #bill-tutorial_popup {
+        width: 60vw;
+        
+
+    }
+}
+
 @media screen and (max-width: 1400px) {
     #modgrid_wrapper {
         display: grid;
@@ -2018,26 +2026,31 @@ li.profile-header-info_list-item {
     :root {
         --content-width: calc(100vw - (var(--modgrid-padding)*2));
     }
+
     button.nav-link {
         margin-left: 15px;
-    } 
+    }
 
     .bill-popup_topright {
         right: calc(5vw - 10em);
         top: 120px;
         transform:
             scale(-1, 1) rotate(10deg);
-            width: 20em;
-            height:20em;
+        width: 20em;
+        height: 20em;
     }
+
     #bill-tutorial_popup {
         padding-left: 25px;
         padding-right: 25px;
     }
-    #tutorial-options-ok_wrapper{
-        left:6em;
+
+    #tutorial-options-ok_wrapper {
+        left: 6em;
     }
-        #signup-popup_grid, #login-popup_grid {
+
+    #signup-popup_grid,
+    #login-popup_grid {
         padding: 100px 25px calc(var(--modgrid-padding) * 2);
     }
 
