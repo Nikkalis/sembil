@@ -339,6 +339,7 @@ textarea {
     padding: var(--modgrid-padding);
     z-index: 9999;
     overflow: visible;
+    
 }
 
 /* #tutorial_title {
@@ -1738,8 +1739,9 @@ li.profile-header-info_list-item {
         border: unset !important;
         width: 100vw;
         height: 100svh;
-
-        overflow: scroll;
+        overflow: unset;
+        overflow-y: scroll;
+        overflow-x: clip;
         overscroll-behavior: contain;
 
         margin-left: auto;
