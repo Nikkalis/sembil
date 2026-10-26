@@ -1462,6 +1462,7 @@ li.profile-header-info_list-item {
 
     flex-grow: 1;
     align-content: end;
+    padding-bottom: 20px;
 }
 
 .sticker_clone {
@@ -1843,7 +1844,7 @@ li.profile-header-info_list-item {
         display: flex;
         flex: auto;
         flex-direction: row;
-
+        gap: var(--modgrid-padding);
     }
 
     .sticker_wrapper {
