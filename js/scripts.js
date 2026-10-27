@@ -1,5 +1,6 @@
 // GENERIC POPUPS
 console.log('scripts.js loaded', import.meta.url);
+localStorage.clear;
 document.getElementById('bill-tutorial_popup')?.classList.add('inactive');
 
 let genericPopupTitle = document.getElementById('generic-popup-title_text');
