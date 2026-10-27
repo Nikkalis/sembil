@@ -132,12 +132,12 @@ async function loadUserInfo() {
   // const logout_item = document.getElementById('nav-logout');
   const signupLogin_item = document.getElementById('nav-signupLogin');
   const account_item = document.getElementById('nav-account');
-  logout_item.classList.add('inactive');
+  // logout_item.classList.add('inactive');
   signupLogin_item.classList.add('inactive');
   account_item.classList.add('inactive');
 
   if (res.isLoggedIn) {
-    logout_item.classList.remove('inactive');
+    // logout_item.classList.remove('inactive');
     account_item.classList.remove('inactive');
     const userDetails = await fetch("/api/accounts/myprofile");
     const userDetails_json = await userDetails.json();
