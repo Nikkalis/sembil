@@ -734,7 +734,7 @@ button {
 }
 
 .nav_item {
-    background-color: aqua;
+    /* background-color: aqua; */
     margin-top: calc(var(--modgrid-padding)/2);
     padding-left: 50px;
     padding-right: 50px;
@@ -1117,7 +1117,7 @@ button h2 {
 
 #profile-header-picture_wrapper {
     clip-path: circle(50%);
-    background-color: aqua;
+    /* background-color: aqua; */
     height: var(--profile-header-picture--size);
     width: var(--profile-header-picture--size);
     max-width: 100%;
