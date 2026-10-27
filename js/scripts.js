@@ -129,7 +129,7 @@ async function loadUserInfo() {
   const loginreq = params.get('loginreq');
   const res_raw = await fetch("/api/accounts/checkauth");
   const res = await res_raw.json();
-  const logout_item = document.getElementById('nav-logout');
+  // const logout_item = document.getElementById('nav-logout');
   const signupLogin_item = document.getElementById('nav-signupLogin');
   const account_item = document.getElementById('nav-account');
   logout_item.classList.add('inactive');
