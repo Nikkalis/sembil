@@ -1,6 +1,6 @@
 // GENERIC POPUPS
 console.log('scripts.js loaded', import.meta.url);
-localStorage.clear;
+// localStorage.clear;
 document.getElementById('bill-tutorial_popup')?.classList.add('inactive');
 
 let genericPopupTitle = document.getElementById('generic-popup-title_text');
@@ -50,15 +50,15 @@ rendering();
 window.addEventListener('load', onboarding);
 
 function onboarding() {
-  const isNewUser = localStorage.getItem('onboarded?');
-  if(isNewUser) {return;}
+  // const isNewUser = localStorage.getItem('onboarded?');
+  // if(isNewUser) {return;}
   if(!document.getElementById('bill-tutorial_popup')) {return;}
   const onboardingPopup = document.getElementById('bill-tutorial_popup');
   onboardingPopup.classList.remove('inactive');
   const onboardingButton = document.getElementById('tutorial-options-ok_button');
   onboardingButton.addEventListener('click', function (e) {
     onboardingPopup.classList.add('inactive');
-    localStorage.setItem('onboarded?', true);
+    // localStorage.setItem('onboarded?', true);
   });
 }
 
