@@ -1,5 +1,6 @@
 // GENERIC POPUPS
 console.log('scripts.js loaded', import.meta.url);
+// localStorage.clear;
 document.getElementById('bill-tutorial_popup')?.classList.add('inactive');
 
 let genericPopupTitle = document.getElementById('generic-popup-title_text');
@@ -49,15 +50,15 @@ rendering();
 window.addEventListener('load', onboarding);
 
 function onboarding() {
-  const isNewUser = localStorage.getItem('onboarded?');
-  if(isNewUser) {return;}
+  // const isNewUser = localStorage.getItem('onboarded?');
+  // if(isNewUser) {return;}
   if(!document.getElementById('bill-tutorial_popup')) {return;}
   const onboardingPopup = document.getElementById('bill-tutorial_popup');
   onboardingPopup.classList.remove('inactive');
   const onboardingButton = document.getElementById('tutorial-options-ok_button');
   onboardingButton.addEventListener('click', function (e) {
     onboardingPopup.classList.add('inactive');
-    localStorage.setItem('onboarded?', true);
+    // localStorage.setItem('onboarded?', true);
   });
 }
 
@@ -128,15 +129,15 @@ async function loadUserInfo() {
   const loginreq = params.get('loginreq');
   const res_raw = await fetch("/api/accounts/checkauth");
   const res = await res_raw.json();
-  const logout_item = document.getElementById('nav-logout');
+  // const logout_item = document.getElementById('nav-logout');
   const signupLogin_item = document.getElementById('nav-signupLogin');
   const account_item = document.getElementById('nav-account');
-  logout_item.classList.add('inactive');
+  // logout_item.classList.add('inactive');
   signupLogin_item.classList.add('inactive');
   account_item.classList.add('inactive');
 
   if (res.isLoggedIn) {
-    logout_item.classList.remove('inactive');
+    // logout_item.classList.remove('inactive');
     account_item.classList.remove('inactive');
     const userDetails = await fetch("/api/accounts/myprofile");
     const userDetails_json = await userDetails.json();
@@ -313,7 +314,7 @@ function toggleLoginPopup() {
   closeNav()
 }
 
-document.getElementById('nav-logout_link').addEventListener('click', () => logoutPopup("Sure you wanna log out?", "This will return you to the home screen", "Ok", "Cancel", false, true));
+// document.getElementById('nav-logout_link').addEventListener('click', () => logoutPopup("Sure you wanna log out?", "This will return you to the home screen", "Ok", "Cancel", false, true));
 function logoutPopup(popupTitle, popupBody, okButtonText, secondButtonText) {
   genericPopupSecondButton.classList.remove('inactive');
 
