@@ -314,7 +314,7 @@ function toggleLoginPopup() {
   closeNav()
 }
 
-document.getElementById('nav-logout_link').addEventListener('click', () => logoutPopup("Sure you wanna log out?", "This will return you to the home screen", "Ok", "Cancel", false, true));
+// document.getElementById('nav-logout_link').addEventListener('click', () => logoutPopup("Sure you wanna log out?", "This will return you to the home screen", "Ok", "Cancel", false, true));
 function logoutPopup(popupTitle, popupBody, okButtonText, secondButtonText) {
   genericPopupSecondButton.classList.remove('inactive');
 
